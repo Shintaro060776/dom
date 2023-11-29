@@ -53,7 +53,7 @@ resource "aws_eks_cluster" "next" {
 }
 
 resource "aws_eks_node_group" "next" {
-  cluster_name   = aws_eks_cluster.next.name
+  cluster_name    = aws_eks_cluster.next.name
   node_group_name = var.eks_node_group_name
   node_role_arn   = aws_iam_role.eks_node_role.arn
   subnet_ids      = [aws_subnet.next.id, aws_subnet.next2.id]
@@ -64,9 +64,9 @@ resource "aws_eks_node_group" "next" {
     min_size     = var.eks_node_group_min_size
   }
 
-    depends_on = [
-        aws_iam_role_policy_attachment.next.AmazonEKSWorkerNodePolicy,
-        aws_iam_role_policy_attachment.next.AmazonEKS\CNI_Policy,
-        aws_iam_role_policy_attachment.next.AmazonEC2ContainerRegistryReadOnly,
-    ]
+  depends_on = [
+    aws_iam_role_policy_attachment.next.AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.next.AmazonEKSCNIPolicy,
+    aws_iam_role_policy_attachment.next.AmazonEC2ContainerRegistryReadOnly,
+  ]
 }

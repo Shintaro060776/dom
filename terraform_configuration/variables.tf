@@ -1,38 +1,38 @@
 variable "vpc_cidr" {
-    description = "CIDR block for the VPC"
-    default = "172.16.0.0/16"
+  description = "CIDR block for the VPC"
+  default     = "172.16.0.0/16"
 }
 
 variable "subnet_cidr" {
-    description = "List of CIDR blocks"
-    type = list(string)
-    default = ["172.16.1.0/24", "172.16.2.0/24"]
+  description = "List of CIDR blocks"
+  type        = list(string)
+  default     = ["172.16.1.0/24", "172.16.2.0/24"]
 }
 
 variable "vpc_name" {
-    description = "name of vpc"
-    default = "next"
+  description = "name of vpc"
+  default     = "next"
 }
 
 variable "subnet_names" {
-    description = "a list of names for subnets"
-    type = list(string)
-    default = ["next", "next2"]
+  description = "a list of names for subnets"
+  type        = list(string)
+  default     = ["next", "next2"]
 }
 
 variable "internet_gateway_name" {
-    description = "name of internet gateway"
-    default = "next"
+  description = "name of internet gateway"
+  default     = "next"
 }
 
 variable "aws_route_table" {
-    description = "name of route table"
-    default = "next"
+  description = "name of route table"
+  default     = "next"
 }
 
 variable "cidr_block" {
-    description = "default route"
-    default = "0.0.0.0/0"
+  description = "default route"
+  default     = "0.0.0.0/0"
 }
 
 variable "aws_lb_name" {
