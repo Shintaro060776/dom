@@ -1,5 +1,5 @@
-/next/terraform_configuration/.terraform/
-/next/terraform_configuration/.terraform.lock.hcl
+**/.terraform/*
+.terraform.lock.hcl
 
 *.tfstate
 *.tfstate.*
