@@ -1,0 +1,14 @@
+/next/terraform_configuration/.terraform/
+/next/terraform_configuration/.terraform.lock.hcl
+
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
