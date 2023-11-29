@@ -28,6 +28,11 @@ resource "aws_iam_role" "eks_node_role" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
   role       = aws_iam_role.eks_node_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
@@ -73,6 +78,12 @@ resource "aws_eks_cluster" "next" {
     security_group_ids = [aws_security_group.next.id]
     subnet_ids         = [aws_subnet.next.id, aws_subnet.next2.id]
   }
+
+  enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+
+  depends_on = [
+    aws_iam_role_policy_attachment.cloudwatch_logs_policy
+  ]
 }
 
 resource "aws_eks_node_group" "next" {
