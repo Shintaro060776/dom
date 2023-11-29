@@ -22,9 +22,12 @@ jobs:
 
     - name: 'Terraform Init'
       run: terraform init
+      working-directory: terraform_configuration
 
     - name: 'Terraform Plan'
       run: terraform plan
+      working-directory: terraform_configuration
 
     - name: 'Terraform Apply'
       run: terraform apply -auto-approve
+      working-directory: terraform_configuration
