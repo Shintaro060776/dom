@@ -15,7 +15,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: 'Change to Terraform Directory'
-      run: cd /next/terraform_configuration
+      run: cd terraform_configuration
 
     - name: 'Setup Terraform'
       uses: hashicorp/setup-terraform@v1
