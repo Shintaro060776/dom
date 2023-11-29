@@ -1,19 +1,28 @@
 resource "aws_vpc" "next" {
-    cidr_block = "172.16.0.0/16"
+    cidr_block = var.vpc_cidr
     enable_dns_support = true
     enable_dns_hostnames = true
 
     tags = {
-        Name = "next"
+        Name = var.vpc_name
     }
 }
 
 resource "aws_subnet" "next" {
     vpc_id = aws_vpc.next.id
-    cidr_block = "172.16.1.0/24"
+    cidr_block = var.subnet_cidr[0]
 
     tags = {
-        Name = "next"
+        Name = var.subnet_names[0]
+    }
+}
+
+resource "aws_subnet" "next2" {
+    vpc_id = aws_vpc.next.id
+    cidr_block = var.subnet_cidr[1]
+
+    tags = {
+        Name = var.subnet_names[1]
     }
 }
 
@@ -21,7 +30,7 @@ resource "aws_internet_gateway" "next" {
     vpc_id = aws_vpc.next.id
 
     tags = {
-        Name = "next"
+        Name = var.internet_gateway_name
     }
 }
 
@@ -29,12 +38,12 @@ resource "aws_route_table" "next" {
     vpc_id = aws_vpc.next.id
 
     route {
-        cidr_block = "0.0.0.0/0"
+        cidr_block = var.cidr_block
         gateway_id = aws_internet_gateway.next.id
     }
 
     tags = {
-        Name = "next"
+        Name = var.aws_route_table
     }
 }
 
