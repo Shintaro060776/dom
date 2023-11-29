@@ -14,6 +14,16 @@ variable "vpc_name" {
   default     = "next"
 }
 
+variable "availability_zone1" {
+    description = "availability zone 1"
+    default = "ap-northeast-1a"
+}
+
+variable "availability_zone2" {
+    description = "availability zone 2"
+    default = "ap-northeast-1c"
+}
+
 variable "subnet_names" {
   description = "a list of names for subnets"
   type        = list(string)

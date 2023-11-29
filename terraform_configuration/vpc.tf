@@ -11,6 +11,7 @@ resource "aws_vpc" "next" {
 resource "aws_subnet" "next" {
   vpc_id     = aws_vpc.next.id
   cidr_block = var.subnet_cidr[0]
+  availability_zone = var.availability_zone1
 
   tags = {
     Name = var.subnet_names[0]
@@ -20,6 +21,7 @@ resource "aws_subnet" "next" {
 resource "aws_subnet" "next2" {
   vpc_id     = aws_vpc.next.id
   cidr_block = var.subnet_cidr[1]
+  availability_zone = var.availability_zone2
 
   tags = {
     Name = var.subnet_names[1]
