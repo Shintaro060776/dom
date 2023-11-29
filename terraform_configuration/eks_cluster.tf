@@ -28,6 +28,21 @@ resource "aws_iam_role" "eks_node_role" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
+  role       = aws_iam_role.eks_node_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+}
+
+resource "aws_iam_role_policy_attachment" "AmazonEKSCNIPolicy" {
+  role       = aws_iam_role.eks_node_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+}
+
+resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
+  role       = aws_iam_role.eks_node_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
 resource "aws_security_group" "next" {
   name        = var.eks_security_group_name
   description = "Security Group for EKS Cluster"
@@ -65,8 +80,8 @@ resource "aws_eks_node_group" "next" {
   }
 
   depends_on = [
-    aws_iam_role_policy_attachment.next.AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.next.AmazonEKSCNIPolicy,
-    aws_iam_role_policy_attachment.next.AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.AmazonEKSCNIPolicy,
+    aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
   ]
 }

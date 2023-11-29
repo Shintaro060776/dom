@@ -26,13 +26,13 @@ resource "aws_lb_target_group" "next_tg" {
 
   health_check {
     enabled             = true
-    health_check        = 2
+    healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
     interval            = 30
     path                = "/"
     protocol            = "HTTP"
-    matcher             = "200-200"
+    matcher             = "200-299"
   }
 }
 
