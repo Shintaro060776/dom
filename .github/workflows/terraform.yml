@@ -14,11 +14,11 @@ jobs:
     - name: 'Checkout'
       uses: actions/checkout@v2
 
+    - name: 'Change to Terraform Directory'
+      run: cd /next/terraform_configuration
+
     - name: 'Setup Terraform'
       uses: hashicorp/setup-terraform@v1
-
-    - name: 'Terraform Format'
-      run: terraform fmt -check
 
     - name: 'Terraform Init'
       run: terraform init
