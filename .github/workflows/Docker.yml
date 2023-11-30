@@ -67,7 +67,7 @@ jobs:
       run: |
         TASK_DEFINITION=$(aws ecs register-task-definition --family next-task --container-definitions file://ecs-container-definitions.json)
         TASK_DEFINITION_ARN=$(echo $TASK_DEFINITION | jq -r .taskDefinition.taskDefinitionArn)
-      
+        
         aws ecs update-service --cluster "arn:aws:ecs:ap-northeast-1:715573459931:cluster/next-cluster" --service "next-service" --task-definition $TASK_DEFINITION_ARN
       env:
         AWS_REGION: ap-northeast-1
