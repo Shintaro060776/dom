@@ -121,7 +121,7 @@ resource "aws_ecs_service" "next_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.next_tg.arn
-    container_name   = "my-app"
+    container_name   = "nginx-container"
     container_port   = 80
   }
 
