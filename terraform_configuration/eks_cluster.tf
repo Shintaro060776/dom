@@ -28,9 +28,30 @@ resource "aws_iam_role" "eks_node_role" {
   })
 }
 
+resource "aws_iam_policy" "eks_describe_instances" {
+  name        = "eks-describe-instances"
+  description = "Allows EKS cluster role to describe EC2 instances"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Action = "ec2:DescribeInstances",
+        Resource = "*"
+      },
+    ]
+  })
+}
+
 resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy" {
   role       = aws_iam_role.eks_cluster_role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "eks_describe_instances_attachment" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = aws_iam_policy.eks_describe_instances.arn
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
