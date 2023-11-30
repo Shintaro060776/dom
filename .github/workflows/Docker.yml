@@ -46,52 +46,11 @@ jobs:
         pwd
         ls -l
 
-    - name: Deploy to EKS
-      run: |
-        curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-        chmod +x ./kubectl
-        mv ./kubectl /usr/local/bin/kubectl
-        
-        echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > kubeconfig
-        export KUBECONFIG=kubeconfig
-      
-        echo "Current directory:"
-        pwd
-        echo "Listing files in the current directory:"
-        ls -l
-      
-        kubectl apply -f ./deployment.yaml
-        kubectl set image deployment/next-deployment next-containers=public.ecr.aws/x6i1u1x3/next:latest --record
-
-    - name: Deploy to ECS
+    - name: Deploy to ECS using CloudFormation
       run: |
         set -e
-  
-        echo "Current Directory:"
-        pwd
-        echo "Listing files:"
-        ls -l
-  
-        if [ ! -f ecs-container-definitions.json ]; then
-          echo "Error: ecs-container-definitions.json not found in the current directory"
-          exit 1
-        fi
-  
-        echo "Contents of ecs-container-definitions.json:"
-        cat ecs-container-definitions.json
-  
-        TASK_DEFINITION=$(aws ecs register-task-definition --family next-task --container-definitions "file://$(pwd)/ecs-container-definitions.json")
-        if [ $? -ne 0 ]; then
-          echo "Error: Failed to register task definition"
-          exit 1
-        fi
-  
-        TASK_DEFINITION_ARN=$(echo $TASK_DEFINITION | jq -r .taskDefinition.taskDefinitionArn)
-        if [ -z "$TASK_DEFINITION_ARN" ]; then
-          echo "Error: Failed to extract task definition ARN"
-          exit 1
-        fi
-  
-        aws ecs update-service --cluster "arn:aws:ecs:ap-northeast-1:715573459931:cluster/next-cluster" --service "next-service" --task-definition $TASK_DEFINITION_ARN
+    
+        echo "Deploying ECS Task Definition using CloudFormation"
+        aws cloudformation deploy --template-file Cloudformation/ecs.yaml --stack-name my-ecs-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
       env:
         AWS_REGION: ap-northeast-1

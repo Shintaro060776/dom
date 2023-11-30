@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: ECS Task Definition for nginx container
+
+Resources:
+  ECSTaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: next-task
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      ExecutionRoleArn: arn:aws:iam::715573459931:role/ecsTaskExecutionRole
+      Cpu: 256
+      Memory: 512
+      ContainerDefinitions:
+        - Name: nginx-container
+          Image: nginx:latest
+          Essential: true
+          PortMappings:
+            - ContainerPort: 80
+          Memory: 512
+          Cpu: 256
+          Environment:
+            - Name: BACKEND_URL
+              Value: ""
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: /ecs/nginx-container
+              awslogs-region: ap-northeast-1
+              awslogs-stream-prefix: ecs
