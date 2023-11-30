@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  AWS_REGION: us-east-1
+  AWS_REGION: ap-northeast-1
   ECR_REGISTRY: public.ecr.aws
   ECR_REPOSITORY: x6i1u1x3/next
   IMAGE_TAG: latest
@@ -27,13 +27,13 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run: |
-        aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+        aws ecr-public get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin public.ecr.aws
 
     - name: Configure AWS credentials
       run: |
         aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY_ID}}
         aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_ACCESS_KEY}}
-        aws configure set default.region us-east-1
+        aws configure set default.region $AWS_REGION
 
     - name: Build, tag, and push image to Amazon ECR
       run: |
