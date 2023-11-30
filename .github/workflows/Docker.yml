@@ -61,7 +61,7 @@ jobs:
         ls -l
       
         kubectl apply -f ./deployment.yaml
-        kubectl set image deployment/next-deployment next-container=public.ecr.aws/x6i1u1x3/next:latest --record
+        kubectl set image deployment/next-deployment next-containers=public.ecr.aws/x6i1u1x3/next:latest --record
 
     - name: Deploy to ECS
       run: |
