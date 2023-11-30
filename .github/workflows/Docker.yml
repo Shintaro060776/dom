@@ -50,6 +50,8 @@ jobs:
         export KUBECONFIG=kubeconfig
 
         kubectl apply -f deployment.yml
+        echo "Listing files in the current directory:"
+        ls -l
         kubectl set image deployment/next-deployment next-container=public.ecr.aws/x6i1u1x3/next:latest --record
 
     - name: Deploy to ECS
