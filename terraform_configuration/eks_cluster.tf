@@ -36,8 +36,8 @@ resource "aws_iam_policy" "eks_describe_instances" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow",
-        Action = "ec2:DescribeInstances",
+        Effect   = "Allow",
+        Action   = "ec2:DescribeInstances",
         Resource = "*"
       },
     ]
@@ -92,9 +92,9 @@ resource "aws_security_group" "next" {
 
   ingress {
     description = "Custom Port Range"
-    from_port = 1025
-    to_port = 65535
-    protocol = "tcp"
+    from_port   = 1025
+    to_port     = 65535
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }

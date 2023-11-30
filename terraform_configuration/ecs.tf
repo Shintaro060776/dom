@@ -55,6 +55,14 @@ resource "aws_ecs_task_definition" "next_task" {
       containerPort = var.ecs_container_port
       hostPort      = var.ecs_container_port
     }]
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = "/ecs/nginx-container"
+        "awslogs-region"        = "ap-northeast-1"
+        "awslogs-stream-prefix" = "ecs"
+      }
+    }
   }])
 }
 
