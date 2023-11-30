@@ -51,10 +51,15 @@ jobs:
         curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x ./kubectl
         mv ./kubectl /usr/local/bin/kubectl
-      
+        
         echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > kubeconfig
         export KUBECONFIG=kubeconfig
-
+      
+        echo "Current directory:"
+        pwd
+        echo "Listing files in the current directory:"
+        ls -l
+      
         kubectl apply -f ./deployment.yml
         kubectl set image deployment/next-deployment next-container=public.ecr.aws/x6i1u1x3/next:latest --record
 
