@@ -43,6 +43,7 @@ jobs:
     - name: List files
       run: |
         echo "Listing files in the current directory:"
+        pwd
         ls -l
 
     - name: Deploy to EKS
