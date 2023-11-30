@@ -42,12 +42,13 @@ jobs:
       
         echo "${{ secrets.KUBE_CONFIG_DATA }}" | base64 -d > kubeconfig
         export KUBECONFIG=kubeconfig
-      
-        kubectl set image deployment/my-deployment my-container=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --record
+
+        kubectl apply -f deployment.yml
+        kubectl set image deployment/next-deployment next-container=public.ecr.aws/x6i1u1x3/next:latest --record
 
     - name: Deploy to ECS
       run: |
         TASK_DEFINITION=$(aws ecs register-task-definition --family my-task-family --container-definitions file://ecs-container-definitions.json)
         TASK_DEFINITION_ARN=$(echo $TASK_DEFINITION | jq -r .taskDefinition.taskDefinitionArn)
       
-        aws ecs update-service --cluster my-cluster --service my-service --task-definition $TASK_DEFINITION_ARN
+        aws ecs update-service --cluster next-cluster --service next-service --task-definition $TASK_DEFINITION_ARN
