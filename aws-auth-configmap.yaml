@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::715573459931:role/next-eks-node-role
+      username: system:node:{{EC2PrivateDNSName}}
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2023-11-30T07:41:40Z"
+  name: aws-auth
+  namespace: kube-system
+  resourceVersion: "10575"
+  uid: 915d9ca9-b741-438a-9a3b-151a88f6de27

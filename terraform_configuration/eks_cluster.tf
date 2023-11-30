@@ -68,6 +68,14 @@ resource "aws_security_group" "next" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  ingress {
+    description = "Custom Port Range"
+    from_port = 1025
+    to_port = 65535
+    protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 resource "aws_eks_cluster" "next" {

@@ -57,3 +57,8 @@ resource "aws_route_table_association" "next" {
   subnet_id      = aws_subnet.next.id
   route_table_id = aws_route_table.next.id
 }
+
+resource "aws_route_table_association" "next2" {
+  subnet_id = aws_subnet.next2.id
+  route_table_id = aws_route_table.next.id
+}
