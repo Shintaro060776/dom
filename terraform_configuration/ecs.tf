@@ -1,3 +1,42 @@
+resource "aws_cloudwatch_log_group" "ecs_log_group" {
+  name = "/ecs/nginx-container"
+}
+
+resource "aws_iam_role" "ecs_execution_role" {
+  name = "ecsExecutionRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [{
+      Action = "sts:AssumeRole",
+      Effect = "Allow",
+      Principal = {
+        Service = "ecs-tasks.amazonaws.com"
+      }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "ecs_execution_role_policy" {
+  name   = "ecsExecutionRolePolicy"
+  role   = aws_iam_role.ecs_execution_role.id
+  policy = data.aws_iam_policy_document.ecs_execution_policy.json
+}
+
+data "aws_iam_policy_document" "ecs_execution_policy" {
+  statement {
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:CreateLogGroup"
+    ]
+
+    resources = [
+      aws_cloudwatch_log_group.ecs_log_group.arn
+    ]
+  }
+}
+
 resource "aws_lb" "next_lb" {
   name                       = var.aws_lb_name
   internal                   = false
@@ -42,23 +81,31 @@ resource "aws_ecs_cluster" "next_cluster" {
 }
 
 resource "aws_ecs_task_definition" "next_task" {
-  family                   = var.ecs_task_family
+  family                   = "next-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.ecs_task_cpu
-  memory                   = var.ecs_task_memory
+  cpu                      = "256"
+  memory                   = "512"
   execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+
   container_definitions = jsonencode([{
-    name  = var.ecs_container_name
-    image = var.ecs_container_image
+    name      = "nginx-container"
+    image     = "nginx:latest"
+    essential = true
     portMappings = [{
-      containerPort = var.ecs_container_port
-      hostPort      = var.ecs_container_port
+      containerPort = 80
+      hostPort      = 80
+    }]
+    memory = 512
+    cpu    = 256
+    environment = [{
+      name  = "BACKEND_URL"
+      value = ""
     }]
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        "awslogs-group"         = "/ecs/nginx-container"
+        "awslogs-group"         = aws_cloudwatch_log_group.ecs_log_group.name
         "awslogs-region"        = "ap-northeast-1"
         "awslogs-stream-prefix" = "ecs"
       }
@@ -104,4 +151,8 @@ resource "aws_iam_role" "ecs_execution_role" {
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy" {
   role       = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_cloudwatch_log_group" "ecs_log_group" {
+  name = "/ecs/nginx-container"
 }
