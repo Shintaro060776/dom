@@ -40,6 +40,11 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
+    - name: List files
+      run: |
+        echo "Listing files in the current directory:"
+        ls -l
+
     - name: Deploy to EKS
       run: |
         curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -50,8 +55,6 @@ jobs:
         export KUBECONFIG=kubeconfig
 
         kubectl apply -f deployment.yml
-        echo "Listing files in the current directory:"
-        ls -l
         kubectl set image deployment/next-deployment next-container=public.ecr.aws/x6i1u1x3/next:latest --record
 
     - name: Deploy to ECS
