@@ -63,9 +63,9 @@ resource "aws_security_group" "next" {
 
   ingress {
     description = "Kubernetes API Server"
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -75,8 +75,11 @@ resource "aws_eks_cluster" "next" {
   role_arn = aws_iam_role.eks_cluster_role.arn
 
   vpc_config {
-    security_group_ids = [aws_security_group.next.id]
-    subnet_ids         = [aws_subnet.next.id, aws_subnet.next2.id]
+    security_group_ids      = [aws_security_group.next.id]
+    subnet_ids              = [aws_subnet.next.id, aws_subnet.next2.id]
+    endpoint_private_access = true
+    endpoint_public_access  = true
+    public_access_cidrs     = ["0.0.0.0/0"]
   }
 
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]

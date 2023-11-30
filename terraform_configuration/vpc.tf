@@ -9,8 +9,8 @@ resource "aws_vpc" "next" {
 }
 
 resource "aws_subnet" "next" {
-  vpc_id     = aws_vpc.next.id
-  cidr_block = var.subnet_cidr[0]
+  vpc_id            = aws_vpc.next.id
+  cidr_block        = var.subnet_cidr[0]
   availability_zone = var.availability_zone1
 
   map_public_ip_on_launch = true
@@ -21,8 +21,8 @@ resource "aws_subnet" "next" {
 }
 
 resource "aws_subnet" "next2" {
-  vpc_id     = aws_vpc.next.id
-  cidr_block = var.subnet_cidr[1]
+  vpc_id            = aws_vpc.next.id
+  cidr_block        = var.subnet_cidr[1]
   availability_zone = var.availability_zone2
 
   map_public_ip_on_launch = true

@@ -19,10 +19,10 @@ resource "aws_lb_listener" "front_end" {
 }
 # 
 resource "aws_lb_target_group" "next_tg" {
-  name     = var.aws_lb_target_group_name
-  port     = 80
-  protocol = var.aws_lb_target_group_protocol
-  vpc_id   = aws_vpc.next.id
+  name        = var.aws_lb_target_group_name
+  port        = 80
+  protocol    = var.aws_lb_target_group_protocol
+  vpc_id      = aws_vpc.next.id
   target_type = "ip"
 
   health_check {

@@ -15,13 +15,13 @@ variable "vpc_name" {
 }
 
 variable "availability_zone1" {
-    description = "availability zone 1"
-    default = "ap-northeast-1a"
+  description = "availability zone 1"
+  default     = "ap-northeast-1a"
 }
 
 variable "availability_zone2" {
-    description = "availability zone 2"
-    default = "ap-northeast-1c"
+  description = "availability zone 2"
+  default     = "ap-northeast-1c"
 }
 
 variable "subnet_names" {
