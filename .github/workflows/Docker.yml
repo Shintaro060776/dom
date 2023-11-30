@@ -65,11 +65,33 @@ jobs:
 
     - name: Deploy to ECS
       run: |
+        set -e
+  
+        echo "Current Directory:"
         pwd
-        ls -l $(pwd)/ecs-container-definitions.json
+        echo "Listing files:"
+        ls -l
+  
+        if [ ! -f ecs-container-definitions.json ]; then
+          echo "Error: ecs-container-definitions.json not found in the current directory"
+          exit 1
+        fi
+  
+        echo "Contents of ecs-container-definitions.json:"
         cat ecs-container-definitions.json
+  
         TASK_DEFINITION=$(aws ecs register-task-definition --family next-task --container-definitions file://$(pwd)/ecs-container-definitions.json)
+        if [ $? -ne 0 ]; then
+          echo "Error: Failed to register task definition"
+          exit 1
+        fi
+  
         TASK_DEFINITION_ARN=$(echo $TASK_DEFINITION | jq -r .taskDefinition.taskDefinitionArn)
+        if [ -z "$TASK_DEFINITION_ARN" ]; then
+          echo "Error: Failed to extract task definition ARN"
+          exit 1
+        fi
+  
         aws ecs update-service --cluster "arn:aws:ecs:ap-northeast-1:715573459931:cluster/next-cluster" --service "next-service" --task-definition $TASK_DEFINITION_ARN
       env:
         AWS_REGION: ap-northeast-1
