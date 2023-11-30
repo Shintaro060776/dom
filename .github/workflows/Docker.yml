@@ -80,7 +80,7 @@ jobs:
         echo "Contents of ecs-container-definitions.json:"
         cat ecs-container-definitions.json
   
-        TASK_DEFINITION=$(aws ecs register-task-definition --family next-task --container-definitions file://$(pwd)/ecs-container-definitions.json)
+        TASK_DEFINITION=$(aws ecs register-task-definition --family next-task --container-definitions "file://$(pwd)/ecs-container-definitions.json")
         if [ $? -ne 0 ]; then
           echo "Error: Failed to register task definition"
           exit 1
