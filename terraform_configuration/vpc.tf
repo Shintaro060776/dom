@@ -109,8 +109,6 @@ resource "aws_vpc_endpoint" "s3" {
   vpc_id       = aws_vpc.next.id
   service_name = "com.amazonaws.ap-northeast-1.s3"
   vpc_endpoint_type = "Gateway"
-
-  route_table_ids = [aws_route.s3_endpoint_route.id]
 }
 
 resource "aws_vpc_endpoint" "logs" {
