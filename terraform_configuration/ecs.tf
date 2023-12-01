@@ -72,8 +72,8 @@ resource "aws_lb_target_group" "next_tg" {
     enabled             = true
     healthy_threshold   = 5
     unhealthy_threshold = 5
-    timeout             = 30
-    interval            = 30
+    timeout             = 5
+    interval            = 10
     path                = "/"
     protocol            = "HTTP"
     matcher             = "200-299"

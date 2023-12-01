@@ -13,6 +13,7 @@ env:
 
 jobs:
   build-and-push:
+    needs: terraform_apply
     runs-on: ubuntu-latest
 
     steps:
@@ -31,8 +32,8 @@ jobs:
 
     - name: Configure AWS credentials
       run: |
-        aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY_ID}}
-        aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws configure set default.region $AWS_REGION
 
     - name: Build, tag, and push image to Amazon ECR
@@ -54,4 +55,3 @@ jobs:
         aws cloudformation deploy --template-file Cloudformation/ecs.yaml --stack-name my-ecs-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
       env:
         AWS_REGION: ap-northeast-1
-        
