@@ -97,7 +97,7 @@ variable "ecs_task_memory" {
 
 variable "ecs_container_name" {
   description = "Name of the container in the ECS task."
-  default     = "my-app"
+  default     = "nginx-container"
 }
 
 variable "ecs_container_image" {

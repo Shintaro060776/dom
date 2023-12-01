@@ -54,3 +54,4 @@ jobs:
         aws cloudformation deploy --template-file Cloudformation/ecs.yaml --stack-name my-ecs-stack --capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM
       env:
         AWS_REGION: ap-northeast-1
+        
