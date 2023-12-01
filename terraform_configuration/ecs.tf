@@ -94,7 +94,7 @@ resource "aws_ecs_task_definition" "next_task" {
 
   container_definitions = jsonencode([{
     name      = "nginx-container"
-    image     = "nginx:latest"
+    image     = "public.ecr.aws/x6i1u1x3/next:latest"
     essential = true
     portMappings = [{
       containerPort = 80
