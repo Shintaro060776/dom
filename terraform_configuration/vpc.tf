@@ -123,3 +123,9 @@ resource "aws_vpc_endpoint" "logs" {
 
   security_group_ids = [aws_security_group.vpc_endpoint.id]
 }
+
+resource "aws_route" "s3_endpoint_route" {
+  route_table_id = aws_route_table.next.id
+  destination_cidr_block = "0.0.0.0/0"
+  vpc_endpoint_id = aws_vpc_endpoint.s3.id
+}
