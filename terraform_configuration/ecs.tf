@@ -121,10 +121,16 @@ resource "aws_ecs_task_definition" "next_task" {
         "awslogs-stream-prefix" = "ecs"
       }
     }
-    secrets = [{
-      name      = "MY_SECRET_ENV_VARIABLE"
-      valueFrom = "arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq::"
-    }]
+    secrets = [
+      {
+        name      = "USERNAME"
+        valueFrom = "arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq:username::"
+      },
+      {
+        name      = "PASSWORD"
+        valueFrom = "arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq:password::"
+      }
+    ]
   }])
 }
 

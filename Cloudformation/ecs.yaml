@@ -30,5 +30,7 @@ Resources:
               awslogs-region: ap-northeast-1
               awslogs-stream-prefix: ecs
           Secrets:
-            - Name: MY_SECRET_ENV_VARIABLE
-              valueFrom : arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq::
+            - Name: USERNAME
+              ValueFrom: arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq:username::
+            - Name: PASSWORD
+              ValueFrom: arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq:password::
