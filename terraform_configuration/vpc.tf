@@ -110,7 +110,11 @@ resource "aws_vpc_endpoint" "s3" {
   service_name      = "com.amazonaws.ap-northeast-1.s3"
   vpc_endpoint_type = "Gateway"
 
-  route_table_ids = [aws_route.s3_endpoint_route.id]
+  route_table_ids = [aws_route_table.next.id]
+
+  tags = {
+    Name = "s3-vpc-endpoint"
+  }
 }
 
 resource "aws_vpc_endpoint" "logs" {
@@ -124,9 +128,9 @@ resource "aws_vpc_endpoint" "logs" {
   security_group_ids = [aws_security_group.vpc_endpoint.id]
 }
 
-resource "aws_route" "s3_endpoint_route" {
-  route_table_id         = aws_route_table.next.id
-  destination_cidr_block = "0.0.0.0/0"
-  vpc_endpoint_id        = aws_vpc_endpoint.s3.id
-  depends_on             = [aws_vpc_endpoint.s3]
-}
+# resource "aws_route" "s3_endpoint_route" {
+#   route_table_id         = aws_route_table.next.id
+#   destination_cidr_block = "0.0.0.0/0"
+#   vpc_endpoint_id        = aws_vpc_endpoint.s3.id
+#   depends_on             = [aws_vpc_endpoint.s3]
+# }
