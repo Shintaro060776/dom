@@ -83,6 +83,30 @@ resource "aws_security_group" "vpc_endpoint" {
   }
 }
 
+resource "aws_security_group" "secrets_manager_vpc_endpoint_sg" {
+  name        = "secrets-manager-vpc-endpoint-sg"
+  description = "Security group for Secrets Manager VPC Endpoint"
+  vpc_id      = aws_vpc.next.id
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "secrets-manager-vpc-endpoint-sg"
+  }
+}
+
 resource "aws_vpc_endpoint" "ecr_dkr" {
   vpc_id            = aws_vpc.next.id
   service_name      = "com.amazonaws.ap-northeast-1.ecr.dkr"
@@ -126,6 +150,19 @@ resource "aws_vpc_endpoint" "logs" {
   private_dns_enabled = true
 
   security_group_ids = [aws_security_group.vpc_endpoint.id]
+}
+
+resource "aws_vpc_endpoint" "secrets_manager" {
+  vpc_id             = aws_vpc.next.id
+  service_name       = "com.amazonaws.ap-northeast-1.secretsmanager"
+  vpc_endpoint_type  = "Interface"
+  private_dns_enabled = true
+  security_group_ids = [aws_security_group.secrets_manager_vpc_endpoint_sg.id]
+  subnet_ids         = [aws_subnet.next.id, aws_subnet.next2.id]
+
+  tags = {
+    Name = "secrets-manager-vpc-endpoint"
+  }
 }
 
 # resource "aws_route" "s3_endpoint_route" {

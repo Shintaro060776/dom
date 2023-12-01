@@ -123,7 +123,7 @@ resource "aws_ecs_task_definition" "next_task" {
     }
     secrets = [{
       name      = "MY_SECRET_ENV_VARIABLE"
-      valueFrom = "arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq"
+      valueFrom = "arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq::"
     }]
   }])
 }
