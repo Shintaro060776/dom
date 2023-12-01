@@ -29,3 +29,4 @@ Resources:
               awslogs-group: /ecs/nginx-container
               awslogs-region: ap-northeast-1
               awslogs-stream-prefix: ecs
+              
