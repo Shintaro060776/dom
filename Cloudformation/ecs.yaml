@@ -14,7 +14,7 @@ Resources:
       Memory: 512
       ContainerDefinitions:
         - Name: nginx-container
-          Image: public.ecr.aws/x6i1u1x3/next:latest
+          Image: 715573459931.dkr.ecr.ap-northeast-1.amazonaws.com/next:latest
           Essential: true
           PortMappings:
             - ContainerPort: 80
