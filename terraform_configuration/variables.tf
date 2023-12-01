@@ -102,7 +102,7 @@ variable "ecs_container_name" {
 
 variable "ecs_container_image" {
   description = "Image of the container in the ECS task."
-  default     = "nginx:latest"
+  default     = "715573459931.dkr.ecr.ap-northeast-1.amazonaws.com/next:latest"
 }
 
 variable "ecs_container_port" {

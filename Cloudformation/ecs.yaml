@@ -29,4 +29,6 @@ Resources:
               awslogs-group: /ecs/nginx-container
               awslogs-region: ap-northeast-1
               awslogs-stream-prefix: ecs
-              
+          Secrets:
+            - Name: MY_SECRET_ENV_VARIABLE
+              ValueFrom: arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq

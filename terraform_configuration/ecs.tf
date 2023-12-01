@@ -40,7 +40,10 @@ data "aws_iam_policy_document" "ecs_execution_policy" {
       "ecr:DescribeImageScanFindings",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
-      "logs:CreateLogGroup"
+      "logs:CreateLogGroup",
+      "secretsmanager:GetSecretValue",
+      "kms:Decrypt",
+      "ssm:GetParameters"
     ]
 
     resources = [
@@ -104,15 +107,11 @@ resource "aws_ecs_task_definition" "next_task" {
     name      = "nginx-container"
     image     = "715573459931.dkr.ecr.ap-northeast-1.amazonaws.com/next:latest"
     essential = true
+    memory    = 512
+    cpu       = 256
     portMappings = [{
       containerPort = 80
       hostPort      = 80
-    }]
-    memory = 512
-    cpu    = 256
-    environment = [{
-      name  = "BACKEND_URL"
-      value = ""
     }]
     logConfiguration = {
       logDriver = "awslogs"
@@ -122,6 +121,10 @@ resource "aws_ecs_task_definition" "next_task" {
         "awslogs-stream-prefix" = "ecs"
       }
     }
+    secrets = [{
+      name      = "MY_SECRET_ENV_VARIABLE"
+      valueFrom = "arn:aws:secretsmanager:ap-northeast-1:715573459931:secret:MySecretName-yAQ7uq"
+    }]
   }])
 }
 
