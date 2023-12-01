@@ -26,13 +26,17 @@ resource "aws_iam_role_policy" "ecs_execution_role_policy" {
 data "aws_iam_policy_document" "ecs_execution_policy" {
   statement {
     actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:BatchGetImage",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "logs:CreateLogGroup"
     ]
 
     resources = [
-      aws_cloudwatch_log_group.ecs_log_group.arn
+      "*"
     ]
   }
 }
@@ -66,9 +70,9 @@ resource "aws_lb_target_group" "next_tg" {
 
   health_check {
     enabled             = true
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    timeout             = 3
+    healthy_threshold   = 5
+    unhealthy_threshold = 5
+    timeout             = 30
     interval            = 30
     path                = "/"
     protocol            = "HTTP"
