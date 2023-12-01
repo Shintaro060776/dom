@@ -151,6 +151,6 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecr_read_only" {
-  role = aws_iam_role.ecs_execution_role.name
+  role       = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
