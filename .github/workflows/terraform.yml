@@ -22,7 +22,7 @@ jobs:
         run: |
           pwd
           ls -alh
-          cd next/fluid
+          cd fluid
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -31,9 +31,11 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install
+        working-directory: fluid
 
       - name: Build
         run: yarn build
+        working-directory: fluid
 
   terraform:
     needs: build-and-test
