@@ -17,6 +17,9 @@ jobs:
     steps:
       - name: Check Out Repository
         uses: actions/checkout@v2
+
+      - name: change to project directory
+        run: cd next/fluid
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
