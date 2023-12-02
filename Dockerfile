@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-COPY fluid-three/ /app/
+COPY fluid/ /app/
 
 RUN rm -rf /usr/share/nginx/html \
     %% ln -s /app/dist /usr/share/nginx/html
