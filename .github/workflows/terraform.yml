@@ -46,7 +46,10 @@ jobs:
 
     steps:
       - name: 'Change to Terraform Directory'
-        run: cd terraform_configuration
+        run: |
+          pwd
+          ls -alh
+          cd terraform_configuration
 
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v1
