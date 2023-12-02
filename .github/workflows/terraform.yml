@@ -45,11 +45,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
-      - name: 'Change to Terraform Directory'
-        run: |
-          pwd
-          ls -alh
-          cd terraform_configuration
+      - name: Check Out Repository
+        uses: actions/checkout@v2
 
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v1
