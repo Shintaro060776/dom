@@ -7,9 +7,9 @@ WORKDIR /app
 # COPY fluid/package.json ./
 # COPY fluid/yarn.lock ./
 
-RUN yarn install
-
 COPY fluid/ ./
+
+RUN yarn install
 
 RUN yarn build
 
