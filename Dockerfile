@@ -7,7 +7,7 @@ WORKDIR /app
 RUN pwd
 RUN ls -alh
 
-COPY fluid/package.json fluid/yarn.lock ./
+COPY package.json yarn.lock ./
 
 RUN yarn install
 
