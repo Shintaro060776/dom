@@ -49,6 +49,7 @@ jobs:
           pwd
           ls -alh
           cd fluid
+          pwd
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -75,7 +76,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: List files in the repository
-        run: ls -alh
+        run: |
+          ls -alh
+          pwd
       
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
