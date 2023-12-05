@@ -4,11 +4,11 @@ ENV OPENSSL_CONF=/dev/null
 
 WORKDIR /app
 
-COPY fluid/package.json fluid/yarn.lock ./
+COPY /home/runner/work/next/next/fluid/package.json /home/runner/work/next/next/fluid/yarn.lock ./
 
 RUN yarn install
 
-COPY fluid/ ./
+COPY /home/runner/work/next/next/fluid/ ./
 
 RUN yarn build
 
