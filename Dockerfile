@@ -4,6 +4,9 @@ ENV OPENSSL_CONF=/dev/null
 
 WORKDIR /app
 
+RUN pwd
+RUN ls -alh
+
 COPY fluid/package.json fluid/yarn.lock ./
 
 RUN yarn install
