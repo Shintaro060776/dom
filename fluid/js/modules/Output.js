@@ -1,17 +1,17 @@
-import Common from "./Common";
+import Common from "./Common.js";
 import * as THREE from "three";
 
-import Simulation from "./Simulation";
+import Simulation from "./Simulation.js";
 import face_vert from "./glsl/sim/face.vert";
 import color_frag from "./glsl/sim/color.frag";
 
 
-export default class Output{
-    constructor(){
+export default class Output {
+    constructor() {
         this.init();
     }
 
-    init(){
+    init() {
         this.simulation = new Simulation();
 
         this.scene = new THREE.Scene();
@@ -35,20 +35,20 @@ export default class Output{
 
         this.scene.add(this.output);
     }
-    addScene(mesh){
+    addScene(mesh) {
         this.scene.add(mesh);
     }
 
-    resize(){
+    resize() {
         this.simulation.resize();
     }
 
-    render(){
+    render() {
         Common.renderer.setRenderTarget(null);
         Common.renderer.render(this.scene, this.camera);
     }
 
-    update(){
+    update() {
         this.simulation.update();
         this.render();
     }

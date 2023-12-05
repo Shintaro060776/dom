@@ -1,12 +1,12 @@
 import mouse_vert from "./glsl/sim/mouse.vert";
 import externalForce_frag from "./glsl/sim/externalForce.frag";
-import ShaderPass from "./ShaderPass";
-import Mouse from "./Mouse";
+import ShaderPass from "./ShaderPass.js";
+import Mouse from "./Mouse.js";
 
 import * as THREE from "three";
 
-export default class ExternalForce extends ShaderPass{
-    constructor(simProps){
+export default class ExternalForce extends ShaderPass {
+    constructor(simProps) {
         super({
             output: simProps.dst
         });
@@ -14,7 +14,7 @@ export default class ExternalForce extends ShaderPass{
         this.init(simProps);
     }
 
-    init(simProps){
+    init(simProps) {
         super.init();
         const mouseG = new THREE.PlaneBufferGeometry(
             1, 1
@@ -44,7 +44,7 @@ export default class ExternalForce extends ShaderPass{
         this.scene.add(this.mouse);
     }
 
-    update(props){
+    update(props) {
         const forceX = Mouse.diff.x / 2 * props.mouse_force;
         const forceY = Mouse.diff.y / 2 * props.mouse_force;
 

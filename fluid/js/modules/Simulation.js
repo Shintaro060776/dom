@@ -1,17 +1,17 @@
-import Mouse from "./Mouse";
-import Common from "./Common";
+import Mouse from "./Mouse.js";
+import Common from "./Common.js";
 import * as THREE from "three";
-import Controls from "./Controls";
+import Controls from "./Controls.js";
 
-import Advection from "./Advection";
-import ExternalForce from "./ExternalForce";
-import Viscous from "./Viscous";
-import Divergence from "./Divergence";
-import Poisson from "./Poisson";
-import Pressure from "./Pressure";
+import Advection from "./Advection.js";
+import ExternalForce from "./ExternalForce.js";
+import Viscous from "./Viscous.js";
+import Divergence from "./Divergence.js";
+import Poisson from "./Poisson.js";
+import Pressure from "./Pressure.js";
 
-export default class Simulation{
-    constructor(props){
+export default class Simulation {
+    constructor(props) {
         this.props = props;
 
         this.fbos = {
@@ -52,17 +52,17 @@ export default class Simulation{
         this.init();
     }
 
-    
-    init(){
+
+    init() {
         this.calcSize();
         this.createAllFBO();
         this.createShaderPass();
     }
 
-    createAllFBO(){
-        const type = ( /(iPad|iPhone|iPod)/g.test( navigator.userAgent ) ) ? THREE.HalfFloatType : THREE.FloatType;
+    createAllFBO() {
+        const type = (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) ? THREE.HalfFloatType : THREE.FloatType;
 
-        for(let key in this.fbos){
+        for (let key in this.fbos) {
             this.fbos[key] = new THREE.WebGLRenderTarget(
                 this.fboSize.x,
                 this.fboSize.y,
@@ -73,7 +73,7 @@ export default class Simulation{
         }
     }
 
-    createShaderPass(){
+    createShaderPass() {
         this.advection = new Advection({
             cellScale: this.cellScale,
             fboSize: this.fboSize,
@@ -124,7 +124,7 @@ export default class Simulation{
         });
     }
 
-    calcSize(){
+    calcSize() {
         const width = Math.round(this.options.resolution * Common.width);
         const height = Math.round(this.options.resolution * Common.height);
 
@@ -135,18 +135,18 @@ export default class Simulation{
         this.fboSize.set(width, height);
     }
 
-    resize(){
+    resize() {
         this.calcSize();
 
-        for(let key in this.fbos){
+        for (let key in this.fbos) {
             this.fbos[key].setSize(this.fboSize.x, this.fboSize.y);
         }
     }
 
 
-    update(){
+    update() {
 
-        if(this.options.isBounce){
+        if (this.options.isBounce) {
             this.boundarySpace.set(0, 0);
         } else {
             this.boundarySpace.copy(this.cellScale);
@@ -162,7 +162,7 @@ export default class Simulation{
 
         let vel = this.fbos.vel_1;
 
-        if(this.options.isViscous){
+        if (this.options.isViscous) {
             vel = this.viscous.update({
                 viscous: this.options.viscous,
                 iterations: this.options.iterations_viscous,
@@ -170,12 +170,12 @@ export default class Simulation{
             });
         }
 
-        this.divergence.update({vel});
+        this.divergence.update({ vel });
 
         const pressure = this.poisson.update({
             iterations: this.options.iterations_poisson,
         });
 
-        this.pressure.update({ vel , pressure});
+        this.pressure.update({ vel, pressure });
     }
 }

@@ -1,10 +1,10 @@
 import face_vert from "./glsl/sim/face.vert";
 import poisson_frag from "./glsl/sim/poisson.frag";
 
-import ShaderPass from "./ShaderPass";
+import ShaderPass from "./ShaderPass.js";
 
-export default class Divergence extends ShaderPass{
-    constructor(simProps){
+export default class Divergence extends ShaderPass {
+    constructor(simProps) {
         super({
             material: {
                 vertexShader: face_vert,
@@ -33,11 +33,11 @@ export default class Divergence extends ShaderPass{
         this.init();
     }
 
-    update({iterations}){
+    update({ iterations }) {
         let p_in, p_out;
 
-        for(var i = 0; i < iterations; i++) {
-            if(i % 2 == 0){
+        for (var i = 0; i < iterations; i++) {
+            if (i % 2 == 0) {
                 p_in = this.props.output0;
                 p_out = this.props.output1;
             } else {

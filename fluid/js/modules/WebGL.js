@@ -1,10 +1,9 @@
-// import * as THREE from "three";
-import Common from "./Common";
-import Output from "./Output";
-import Mouse from "./Mouse";
+import Common from "./Common.js";
+import Output from "./Output.js";
+import Mouse from "./Mouse.js";
 
-export default class Webgl{
-    constructor(props){
+export default class Webgl {
+    constructor(props) {
         this.props = props;
 
         Common.init();
@@ -16,23 +15,23 @@ export default class Webgl{
         window.addEventListener("resize", this.resize.bind(this));
     }
 
-    init(){
+    init() {
         this.props.$wrapper.prepend(Common.renderer.domElement);
         this.output = new Output();
     }
 
-    resize(){
+    resize() {
         Common.resize();
         this.output.resize();
     }
 
-    render(){
+    render() {
         Mouse.update();
         Common.update();
         this.output.update();
     }
 
-    loop(){
+    loop() {
         this.render();
         requestAnimationFrame(this.loop.bind(this));
     }

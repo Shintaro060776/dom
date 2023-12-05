@@ -1,6 +1,6 @@
-import EventBus from "./utils/EventBus";
+import EventBus from "./utils/EventBus.js";
 window.EventBus = EventBus;
-import WebGL from "./modules/WebGL";
+import WebGL from "./modules/WebGL.js";
 
 if (!window.isDev) window.isDev = false;
 

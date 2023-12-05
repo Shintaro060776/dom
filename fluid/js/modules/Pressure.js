@@ -1,9 +1,9 @@
 import face_vert from "./glsl/sim/face.vert";
 import pressure_frag from "./glsl/sim/pressure.frag";
-import ShaderPass from "./ShaderPass";
+import ShaderPass from "./ShaderPass.js";
 
-export default class Divergence extends ShaderPass{
-    constructor(simProps){
+export default class Divergence extends ShaderPass {
+    constructor(simProps) {
         super({
             material: {
                 vertexShader: face_vert,
@@ -32,10 +32,10 @@ export default class Divergence extends ShaderPass{
         this.init();
     }
 
-    update({vel, pressure}){
+    update({ vel, pressure }) {
         this.uniforms.velocity.value = vel.texture;
         this.uniforms.pressure.value = pressure.texture;
         super.update();
     }
-    
+
 }
