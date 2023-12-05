@@ -39,9 +39,13 @@ module.exports = {
     //     ],
     // },
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
+        static: {
+            directory: path.join(__dirname, 'dist'),
+        },
         compress: false,
         open: true,
-        disableHostCheck: true
+        port: 3001,
+        hot: true,
+        host: '0.0.0.0'
     }
 };

@@ -1,0 +1,562 @@
+:lang(ja) {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:lang(en) {
+    font-family: Consolas, monospace;
+}
+
+body {
+    overscroll-behavior: none;
+    touch-action: none;
+    margin: 0;
+    /* height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; */
+    overflow-x: hidden;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.scroll-down-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    transform: translateX(0);
+    transition: transform 0.8s;
+    padding: 10px;
+    border: 2px solid white;
+    border-radius: 50%;
+    color: black;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.scroll-down-container span,
+.scroll-down-arrow {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.scroll-down-arrow {
+    animation: none;
+}
+
+.scroll-down-container span:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.scroll-down-container span:nth-child(2) {
+    animation-delay: 0.6s;
+}
+
+.scroll-down-container span:nth-child(3) {
+    animation-delay: 0.7s;
+}
+
+.scroll-down-container span:nth-child(4) {
+    animation-delay: 0.8s;
+}
+
+.scroll-down-container span:nth-child(5) {
+    animation-delay: 0.9s;
+}
+
+.scroll-down-container span:nth-child(6) {
+    animation-delay: 1.0s;
+}
+
+.scroll-down-container span:nth-child(7) {
+    animation-delay: 1.1s;
+}
+
+.scroll-down-container span:nth-child(8) {
+    animation-delay: 1.2s;
+}
+
+.scroll-down-container span:nth-child(9) {
+    animation-delay: 1.3s;
+}
+
+.scroll-down-container span:nth-child(10) {
+    animation-delay: 1.4s;
+}
+
+.scroll-down-container span:nth-child(11) {
+    animation-delay: 1.5s;
+}
+
+@keyframes arrowBlink {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.scroll-down-arrow {
+    animation: arrowBlink 1.5s ease-in-out infinite;
+    animation-delay: 2s;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+.visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.extra-space {
+    height: 50000px;
+}
+
+#about,
+#portfolio {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 1s, opacity 1s;
+    padding: 0 20px;
+    color: aqua;
+    font-weight: bold;
+    font-size: 2.5rem;
+    perspective: 500px;
+    transform-style: preserve-3d;
+    width: auto;
+    text-shadow:
+        0 1px #bbb,
+        0 2px #aaa,
+        0 3px #999,
+        0 4px #888,
+        0 5px #777,
+        0 6px #666,
+        0 7px #555,
+        0 8px #444,
+        0 9px #333,
+        0 10px 8px #000;
+}
+
+#about.hidden,
+#portfolio.hidden {
+    transform: translateZ(-50px) rotateY(45deg);
+    opacity: 0;
+}
+
+#about.visible,
+#portfolio.visible {
+    transform: translateZ(0) rotateY(0deg);
+    opacity: 1;
+}
+
+#about.hidden {
+    left: -50%;
+    opacity: 0;
+}
+
+#position.hidden {
+    right: -50%;
+    opacity: 0;
+}
+
+#about.visible {
+    left: 10%;
+    opacity: 1;
+}
+
+#portfolio.visible {
+    right: 10%;
+    opacity: 1;
+}
+
+#about {
+    left: 10%;
+    right: auto;
+}
+
+#portfolio {
+    right: 10%;
+    left: auto;
+}
+
+@media only screen and (max-width: 375px) {
+
+    #about,
+    #portfolio {
+        font-size: 1rem;
+        top: unset;
+        bottom: 70%;
+    }
+
+    #portfolio {
+        bottom: 30%;
+    }
+}
+
+@media only screen and (min-width: 376px) and (max-width: 768px) {
+
+    #about,
+    #portfolio {
+        font-size: 1.2rem;
+        top: unset;
+        bottom: 60%;
+    }
+
+    #portfolio {
+        bottom: 20%;
+    }
+}
+
+@media only screen and (min-width: 769px) {
+
+    #about,
+    #portfolio {
+        font-size: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: unset;
+    }
+
+    #about {
+        left: 10%;
+    }
+
+    #portfolio {
+        right: 10%;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1065px) {
+
+    #about,
+    #portfolio {
+        position: fixed;
+        width: 40%;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0 15px;
+        font-size: 1.2rem;
+        text-align: center;
+        color: aqua;
+        font-weight: bold;
+        perspective: 500px;
+        transform-style: preserve-3d;
+    }
+
+    #about.hidden,
+    #portfolio.hidden {
+        transform: translateZ(-50px) rotateY(45deg);
+        opacity: 0;
+    }
+
+    #about.visible,
+    #portfolio.visible {
+        transform: translateZ(0) rotateY(0deg);
+        opacity: 1;
+    }
+
+    #about {
+        left: 10%;
+        right: auto;
+    }
+
+    #portfolio {
+        right: 10%;
+        left: auto;
+    }
+}
+
+/* Moreの箇所を記載 */
+
+#more {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 1s, opacity 1s;
+    padding: 0 20px;
+    color: aqua;
+    font-weight: bold;
+    font-size: 2.5rem;
+    perspective: 500px;
+    transform-style: preserve-3d;
+    width: auto;
+    transition: left 1s, opacity 1s;
+    text-shadow:
+        0 1px #bbb,
+        0 2px #aaa,
+        0 3px #999,
+        0 4px #888,
+        0 5px #777,
+        0 6px #666,
+        0 7px #555,
+        0 8px #444,
+        0 9px #333,
+        0 10px 8px #000;
+}
+
+#more.left {
+    left: -100%;
+    opacity: 0;
+}
+
+#card,
+#card1,
+#card2,
+#card3 {
+    position: fixed;
+    top: 50%;
+    right: -100%;
+    transform: translateY(-50%);
+    transition: right 1s ease;
+    width: 300px;
+    height: 600px;
+    background-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 5px 5px;
+}
+
+.card-image {
+    width: 100%;
+    height: 50%;
+    background: url('20231029_19_55_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-image3 {
+    width: 100%;
+    height: 50%;
+    background: url('20231006_18_13_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-image1 {
+    width: 100%;
+    height: 50%;
+    background: url('20231028_18_24_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-image2 {
+    width: 100%;
+    height: 50%;
+    background: url('20231102_06_24_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-description {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+#scrollToTop {
+    position: fixed;
+    bottom: 30px;
+    left: 10px;
+    background-color: #f0f0f0;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    color: black;
+}
+
+#card.visible,
+#card1.visible,
+#card2.visible,
+#card3.visible {
+    right: 10%;
+}
+
+#more.hidden {
+    transform: translateZ(-50px) rotateY(45deg);
+    opacity: 0;
+}
+
+#more.visible {
+    transform: translateZ(0) rotateY(0deg);
+    opacity: 1;
+}
+
+#more.hidden {
+    left: -50%;
+    opacity: 0;
+}
+
+#more.visible {
+    left: 10%;
+    opacity: 1;
+}
+
+
+#more {
+    left: 10%;
+    right: auto;
+}
+
+
+@media only screen and (max-width: 375px) {
+
+    #more {
+        font-size: 1rem;
+        top: unset;
+        bottom: 70%;
+    }
+
+    #card,
+    #card1,
+    #card2,
+    #card3 {
+        width: 300px;
+        height: 400px;
+    }
+
+}
+
+@media only screen and (min-width: 376px) and (max-width: 768px) {
+
+    #more {
+        font-size: 1.2rem;
+        top: unset;
+        bottom: 60%;
+    }
+
+    #card,
+    #card1,
+    #card2,
+    #card3 {
+        width: 300px;
+        height: 400px;
+    }
+
+}
+
+@media only screen and (min-width: 769px) {
+
+    #more {
+        font-size: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        bottom: unset;
+    }
+
+    #more {
+        left: 10%;
+    }
+
+    #card,
+    #card1,
+    #card2,
+    #card3 {
+        width: 400px;
+        height: 400px;
+    }
+
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1400px) {
+
+    #more {
+        position: fixed;
+        width: 40%;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0 15px;
+        font-size: 1.2rem;
+        text-align: center;
+        color: aqua;
+        font-weight: bold;
+        perspective: 500px;
+        transform-style: preserve-3d;
+    }
+
+    #more.hidden {
+        transform: translateZ(-50px) rotateY(45deg);
+        opacity: 0;
+    }
+
+    #more.visible {
+        transform: translateZ(0) rotateY(0deg);
+        opacity: 1;
+    }
+
+    #more {
+        left: 10%;
+        right: auto;
+    }
+
+    #card,
+    #card1,
+    #card2,
+    #card3 {
+        width: 400px;
+        height: 400px;
+    }
+
+}
+
+@keyframes moveLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+#more.move-left {
+    animation: moveLeft 1s forwards;
+}
