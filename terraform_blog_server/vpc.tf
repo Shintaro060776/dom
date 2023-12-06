@@ -1,166 +1,67 @@
-data "aws_vpc" "selected" {
+data "aws_vpc" "blog" {
   tags = {
     Name = "blog"
   }
 }
 
-output "vpc_id" {
-  value = data.aws_vpc.selected.id
-}
-
-resource "aws_subnet" "blog_server" {
-  vpc_id            = data.aws_vpc.selected.id
-  cidr_block        = var.subnet_cidr[0]
-  availability_zone = var.availability_zone1
-
-  map_public_ip_on_launch = true
-
+data "aws_subnet" "blog" {
+  vpc_id = data.aws_vpc.blog.id
   tags = {
-    Name = var.subnet_names[0]
+    Name = "blog" 
   }
 }
 
-resource "aws_subnet" "blog_server2" {
-  vpc_id            = data.aws_vpc.selected.id
-  cidr_block        = var.subnet_cidr[1]
-  availability_zone = var.availability_zone2
-
-  map_public_ip_on_launch = true
-
+data "aws_subnet" "blog2" {
+  vpc_id = data.aws_vpc.blog.id
   tags = {
-    Name = var.subnet_names[1]
+    Name = "blog2" 
   }
 }
 
-resource "aws_internet_gateway" "blog_server" {
-  vpc_id = data.aws_vpc.selected.id
+data "aws_internet_gateway" "blog" {
+  filter {
+    name   = "attachment.vpc-id"
+    values = [data.aws_vpc.blog.id]
+  }
+}
 
+data "aws_route_table" "blog" {
+  vpc_id = data.aws_vpc.blog.id
   tags = {
-    Name = var.internet_gateway_name
+    Name = "blog-route-table"
   }
 }
 
-resource "aws_route_table" "blog_server" {
-  vpc_id = data.aws_vpc.selected.id
-
-  route {
-    cidr_block = var.cidr_block
-    gateway_id = aws_internet_gateway.blog_server.id
-  }
-
+data "aws_security_group" "vpc_endpoint_blog" {
+  vpc_id = data.aws_vpc.blog.id
   tags = {
-    Name = var.aws_route_table
+    Name = "vpc-endpoint-sg-blog"
   }
 }
 
-resource "aws_route_table_association" "blog_server" {
-  subnet_id      = aws_subnet.blog_server.id
-  route_table_id = aws_route_table.blog_server.id
-}
-
-resource "aws_route_table_association" "blog_server2" {
-  subnet_id      = aws_subnet.blog_server2.id
-  route_table_id = aws_route_table.blog_server.id
-}
-
-resource "aws_security_group" "vpc_endpoint" {
-  name        = "vpc-endpoint-sg-blog_server"
-  description = "Security group for VPC endpoints"
-  vpc_id      = data.aws_vpc.selected.id
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "secrets_manager_vpc_endpoint_sg_blog_server" {
-  name        = "secrets-manager-vpc-endpoint-sg-blog_server"
-  description = "Security group for Secrets Manager VPC Endpoint"
-  vpc_id      = data.aws_vpc.selected.id
-
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
+data "aws_security_group" "secrets_manager_vpc_endpoint_sg_blog" {
+  vpc_id = data.aws_vpc.blog.id
   tags = {
-    Name = "secrets-manager-vpc-endpoint-sg-blog_server"
+    Name = "secrets-manager-vpc-endpoint-sg-blog"
   }
 }
 
-resource "aws_vpc_endpoint" "ecr_dkr_blog_server" {
-  vpc_id            = data.aws_vpc.selected.id
-  service_name      = "com.amazonaws.ap-northeast-1.ecr.dkr"
-  vpc_endpoint_type = "Interface"
-
-  subnet_ids          = [aws_subnet.blog_server.id, aws_subnet.blog_server2.id]
-  private_dns_enabled = true
-
-  security_group_ids = [aws_security_group.vpc_endpoint.id]
+data "aws_vpc_endpoint" "ecr_dkr_blog" {
+  vpc_id       = data.aws_vpc.blog.id
+  service_name = "com.amazonaws.ap-northeast-1.ecr.dkr"
 }
 
-resource "aws_vpc_endpoint" "ecr_api_blog_server" {
-  vpc_id            = data.aws_vpc.selected.id
-  service_name      = "com.amazonaws.ap-northeast-1.ecr.api"
-  vpc_endpoint_type = "Interface"
-
-  subnet_ids          = [aws_subnet.blog_server.id, aws_subnet.blog_server.id]
-  private_dns_enabled = true
-
-  security_group_ids = [aws_security_group.vpc_endpoint.id]
+data "aws_vpc_endpoint" "ecr_api_blog" {
+  vpc_id       = data.aws_vpc.blog.id
+  service_name = "com.amazonaws.ap-northeast-1.ecr.api"
 }
 
-resource "aws_vpc_endpoint" "s3_blog_server" {
-  vpc_id            = data.aws_vpc.selected.id
-  service_name      = "com.amazonaws.ap-northeast-1.s3"
-  vpc_endpoint_type = "Gateway"
-
-  route_table_ids = [aws_route_table.blog_server.id]
-
-  tags = {
-    Name = "s3-vpc-endpoint_blog_server"
-  }
+data "aws_vpc_endpoint" "logs_blog" {
+  vpc_id       = data.aws_vpc.blog.id
+  service_name = "com.amazonaws.ap-northeast-1.logs"
 }
 
-resource "aws_vpc_endpoint" "logs_blog_server" {
-  vpc_id            = data.aws_vpc.selected.id
-  service_name      = "com.amazonaws.ap-northeast-1.logs"
-  vpc_endpoint_type = "Interface"
-
-  subnet_ids          = [aws_subnet.blog_server.id, aws_subnet.blog_server2.id]
-  private_dns_enabled = true
-
-  security_group_ids = [aws_security_group.vpc_endpoint.id]
-}
-
-resource "aws_vpc_endpoint" "secrets_manager" {
-  vpc_id             = data.aws_vpc.selected.id
-  service_name       = "com.amazonaws.ap-northeast-1.secretsmanager"
-  vpc_endpoint_type  = "Interface"
-  private_dns_enabled = true
-  security_group_ids = [aws_security_group.secrets_manager_vpc_endpoint_sg_blog_server.id]
-  subnet_ids         = [aws_subnet.blog_server.id, aws_subnet.blog_server.id]
-
-  tags = {
-    Name = "secrets-manager-vpc-endpoint_blog_server"
-  }
+data "aws_vpc_endpoint" "secrets_manager" {
+  vpc_id       = data.aws_vpc.blog.id
+  service_name = "com.amazonaws.ap-northeast-1.secretsmanager"
 }

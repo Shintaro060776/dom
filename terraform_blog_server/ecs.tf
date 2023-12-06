@@ -56,8 +56,8 @@ resource "aws_lb" "blog_server_lb" {
   name                       = var.aws_lb_name
   internal                   = false
   load_balancer_type         = "application"
-  security_groups            = [aws_security_group.blog_server.id]
-  subnets                    = [aws_subnet.blog_server.id, aws_subnet.blog_server2.id]
+  security_groups            = [data.aws_security_group.eks_cluster_sg_blog.id] 
+  subnets                    = [data.aws_subnet.blog.id, data.aws_subnet.blog2.id] 
   enable_deletion_protection = false
 }
 
@@ -142,13 +142,13 @@ resource "aws_ecs_service" "blog_server_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.blog_server_tg.arn
-    container_name   = "blog_server_container"
+    container_name   = "blog_server-container"
     container_port   = 80
   }
 
   network_configuration {
-    subnets         = [aws_subnet.blog_server.id, aws_subnet.blog_server2.id]
-    security_groups = [aws_security_group.blog_server.id]
+    subnets         = [data.aws_subnet.blog.id, data.aws_subnet.blog2.id]
+    security_groups = [data.aws_security_group.eks_cluster_sg_blog.id]
   }
 
   desired_count = 1
