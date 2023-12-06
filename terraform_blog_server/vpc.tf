@@ -157,17 +157,10 @@ resource "aws_vpc_endpoint" "secrets_manager" {
   service_name       = "com.amazonaws.ap-northeast-1.secretsmanager"
   vpc_endpoint_type  = "Interface"
   private_dns_enabled = true
-  security_group_ids = [aws_security_group.secrets_manager_vpc_endpoint_sg_blog_serve.id]
+  security_group_ids = [aws_security_group.secrets_manager_vpc_endpoint_sg_blog_server.id]
   subnet_ids         = [aws_subnet.blog_server.id, aws_subnet.blog_server.id]
 
   tags = {
     Name = "secrets-manager-vpc-endpoint_blog_server"
   }
 }
-
-# resource "aws_route" "s3_endpoint_route" {
-#   route_table_id         = aws_route_table.next.id
-#   destination_cidr_block = "0.0.0.0/0"
-#   vpc_endpoint_id        = aws_vpc_endpoint.s3.id
-#   depends_on             = [aws_vpc_endpoint.s3]
-# 

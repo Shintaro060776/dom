@@ -137,7 +137,7 @@ resource "aws_ecs_task_definition" "blog-server-task" {
 resource "aws_ecs_service" "blog_server_service" {
   name            = var.ecs_service_name
   cluster         = aws_ecs_cluster.blog_server_cluster.id
-  task_definition = aws_ecs_task_definition.blog_server_task.arn
+  task_definition = aws_ecs_task_definition.blog-server-task.arn
   launch_type     = "FARGATE"
 
   load_balancer {
