@@ -27,15 +27,15 @@ jobs:
 
       - name: 'Terraform Init'
         run: terraform init
-        working-directory: terraform_blog
+        working-directory: terraform_blog_server
 
       - name: 'Terraform Plan'
         run: terraform plan
-        working-directory: terraform_blog
+        working-directory: terraform_blog_server
 
       - name: 'Terraform Apply'
         run: terraform apply -auto-approve
-        working-directory: terraform_blog
+        working-directory: terraform_blog_server
 
   build-and-push-node:
         needs: terraform
@@ -81,7 +81,7 @@ jobs:
       
       - name: Update ECS Task Definition
         run: |
-            aws ecs register-task-definition --family "blog-task" \
+            aws ecs register-task-definition --family "blog-server-task" \
             --network-mode "awsvpc" \
             --requires-compatibilities "FARGATE" \
             --cpu "256" \
@@ -116,4 +116,3 @@ jobs:
           aws ecs update-service --cluster "blog-server-cluster" --service "blog-server-service" --task-definition "blog-server-task"
       
 
-          
