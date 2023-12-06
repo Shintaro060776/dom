@@ -28,7 +28,7 @@ data "aws_internet_gateway" "blog" {
 data "aws_route_table" "blog" {
   vpc_id = data.aws_vpc.blog.id
   tags = {
-    Name = "blog-route-table"
+    Name = "blog"
   }
 }
 
