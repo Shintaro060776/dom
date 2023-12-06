@@ -51,7 +51,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_blog" {
 
 resource "aws_iam_role_policy_attachment" "eks_describe_instances_attachment_blog" {
   role       = aws_iam_role.eks_cluster_role_blog.name
-  policy_arn = aws_iam_policy.eks_describe_instances.arn
+  policy_arn = aws_iam_policy.eks_describe_instances_blog.arn
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy_blog" {
