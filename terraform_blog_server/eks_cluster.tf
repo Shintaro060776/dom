@@ -69,19 +69,13 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly_bl
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
-data "aws_security_group" "eks_cluster_sg_blog" {
-  vpc_id = data.aws_vpc.blog.id
-  tags = {
-    Name = "eks-cluster-sg-blog"
-  }
-}
 
 resource "aws_eks_cluster" "blog_server" {
   name     = var.eks_cluster_name
   role_arn = aws_iam_role.eks_cluster_role_blog_server.arn
 
   vpc_config {
-    security_group_ids      = [data.aws_security_group.eks_cluster_sg_blog.id]
+    security_group_ids      = [data.aws_security_group.vpc_endpoint_blog.id]
     subnet_ids              = [data.aws_subnet.blog.id, data.aws_subnet.blog2.id]
     endpoint_private_access = true
     endpoint_public_access  = true
