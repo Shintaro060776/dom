@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: React/Nodejs Blog Pipeline
 
 on:
   push:

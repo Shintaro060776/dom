@@ -155,11 +155,11 @@ resource "aws_ecs_service" "blog_server_service" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_policy_blog_server" {
-  role       = aws_iam_role.ecs_execution_role.name
+  role       = aws_iam_role.ecs_execution_role_blog_server.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "ecr_read_only_blog_server" {
-  role       = aws_iam_role.ecs_execution_role.name
+  role       = aws_iam_role.ecs_execution_role_blog_server.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }

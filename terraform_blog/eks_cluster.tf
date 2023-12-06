@@ -45,27 +45,27 @@ resource "aws_iam_policy" "eks_describe_instances_blog" {
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_blog" {
-  role       = aws_iam_role.eks_cluster_role.name
+  role       = aws_iam_role.eks_cluster_role_blog.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "eks_describe_instances_attachment_blog" {
-  role       = aws_iam_role.eks_cluster_role.name
+  role       = aws_iam_role.eks_cluster_role_blog.name
   policy_arn = aws_iam_policy.eks_describe_instances.arn
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy_blog" {
-  role       = aws_iam_role.eks_node_role.name
+  role       = aws_iam_role.eks_node_role_blog.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSCNIPolicy_blog" {
-  role       = aws_iam_role.eks_node_role.name
+  role       = aws_iam_role.eks_node_role_blog.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly_blog" {
-  role       = aws_iam_role.eks_node_role.name
+  role       = aws_iam_role.eks_node_role_blog.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
@@ -91,7 +91,7 @@ resource "aws_security_group" "blog" {
 
 resource "aws_eks_cluster" "blog" {
   name     = var.eks_cluster_name
-  role_arn = aws_iam_role.eks_cluster_role.arn
+  role_arn = aws_iam_role.eks_cluster_role_blog.arn
 
   vpc_config {
     security_group_ids      = [aws_security_group.blog.id]
@@ -111,7 +111,7 @@ resource "aws_eks_cluster" "blog" {
 resource "aws_eks_node_group" "blog" {
   cluster_name    = aws_eks_cluster.blog.name
   node_group_name = var.eks_node_group_name
-  node_role_arn   = aws_iam_role.eks_node_role.arn
+  node_role_arn   = aws_iam_role.eks_node_role_blog.arn
   subnet_ids      = [aws_subnet.blog.id, aws_subnet.blog2.id]
 
   scaling_config {

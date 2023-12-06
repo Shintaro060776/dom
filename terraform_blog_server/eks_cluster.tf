@@ -45,27 +45,27 @@ resource "aws_iam_policy" "eks_describe_instances_blog_server" {
 }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_blog_server" {
-  role       = aws_iam_role.eks_cluster_role.name
+  role       = aws_iam_role.eks_cluster_role_blog_server.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "eks_describe_instances_attachment_blog_server" {
-  role       = aws_iam_role.eks_cluster_role.name
+  role       = aws_iam_role.eks_cluster_role_blog_server.name
   policy_arn = aws_iam_policy.eks_describe_instances.arn
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy_blog_server" {
-  role       = aws_iam_role.eks_node_role.name
+  role       = aws_iam_role.eks_node_role_blog_server.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSCNIPolicy_blog_server" {
-  role       = aws_iam_role.eks_node_role.name
+  role       = aws_iam_role.eks_node_role_blog_server.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly_blog_server" {
-  role       = aws_iam_role.eks_node_role.name
+  role       = aws_iam_role.eks_node_role_blog_server.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
@@ -91,7 +91,7 @@ resource "aws_security_group" "blog_server" {
 
 resource "aws_eks_cluster" "blog_server" {
   name     = var.eks_cluster_name
-  role_arn = aws_iam_role.eks_cluster_role.arn
+  role_arn = aws_iam_role.eks_cluster_role_blog_server.arn
 
   vpc_config {
     security_group_ids      = [aws_security_group.blog_server.id]
@@ -111,7 +111,7 @@ resource "aws_eks_cluster" "blog_server" {
 resource "aws_eks_node_group" "blog_server" {
   cluster_name    = aws_eks_cluster.blog_server.name
   node_group_name = var.eks_node_group_name
-  node_role_arn   = aws_iam_role.eks_node_role.arn
+  node_role_arn   = aws_iam_role.eks_node_role_blog_server.arn
   subnet_ids      = [aws_subnet.blog_server.id, aws_subnet.blog_server2.id]
 
   scaling_config {
