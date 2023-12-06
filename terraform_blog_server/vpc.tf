@@ -170,4 +170,4 @@ resource "aws_vpc_endpoint" "secrets_manager" {
 #   destination_cidr_block = "0.0.0.0/0"
 #   vpc_endpoint_id        = aws_vpc_endpoint.s3.id
 #   depends_on             = [aws_vpc_endpoint.s3]
-# }
+# 
