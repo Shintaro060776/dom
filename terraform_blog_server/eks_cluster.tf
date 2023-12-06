@@ -51,7 +51,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_blog_server" {
 
 resource "aws_iam_role_policy_attachment" "eks_describe_instances_attachment_blog_server" {
   role       = aws_iam_role.eks_cluster_role_blog_server.name
-  policy_arn = aws_iam_policy.eks_describe_instances.arn
+  policy_arn = aws_iam_policy.eks_describe_instances_blog_server.arn
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy_blog_server" {
@@ -72,7 +72,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly_bl
 resource "aws_security_group" "blog_server" {
   name        = var.eks_security_group_name
   description = "Security Group for EKS Cluster"
-  vpc_id      = aws_vpc.blog_server.id
+  vpc_id      = data.aws_vpc.selected.id
 
   ingress {
     from_port   = 0
