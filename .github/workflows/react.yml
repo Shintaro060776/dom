@@ -61,8 +61,8 @@ jobs:
           - name: Build, tag, and push React image to Amazon ECR
             run: |
               cd blog/myapp
-              docker build -t $ECR_REGISTRY/$REACT_ECR_REPOSITORY:$REACT_IMAGE_TAG .
-              docker push $ECR_REGISTRY/$REACT_ECR_REPOSITORY:$REACT_IMAGE_TAG
+              docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+              docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         
   update-ecs-task:
     needs: build-and-push-react
