@@ -3,7 +3,7 @@ resource "aws_cloudwatch_log_group" "ecs_log_group_blog" {
 }
 
 resource "aws_iam_role" "ecs_execution_role_blog" {
-  name = "ecsExecutionRole"
+  name = "ecsExecutionRole_blog"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
