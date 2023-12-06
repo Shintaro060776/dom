@@ -42,7 +42,7 @@ variable "cidr_block" {
 
 variable "aws_lb_name" {
   description = "Name of the AWS Load Balancer."
-  default     = "blog_server-lb"
+  default     = "blog-server-lb"
 }
 
 variable "aws_lb_listener_port" {
@@ -57,7 +57,7 @@ variable "aws_lb_listener_protocol" {
 
 variable "aws_lb_target_group_name" {
   description = "Name for the AWS Load Balancer target group."
-  default     = "blog_server-tg"
+  default     = "blog-server-tg"
 }
 
 variable "aws_lb_target_group_protocol" {
