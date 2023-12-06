@@ -60,7 +60,7 @@ jobs:
         
           - name: Build, tag, and push Node.js image to Amazon ECR
             run: |
-                cd /next/blog_server
+                cd blog_server
                 docker build -t $ECR_REGISTRY/$NODE_ECR_REPOSITORY:$NODE_IMAGE_TAG .
                 docker push $ECR_REGISTRY/$NODE_ECR_REPOSITORY:$NODE_IMAGE_TAG
         
