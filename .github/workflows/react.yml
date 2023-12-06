@@ -112,5 +112,5 @@ jobs:
         
       - name: Update ECS Service
         run: |
-          aws ecs update-service --cluster "blog-cluster" --service "blog-react-service" --task-definition "blog-task"
+          aws ecs update-service --cluster "blog_cluster" --service "blog-service" --task-definition "blog_task"
       
