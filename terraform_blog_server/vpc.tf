@@ -33,17 +33,13 @@ data "aws_route_table" "blog" {
 }
 
 data "aws_security_group" "vpc_endpoint_blog" {
+  name   = "vpc-endpoint-sg-blog"
   vpc_id = data.aws_vpc.blog.id
-  tags = {
-    Name = "vpc-endpoint-sg-blog"
-  }
 }
 
 data "aws_security_group" "secrets_manager_vpc_endpoint_sg_blog" {
+  name   = "secrets-manager-vpc-endpoint-sg-blog"
   vpc_id = data.aws_vpc.blog.id
-  tags = {
-    Name = "secrets-manager-vpc-endpoint-sg-blog"
-  }
 }
 
 data "aws_vpc_endpoint" "ecr_dkr_blog" {
