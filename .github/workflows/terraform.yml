@@ -150,3 +150,6 @@ jobs:
       - name: Update ECS Service
         run: |
           aws ecs update-service --cluster "next-cluster" --service "next-service" --task-definition "next-task"
+
+
+          

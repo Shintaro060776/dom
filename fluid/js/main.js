@@ -17,6 +17,45 @@ window.scrollToTop = function () {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    const progressBar = document.getElementById('progress-bar');
+    const loadingScreen = document.getElementById('loading');
+    const readyText = document.getElementById('ready-text');
+
+    function updateTextAfter(seconds, text) {
+        setTimeout(() => {
+            readyText.textContent = text;
+        }, seconds * 1000);
+    }
+
+    updateTextAfter(1, "Loading...");
+    updateTextAfter(2, "20% Complete");
+    updateTextAfter(3, "24% Complete");
+    updateTextAfter(4, "31% Complete");
+    updateTextAfter(5, "39% Complete");
+    updateTextAfter(6, "48% Complete");
+    updateTextAfter(7, "62% Complete");
+    updateTextAfter(8, "82% Complete");
+    updateTextAfter(9, "99% Complete");
+    updateTextAfter(10, "100% Complete");
+
+    readyText.textContent = 'Loading...';
+
+    progressBar.style.width = '100%';
+
+    progressBar.addEventListener('transitionend', () => {
+        readyText.textContent = "Loading...";
+        readyText.style.animation = 'none';
+
+        setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }, 5000);
+    });
+
     const container = document.createElement('div');
     container.className = 'scroll-down-container';
     document.body.appendChild(container);
@@ -126,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let card3Position = 210;
 
     window.addEventListener('scroll', () => {
+
         const scrolled = window.scrollY;
 
         if (scrolled >= startThreshold && scrolled <= endThreshold) {
@@ -202,12 +242,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (scrolled >= cardAppearThreshold) {
             if (scrollDirection === 'down') {
-                cardPosition = Math.max(cardPosition - 3, -500);
+                cardPosition = Math.max(cardPosition - 7, -500);
                 card1Position = cardPosition + 130;
                 card2Position = card1Position + 130;
                 card3Position = card2Position + 130;
             } else {
-                cardPosition = Math.min(cardPosition + 3, 500);
+                cardPosition = Math.min(cardPosition + 7, 500);
                 card1Position = cardPosition + 130;
                 card2Position = card1Position + 130;
                 card3Position = card2Position + 130;

@@ -146,7 +146,28 @@ canvas {
 }
 
 .extra-space {
-    height: 50000px;
+    height: 22000px;
+}
+
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 20px;
+    background-color: aqua;
+    transition: width 10s ease-in-out;
 }
 
 #about,
@@ -346,8 +367,8 @@ canvas {
     right: -100%;
     transform: translateY(-50%);
     transition: right 1s ease;
-    width: 300px;
-    height: 600px;
+    width: 700px;
+    height: 700px;
     background-color: rgba(255, 255, 255, 0.5);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
@@ -393,7 +414,23 @@ canvas {
 .card-description {
     padding: 10px;
     text-align: center;
-    font-size: 14px;
+    font-size: 35px;
+    color: rgb(61, 66, 66);
+}
+
+.card-explanation {
+    padding: 10px;
+    text-align: left;
+    font-size: 25px;
+    color: rgb(61, 66, 66);
+}
+
+#card a,
+#card1 a,
+#card2 a,
+#card3 a {
+    color: inherit;
+    text-decoration: none;
 }
 
 #scrollToTop {
@@ -498,8 +535,8 @@ canvas {
     #card1,
     #card2,
     #card3 {
-        width: 400px;
-        height: 400px;
+        width: 700px;
+        height: 700px;
     }
 
 }
@@ -539,8 +576,8 @@ canvas {
     #card1,
     #card2,
     #card3 {
-        width: 400px;
-        height: 400px;
+        width: 700px;
+        height: 700px;
     }
 
 }
@@ -559,4 +596,31 @@ canvas {
 
 #more.move-left {
     animation: moveLeft 1s forwards;
+}
+
+#ready-text {
+    color: rgba(255, 0, 179, 0.7);
+    font-size: 20px;
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: 1001;
+    animation: blink 1s infinite;
+    font-weight: bold;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
