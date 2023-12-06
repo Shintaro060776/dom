@@ -1,4 +1,4 @@
-name: React/Nodejs Blog Pipeline
+name: Nodejs Blog Pipeline
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 env:
   AWS_REGION: ap-northeast-1
   ECR_REGISTRY: 715573459931.dkr.ecr.ap-northeast-1.amazonaws.com
-  ECR_REPOSITORY: blog
+  ECR_REPOSITORY: blogserver
   IMAGE_TAG: latest
 
 jobs:
@@ -37,28 +37,8 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: terraform_blog
 
-  build-and-push-react:
-        needs: terraform
-        runs-on: ubuntu-latest
-        steps:
-          - name: Check Out Repository
-            uses: actions/checkout@v2
-    
-          - name: Set up Docker Buildx
-            uses: docker/setup-buildx-action@v1
-    
-          - name: Login to Amazon ECR
-            run: |
-              aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
-
-          - name: Build, tag, and push React image to Amazon ECR
-            run: |
-              cd /next/blog/myapp
-              docker build -t $ECR_REGISTRY/$REACT_ECR_REPOSITORY:$REACT_IMAGE_TAG .
-              docker push $ECR_REGISTRY/$REACT_ECR_REPOSITORY:$REACT_IMAGE_TAG
-        
   build-and-push-node:
-        needs: build-and-push-react
+        needs: terraform
         runs-on: ubuntu-latest
         steps:
           - name: Check Out Repository
@@ -102,14 +82,6 @@ jobs:
             --execution-role-arn "arn:aws:iam::715573459931:role/ecsTaskExecutionRole" \
             --container-definitions '[
             {
-              "name": "blog-react-container",
-              "image": "${{ env.ECR_REGISTRY }}/${{ env.REACT_ECR_REPOSITORY }}:${{ env.REACT_IMAGE_TAG }}",
-              "essential": true,
-              "portMappings": [{ "containerPort": 80, "hostPort": 80 }],
-              "memory": 256,
-              "cpu": 128
-            },
-            {
               "name": "blog-node-container",
               "image": "${{ env.ECR_REGISTRY }}/${{ env.NODE_ECR_REPOSITORY }}:${{ env.NODE_IMAGE_TAG }}",
               "essential": true,
@@ -134,6 +106,5 @@ jobs:
         
       - name: Update ECS Service
         run: |
-          aws ecs update-service --cluster "blog-cluster" --service "blog-react-service" --task-definition "blog-task"
           aws ecs update-service --cluster "blog-cluster" --service "blog-node-service" --task-definition "blog-task"
       
