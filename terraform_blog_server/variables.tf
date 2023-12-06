@@ -67,17 +67,17 @@ variable "aws_lb_target_group_protocol" {
 
 variable "ecs_cluster_name" {
   description = "Name of the ECS cluster."
-  default     = "blog_server-cluster"
+  default     = "blog-server-cluster"
 }
 
 variable "ecs_service_name" {
   description = "Name of the ECS service."
-  default     = "blog_server-service"
+  default     = "blog-server-service"
 }
 
 variable "ecs_task_family" {
   description = "Family name of the ECS task definition."
-  default     = "blog_server-task"
+  default     = "blog-server-task"
 }
 
 variable "ecs_task_cpu" {

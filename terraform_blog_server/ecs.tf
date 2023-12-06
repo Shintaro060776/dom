@@ -95,8 +95,8 @@ resource "aws_ecs_cluster" "blog_server_cluster" {
   name = var.ecs_cluster_name
 }
 
-resource "aws_ecs_task_definition" "blog_server_task" {
-  family                   = "blog_server_task"
+resource "aws_ecs_task_definition" "blog-server-task" {
+  family                   = "blog-server-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
