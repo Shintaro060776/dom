@@ -96,7 +96,7 @@ resource "aws_ecs_cluster" "blog_cluster" {
 }
 
 resource "aws_ecs_task_definition" "blog_task" {
-  family                   = "blog-task"
+  family                   = "blog_task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
