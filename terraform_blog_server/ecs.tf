@@ -76,7 +76,7 @@ resource "aws_lb_target_group" "blog_server_tg" {
   name        = var.aws_lb_target_group_name
   port        = 80
   protocol    = var.aws_lb_target_group_protocol
-  vpc_id      = data.aws_vpc.selected.id
+  vpc_id      = data.aws_vpc.blog.id
   target_type = "ip"
 
   health_check {
