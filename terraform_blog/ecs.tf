@@ -19,8 +19,8 @@ resource "aws_iam_role" "ecs_execution_role_blog" {
 
 resource "aws_iam_role_policy" "ecs_execution_role_policy_blog" {
   name   = "ecsExecutionRolePolicy"
-  role   = aws_iam_role.ecs_execution_role.id
-  policy = data.aws_iam_policy_document.ecs_execution_policy.json
+  role   = aws_iam_role.ecs_execution_role_blog.id
+  policy = data.aws_iam_policy_document.ecs_execution_policy_blog.json
 }
 
 data "aws_iam_policy_document" "ecs_execution_policy_blog" {
@@ -101,7 +101,7 @@ resource "aws_ecs_task_definition" "blog_task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
-  execution_role_arn       = aws_iam_role.ecs_execution_role.arn
+  execution_role_arn       = aws_iam_role.ecs_execution_role_blog.arn
 
   container_definitions = jsonencode([{
     name      = "blog-container"
@@ -116,7 +116,7 @@ resource "aws_ecs_task_definition" "blog_task" {
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        "awslogs-group"         = aws_cloudwatch_log_group.ecs_log_group.name
+        "awslogs-group"         = aws_cloudwatch_log_group.ecs_log_group_blog.name
         "awslogs-region"        = "ap-northeast-1"
         "awslogs-stream-prefix" = "ecs"
       }
