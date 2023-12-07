@@ -74,7 +74,7 @@ resource "aws_lb_listener" "front_end_blog_server" {
 # 
 resource "aws_lb_target_group" "blog_server_tg" {
   name        = var.aws_lb_target_group_name
-  port        = 80
+  port        = 3000
   protocol    = var.aws_lb_target_group_protocol
   vpc_id      = data.aws_vpc.next.id
   target_type = "ip"
@@ -110,8 +110,8 @@ resource "aws_ecs_task_definition" "blog-server-task" {
     memory    = 512
     cpu       = 256
     portMappings = [{
-      containerPort = 80
-      hostPort      = 80
+      containerPort = 3000
+      hostPort      = 3000
     }]
     logConfiguration = {
       logDriver = "awslogs"
@@ -143,7 +143,7 @@ resource "aws_ecs_service" "blog_server_service" {
   load_balancer {
     target_group_arn = aws_lb_target_group.blog_server_tg.arn
     container_name   = "blog_server-container"
-    container_port   = 80
+    container_port   = 3000
   }
 
   network_configuration {
