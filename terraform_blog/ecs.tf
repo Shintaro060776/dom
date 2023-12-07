@@ -147,8 +147,8 @@ resource "aws_ecs_service" "blog_service" {
   }
 
   network_configuration {
-    subnets         = [aws_subnet.next.id, aws_subnet.next2.id]
-    security_groups = [aws_security_group.next.id]
+    subnets         = [data.aws_subnet.next.id, data.aws_subnet.next2.id]
+    security_groups = [data.aws_security_group.vpc_endpoint.id]
   }
 
   desired_count = 1
