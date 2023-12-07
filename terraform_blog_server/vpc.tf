@@ -5,14 +5,14 @@ data "aws_vpc" "next" {
 }
 
 data "aws_subnet" "next" {
-  vpc_id = data.aws_vpc.blog.id
+  vpc_id = data.aws_vpc.next.id
   tags = {
     Name = "next" 
   }
 }
 
 data "aws_subnet" "next2" {
-  vpc_id = data.aws_vpc.blog.id
+  vpc_id = data.aws_vpc.next2.id
   tags = {
     Name = "next2" 
   }

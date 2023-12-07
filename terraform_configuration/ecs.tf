@@ -56,7 +56,7 @@ resource "aws_lb" "next_lb" {
   name                       = var.aws_lb_name
   internal                   = false
   load_balancer_type         = "application"
-  security_groups            = [aws_security_group.next.id]
+  security_groups            = [aws_security_group.vpc_endpoint.id]
   subnets                    = [aws_subnet.next.id, aws_subnet.next2.id]
   enable_deletion_protection = false
 }
@@ -76,7 +76,7 @@ resource "aws_lb_target_group" "next_tg" {
   name        = var.aws_lb_target_group_name
   port        = 80
   protocol    = var.aws_lb_target_group_protocol
-  vpc_id      = aws_vpc.next.id
+  vpc_id      = data.aws_vpc.next.id
   target_type = "ip"
 
   health_check {
