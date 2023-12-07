@@ -75,8 +75,8 @@ resource "aws_eks_cluster" "blog_server" {
   role_arn = aws_iam_role.eks_cluster_role_blog_server.arn
 
   vpc_config {
-    security_group_ids      = [data.aws_security_group.vpc_endpoint_blog.id]
-    subnet_ids              = [data.aws_subnet.blog.id, data.aws_subnet.blog2.id]
+    security_group_ids      = [data.aws_security_group.vpc_endpoint.id]
+    subnet_ids              = [data.aws_subnet.next.id, data.aws_subnet.next2.id]
     endpoint_private_access = true
     endpoint_public_access  = true
     public_access_cidrs     = ["0.0.0.0/0"]
@@ -93,7 +93,7 @@ resource "aws_eks_node_group" "blog_server" {
   cluster_name    = aws_eks_cluster.blog_server.name
   node_group_name = var.eks_node_group_name
   node_role_arn   = aws_iam_role.eks_node_role_blog_server.arn
-  subnet_ids      = [data.aws_subnet.blog.id, data.aws_subnet.blog2.id]
+  subnet_ids      = [data.aws_subnet.next.id, data.aws_subnet.next2.id]
 
   scaling_config {
     desired_size = var.eks_node_group_desired_size

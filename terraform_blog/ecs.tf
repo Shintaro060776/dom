@@ -56,8 +56,8 @@ resource "aws_lb" "blog_lb" {
   name                       = var.aws_lb_name
   internal                   = false
   load_balancer_type         = "application"
-  security_groups            = [aws_security_group.blog.id]
-  subnets                    = [aws_subnet.blog.id, aws_subnet.blog2.id]
+  security_groups            = [aws_security_group.next.id]
+  subnets                    = [aws_subnet.next.id, aws_subnet.next2.id]
   enable_deletion_protection = false
 }
 
@@ -76,7 +76,7 @@ resource "aws_lb_target_group" "blog_tg" {
   name        = var.aws_lb_target_group_name
   port        = 80
   protocol    = var.aws_lb_target_group_protocol
-  vpc_id      = aws_vpc.blog.id
+  vpc_id      = aws_vpc.next.id
   target_type = "ip"
 
   health_check {
@@ -147,8 +147,8 @@ resource "aws_ecs_service" "blog_service" {
   }
 
   network_configuration {
-    subnets         = [aws_subnet.blog.id, aws_subnet.blog2.id]
-    security_groups = [aws_security_group.blog.id]
+    subnets         = [aws_subnet.next.id, aws_subnet.next2.id]
+    security_groups = [aws_security_group.next.id]
   }
 
   desired_count = 1

@@ -72,7 +72,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly_bl
 resource "aws_security_group" "blog" {
   name        = var.eks_security_group_name
   description = "Security Group for EKS Cluster"
-  vpc_id      = aws_vpc.blog.id
+  vpc_id      = aws_vpc.next.id
 
   ingress {
     from_port   = 0
@@ -94,8 +94,8 @@ resource "aws_eks_cluster" "blog" {
   role_arn = aws_iam_role.eks_cluster_role_blog.arn
 
   vpc_config {
-    security_group_ids      = [aws_security_group.blog.id]
-    subnet_ids              = [aws_subnet.blog.id, aws_subnet.blog2.id]
+    security_group_ids      = [aws_security_group.next.id]
+    subnet_ids              = [aws_subnet.next.id, aws_subnet.next2.id]
     endpoint_private_access = true
     endpoint_public_access  = true
     public_access_cidrs     = ["0.0.0.0/0"]
@@ -112,7 +112,7 @@ resource "aws_eks_node_group" "blog" {
   cluster_name    = aws_eks_cluster.blog.name
   node_group_name = var.eks_node_group_name
   node_role_arn   = aws_iam_role.eks_node_role_blog.arn
-  subnet_ids      = [aws_subnet.blog.id, aws_subnet.blog2.id]
+  subnet_ids      = [aws_subnet.next.id, aws_subnet.next2.id]
 
   scaling_config {
     desired_size = var.eks_node_group_desired_size
