@@ -112,7 +112,7 @@ resource "aws_eks_node_group" "blog" {
   cluster_name    = aws_eks_cluster.blog.name
   node_group_name = var.eks_node_group_name
   node_role_arn   = aws_iam_role.eks_node_role_blog.arn
-  subnet_ids      = [aws_subnet.next.id, aws_subnet.next2.id]
+  subnet_ids      = [data.aws_subnet.next.id, data.aws_subnet.next2.id]
 
   scaling_config {
     desired_size = var.eks_node_group_desired_size
