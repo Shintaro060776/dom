@@ -13,6 +13,11 @@ const blogEntries = [
   },
 ];
 
+function handleTopLinkClick(event) {
+  event.preventDefault();
+  window.location.href = '/';
+}
+
 function App() {
   return (
     <Router>
@@ -22,7 +27,7 @@ function App() {
           <nav className="navigation">
             <Link to="/blog">Blog</Link>
             <Link to="/about">About</Link>
-            <Link to="/">Top</Link>
+            <a href='/' onClick={handleTopLinkClick}>Top</a>
           </nav>
         </header>
         <Routes>
