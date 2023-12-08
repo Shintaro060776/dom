@@ -26,6 +26,12 @@ jobs:
         run: terraform init
         working-directory: terraform_configuration
 
+      - name: 'List files in terraform_configuration directory'
+        run: |
+          ls -alh terraform_configuration/
+          pwd
+          ls
+
       - name: 'Terraform Plan'
         run: terraform plan
         working-directory: terraform_configuration
