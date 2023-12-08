@@ -57,5 +57,5 @@ variable "instance_type" {
 
 variable "public_key_path" {
   description = "Path to the public key"
-  default = "~/.ssh/github_actions_key.pub"
+  default = "github_actions_key.pub"
 }
