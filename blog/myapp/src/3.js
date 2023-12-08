@@ -4,7 +4,7 @@ import './3.css';
 const BlogArticle3 = () => {
     return (
         <div className='App'>
-            <img src='/blog/20231004_18_26_0.png' alt='second' className='header-image' />
+            <img src='/blog/20231004_18_26_0.png' alt='third' className='header-image' />
             <div className='page-title'>
                 <h1>考え中</h1>
             </div>
