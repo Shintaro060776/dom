@@ -82,6 +82,10 @@ jobs:
             sudo amazon-linux-extras install nginx1 -y
             sudo systemctl start nginx
             sudo systemctl enable nginx
+
+            sudo mkdir -p /usr/share/nginx/html/blog
+            sudo mkdir -p /usr/share/nginx/html/fluid
+            sudo chown -R ec2-user:ec2-user /usr/share/nginx/html
           '
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
