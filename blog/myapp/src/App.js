@@ -1,4 +1,6 @@
 import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AboutPage from './AboutPage';
 
 const blogEntries = [
   {
@@ -26,29 +28,36 @@ const blogEntries = [
 
 function App() {
   return (
-    <div className="App">
-      <header className="header">
-        <h1 className="title"><a href="http://3.112.43.184/blog/">My Personal Blog</a></h1>
-        <nav className="navigation">
-          <a href="/blog">Blog</a>
-          <a href="/about">About</a>
-        </nav>
-      </header>
-      <main className="blog-container">
-        <h2 className="blog-title">Blog</h2>
-        <section className="blog-grid">
-          {blogEntries.map(entry => (
-            <article key={entry.id} className="blog-entry">
-              <a href={entry.link} target="_blank" rel="noopener noreferrer">
-                <img src={entry.thumbnail} alt={entry.title} />
-              </a>
-              <p className="blog-date">{entry.date}</p>
-              <h3 className="blog-theme">{entry.title}</h3>
-            </article>
-          ))}
-        </section>
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        <header className="header">
+          <h1 className="title"><Link to="/blog">My Personal Blog</Link></h1>
+          <nav className="navigation">
+            <Link to="/blog">Blog</Link>
+            <Link to="/about">About</Link>
+          </nav>
+        </header>
+        <Routes>
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/blog" element={
+            <main className="blog-container">
+              <h2 className="blog-title">Blog</h2>
+              <section className="blog-grid">
+                {blogEntries.map(entry => (
+                  <article key={entry.id} className="blog-entry">
+                    <Link to={entry.link} target="_blank">
+                      <img src={entry.thumbnail} alt={entry.title} />
+                    </Link>
+                    <p className="blog-date">{entry.date}</p>
+                    <h3 className="blog-theme">{entry.title}</h3>
+                  </article>
+                ))}
+              </section>
+            </main>
+          } />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
