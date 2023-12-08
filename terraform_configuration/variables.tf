@@ -44,3 +44,18 @@ variable "cidr_block" {
   description = "default route"
   default     = "0.0.0.0/0"
 }
+
+variable "ami_id" {
+  description = "The AMI ID to use for the EC2"
+  default = "ami-044dbe71ee2d3c59e"
+}
+
+variable "instance_type" {
+  description = "The instance type of the EC2"
+  default = "t2.micro"
+}
+
+variable "public_key_path" {
+  description = "Path to the public key"
+  default = "~/.ssh/github_actions_key.pub"
+}
