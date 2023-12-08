@@ -7,9 +7,6 @@ on:
 
 env:
   AWS_REGION: ap-northeast-1
-  ECR_REGISTRY: 715573459931.dkr.ecr.ap-northeast-1.amazonaws.com
-  ECR_REPOSITORY: next
-  IMAGE_TAG: latest
 
 jobs:
   terraform:
@@ -37,119 +34,48 @@ jobs:
         run: terraform apply -auto-approve
         working-directory: terraform_configuration
 
-  build-and-test:
-    needs: terraform
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check Out Repository
+      - name: checkout code
         uses: actions/checkout@v2
 
-      - name: change to project directory
-        run: |
-          pwd
-          ls -alh
-          cd fluid
-          pwd
-      
-      - name: Set up Node.js
+      - name: setup nodejs
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+            node-version: '14'
 
-      - name: Install Dependencies
-        run: yarn install
-        working-directory: fluid
-
-      - name: Build
-        run: yarn build
-        working-directory: fluid
-
-  build-and-push:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      
-    steps:
-      - name: Check Out Repository
-        uses: actions/checkout@v2
-
-      - name: List files in the repository
+      - name: install dependencies for blog app
         run: |
-          ls -alh
-          pwd
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      
-      - name: Login to Amazon ECR
+          cd blog/myapp
+          npm install
+
+      - name: build the blog react app
         run: |
-         aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
-      
-      - name: Build, tag, and push image to Amazon ECR
+          cd blog/myapp
+          npm run build
+
+      - name: build the fluid app
         run: |
-         pwd
-         ls
-         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          cd fluid
+          npm install
+          npm run build
 
-  update-ecs-task:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-      
-      - name: Update ECS Task Definition
+      - name: deploy to ec2
+        env:
+          PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          SERVER_IP: ${{secrets.SERVER_IP}}
         run: |
-          aws ecs register-task-definition --family "next-task" \
-          --network-mode "awsvpc" \
-          --requires-compatibilities "FARGATE" \
-          --cpu "256" \
-          --memory "512" \
-          --execution-role-arn "arn:aws:iam::715573459931:role/ecsTaskExecutionRole" \
-          --container-definitions '[{
-          "name": "nginx-container",
-          "image": "715573459931.dkr.ecr.ap-northeast-1.amazonaws.com/next:latest",
-          "essential": true,
-          "portMappings": [{ "containerPort": 80, "hostPort": 80 }],
-          "memory": 512,
-          "cpu": 256,
-          "logConfiguration": {
-          "logDriver": "awslogs",
-          "options": {
-          "awslogs-group": "/ecs/nginx-container",
-          "awslogs-region": "ap-northeast-1",
-          "awslogs-stream-prefix": "ecs"
-          }
-          }
-          }]'
+          echo "$PRIVATE_KEY" > deploy_key
+          chmod 600 deploy_key
 
-  update-ecs-service:
-    needs: update-ecs-task
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+          ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no ec2-user@SERVER_IP 'sudo systemctl restart nginx'
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-        
-      - name: Update ECS Service
-        run: |
-          aws ecs update-service --cluster "next-cluster" --service "next-service" --task-definition "next-task"
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no" blog/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/blog/
 
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no" fluid/dist/ ec2-user@$SERVER_IP:/usr/share/nginx/html/fluid/
 
-          
+          ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
+
+          rm -f deploy_key
