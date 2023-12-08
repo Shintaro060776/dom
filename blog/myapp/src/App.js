@@ -28,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <header className="header">
-        <h1 className="title"><a href="http://next-lb-477304975.ap-northeast-1.elb.amazonaws.com">My Personal Blog</a></h1>
+        <h1 className="title"><a href="http://3.112.43.184/blog/">My Personal Blog</a></h1>
         <nav className="navigation">
           <a href="/blog">Blog</a>
           <a href="/about">About</a>
