@@ -79,4 +79,5 @@ jobs:
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
           rm -f deploy_key
+
           
