@@ -39,7 +39,7 @@ function App() {
         <section className="blog-grid">
           {blogEntries.map(entry => (
             <article key={entry.id} className="blog-entry">
-              <a href={entry.link} target="_blank" rel="noopener nofererer">
+              <a href={entry.link} target="_blank" rel="noopener noreferrer">
                 <img src={entry.thumbnail} alt={entry.title} />
               </a>
               <p className="blog-date">{entry.date}</p>
