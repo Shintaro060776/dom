@@ -78,12 +78,3 @@ body {
     color: rgb(133, 10, 1);
     font-weight: bold;
 }
-
-.sns-icon {
-    margin: 0 10px;
-    transition: transform 0.3s ease;
-}
-
-.sns-icon:hover {
-    transform: scale(1.1);
-}
