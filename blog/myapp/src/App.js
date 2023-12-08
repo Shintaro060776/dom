@@ -22,6 +22,7 @@ function App() {
           <nav className="navigation">
             <Link to="/blog">Blog</Link>
             <Link to="/about">About</Link>
+            <Link to="/">Top</Link>
           </nav>
         </header>
         <Routes>
