@@ -34,16 +34,6 @@ function handleTopLinkClick(event) {
   window.location.href = '/';
 }
 
-function handleLinkClick(event) {
-  event.preventDefault();
-  window.location.href = '/blog';
-}
-
-function handleAboutClick(event) {
-  event.preventDefault();
-  window.location.href = '/about';
-}
-
 function App() {
   return (
     <Router>
@@ -51,8 +41,8 @@ function App() {
         <header className="header">
           <h1 className="title"><Link to="/blog">My Personal Blog</Link></h1>
           <nav className="navigation">
-            <a href="/blog" onClick={handleLinkClick}>Blog</a>
-            <a href='/about' onClick={handleAboutClick}>About</a>
+            <Link to="/blog">Blog</Link>
+            <Link to="/about">About</Link>
             <a href='/' onClick={handleTopLinkClick}>Top</a>
           </nav>
         </header>
