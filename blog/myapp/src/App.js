@@ -10,21 +10,21 @@ const blogEntries = [
     id: 1,
     title: "Nice to meet you",
     date: "2023/01/03",
-    thumbnail: "20231006_18_13_0.png",
+    thumbnail: "/blog/20231006_18_13_0.png",
     path: "/blog1/1"
   },
   {
     id: 2,
     title: "機械学習を用いた実験的Webアプリケーションについて",
     date: "2023/01/09",
-    thumbnail: "20231016_12_05_0.png",
+    thumbnail: "/blog/20231016_12_05_0.png",
     path: "/blog2/2"
   },
   {
     id: 3,
     title: "考え中",
     date: "2023/01/14",
-    thumbnail: "20231004_18_26_0.png",
+    thumbnail: "/blog/20231004_18_26_0.png",
     path: "/blog3/3"
   },
 ];
