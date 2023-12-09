@@ -74,7 +74,92 @@ const BlogArticle2 = () => {
                     ★バックエンド(AIと機械学習)<br /><br />
                     画像処理: サーバーは、ユーザーから受け取った画像を処理し、それをモデルに供給するために、前処理します。
                     モデル予測: 画像は、ディープラーニングモデル(CNN)に供給され、モデルは、画像の内容に基づいて、予測(ラベル)を行います。
-                    応答の生成: モデルからの予測結果は、クライアントに送り返され、フロントエンドで適切なアニメーションを、トリガーします。
+                    応答の生成: モデルからの予測結果は、クライアントに送り返され、フロントエンドで適切なアニメーションを、トリガーします。<br /><br />
+
+                    <br /><br />以下は、このシステムの構成となります。
+
+                    <br /><br /><img src='/blog/system1.png' alt='third' className='system-image' /><br /><br />
+
+                    <br /><br />以下は、忘備録として、バックエンドサービスである、Sagemaker側で実装した、コードの説明を記載します。
+
+                    <div class="code-box">
+                        <code>
+                            <p class="code-text white"><span class="code-text blue">import</span> argparse  # コマンドライン引数解析のためのモジュールをインポートします。</p> <br /><br />
+                            <p class="code-text white"><span class="code-text blue">import</span> os  # オペレーティングシステムの機能にアクセスするためのモジュールをインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">import</span> pandas as pd  # データ操作と分析のためのライブラリPandasをpdとしてインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">import</span> torch  # PyTorchライブラリをインポートします(ディープラーニング用)。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">import</span> torch.nn as nn  # PyTorchのニューラルネットワークモジュールをnnとしてインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">from</span> torch.utils.data import Dataset, DataLoader  # PyTorchのデータセットとデータローダーのクラスをインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">from</span> torch.nn.utils.rnn import pad_sequence  # シーケンスデータのパディング（長さを揃える処理）のための関数をインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">from</span> torch.optim import Adam  # PyTorchのAdamオプティマイザーをインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">from</span> collections import Counter  # オブジェクトのカウントに使うCounterクラスをインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">import</span> tarfile  # tarアーカイブの読み書きのためのモジュールをインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">import</span> re  # 正規表現のためのモジュールをインポートします。</p><br /><br /><br /><br />
+
+                            <p class="code-text white"><span class="code-text orange">def</span> preprocess_text(text):</p><br /><br />
+                            <p class="code-text white">text = text.lower()  # テキストを小文字にします。</p><br /><br />
+                            <p class="code-text white">text = re.sub(r"[^a-z0-9\s]", '', text)  # 英数字と空白以外の文字を削除します。</p><br /><br />
+                            <p class="code-text white">text = re.sub(r"\s+", ' ', text)  # 一つ以上の空白を単一の空白に置換します。</p><br /><br />
+                            <p class="code-text white">return text.strip()  # 文字列の前後の空白を削除します。</p><br /><br />
+                            <p class="code-text white">class JokesDataset(Dataset):</p><br /><br />
+                            <p class="code-text white"><span class="code-text orange">def</span> __init__(self, sequences, labels):</p><br /><br />
+                            <p class="code-text white">self.sequences = sequences  # シーケンスデータを属性に設定します。</p><br /><br />
+                            <p class="code-text white">self.labels = labels  # ラベルデータを属性に設定します。</p><br /><br /><br /><br />
+
+                            <p class="code-text white"><span class="code-text orange">def</span> __len__(self):</p><br /><br />
+                            <p class="code-text white">return len(self.sequences)  # データセットの長さを返します。</p><br /><br /><br /><br />
+
+                            <p class="code-text white"><span class="code-text orange">def</span> __getitem__(self, idx):</p><br /><br />
+                            <p class="code-text white">return self.sequences[idx], self.labels[idx]  # インデックスに対応するデータを返します。</p><br /><br />
+                            <p class="code-text white">class JokeGeneratorModel(nn.Module):</p><br /><br />
+                            <p class="code-text white"><span class="code-text orange">def</span> __init__(self, vocab_size, embed_dim, hidden_dim):</p><br /><br />
+                            <p class="code-text white">super().__init__()  # 親クラスのコンストラクタを呼び出します。</p><br /><br />
+                            <p class="code-text white">self.embedding = nn.Embedding(vocab_size, embed_dim)  # 埋め込み層を定義します。</p><br /><br />
+                            <p class="code-text white">self.lstm = nn.LSTM(embed_dim, hidden_dim, batch_first=True)  # LSTM層を定義します。</p><br /><br />
+                            <p class="code-text white">self.fc = nn.Linear(hidden_dim, vocab_size)  # 全結合層を定義します。</p><br /><br /><br /><br />
+
+                            <p class="code-text white"><span class="code-text orange">def</span> forward(self, x):</p><br /><br />
+                            <p class="code-text white">embedded = self.embedding(x)  # 入力データを埋め込みます。</p><br /><br />
+                            <p class="code-text white">lstm_out, _ = self.lstm(embedded)  # LSTM層を通します。</p><br /><br />
+                            <p class="code-text white">logits = self.fc(lstm_out)  # 全結合層を通して出力を計算します。</p><br /><br />
+                            <p class="code-text white">return logits  # ロジット（未正規化の確率）を返します。</p><br /><br /><br /><br />
+
+                            <p class="code-text white">if __name__ == '__main__':</p><br /><br />
+                            <p class="code-text white">parser = argparse.ArgumentParser() # コマンドライン引数を定義します。</p><br /><br />
+
+                            <p class="code-text white">args = parser.parse_known_args()[0] # コマンドライン引数を解析します。</p><br /><br />
+
+                            <p class="code-text white">df = pd.read_csv(os.path.join(args.data_dir, 'normalized_jokes.csv')) # CSVファイルを読み込みます。</p><br /><br />
+
+                            <p class="code-text white">jokes = df['Normalized Joke'].apply(preprocess_text).tolist() # ジョークの前処理を行いリストに変換します。</p><br /><br />
+                            <p class="code-text white"># トークンカウント、語彙の構築、ジョークのエンコーディングなどの処理を行います。</p><br /><br />
+
+                            <p class="code-text white">dataset = JokesDataset(sequences, labels) # ジョークデータセットを作成します。</p><br /><br /><br /><br />
+
+                            <p class="code-text white">train_loader = DataLoader(</p><br /><br />
+                            <p class="code-text white">dataset, batch_size=args.batch_size, shuffle=True) # データセットからデータローダーを作成します。</p><br /><br /><br /><br />
+
+                            <p class="code-text white">model = JokeGeneratorModel(</p><br /><br />
+                            <p class="code-text white">args.vocabulary_size, embed_dim=100, hidden_dim=128) # ジョーク生成モデルをインスタンス化します。</p><br /><br />
+
+                            <p class="code-text white">criterion = nn.CrossEntropyLoss() # 損失関数を定義します。</p><br /><br />
+
+                            <p class="code-text white">optimizer = Adam(model.parameters()) # オプティマイザーを定義します。</p><br /><br />
+
+                            <p class="code-text white">for epoch in range(args.epochs): # 訓練ループを実行します。</p><br /><br />
+
+                            <p class="code-text white">model_save_path = os.path.join(args.model_dir, 'model.pth') # モデルの保存パスを定義します。</p><br /><br />
+
+                            <p class="code-text white">archive_path = os.path.join(args.model_dir, 'model.tar.gz') # アーカイブの保存パスを定義します。</p><br /><br />
+
+                            <p class="code-text white">torch.save(model.state_dict(), model_save_path) # モデルの状態を保存します。</p><br /><br />
+
+                            <p class="code-text white">with tarfile.open(archive_path, mode='w:gz') as archive:</p><br /><br />
+                            <p class="code-text white">archive.add(model_save_path, arcname='model.pth') # モデルをtar.gzファイルとしてアーカイブします。</p><br /><br />
+                        </code>
+                    </div>
+
+                    <br /><br />
 
                     <br /><br />★AIについての説明<br /><br />
                     このアプリケーションで使用される、AIの主要部分は、画像を解析し、特定のラベルに分類するディープラーニングモデルで、CNN(Convolutional Neural Networks)というモデルは、

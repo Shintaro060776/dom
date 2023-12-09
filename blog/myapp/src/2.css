@@ -78,3 +78,24 @@ body {
     color: rgb(133, 10, 1);
     font-weight: bold;
 }
+
+.code-box {
+    background-color: #363131;
+    padding: 20px;
+    border-radius: 4px;
+    margin: 20px;
+    font-size: 0.7rem;
+}
+
+.code-text {
+    color: white;
+    margin: 0;
+}
+
+.blue {
+    color: aqua;
+}
+
+.orange {
+    color: #f78153;
+}
