@@ -99,3 +99,12 @@ body {
 .orange {
     color: #f78153;
 }
+
+.system-image {
+    margin-right: 250px;
+    max-width: 100%;
+    height: 300px;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+}
