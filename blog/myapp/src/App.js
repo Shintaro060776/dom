@@ -22,7 +22,7 @@ const blogEntries = [
   },
   {
     id: 3,
-    title: "考え中",
+    title: "歌詞生成Webアプリケーション(Sagemaker)",
     date: "2023/01/14",
     thumbnail: "/blog/20231004_18_26_0.png",
     path: "/blog3/3"

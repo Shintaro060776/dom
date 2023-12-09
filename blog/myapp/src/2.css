@@ -101,7 +101,8 @@ body {
 }
 
 .system-image {
-    margin-right: 250px;
+    margin-right: 400px;
+    margin-left: 400px;
     max-width: 100%;
     height: 300px;
     display: block;

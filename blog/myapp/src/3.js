@@ -23,7 +23,7 @@ const BlogArticle3 = () => {
 
                     このアプリケーションの、各コンポーネントの役割と、処理の流れは、以下の通りです。<br /><br />
 
-                    <span className="highlight">構成】</span>【<br /><br />
+                    <span className="highlight">【構成】</span><br /><br />
                     EC2(React/Nodejs) == API Gateway == Lambda == Sagemaker<br /><br />
 
                     <img src='/blog/system2.png' alt='fourth' className='system-image' /><br /><br />
