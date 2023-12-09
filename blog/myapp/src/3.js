@@ -119,15 +119,15 @@ const BlogArticle3 = () => {
 
                             <p class="code-text white"><span class="code-text orange">def</span> parse_args():  # コマンドライン引数を解析する関数を定義します。</p><br /><br />
                             <p class="code-text white">    parser = argparse.ArgumentParser()  # 引数パーサーを作成します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--epochs', type=int, default=20)  # エポック数の引数を定義します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--batch_size', type=int, default=32)  # バッチサイズの引数を定義します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--embedding_dim', type=int, default=128)  # 埋め込み次元の引数を定義します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--hidden_dim', type=int, default=256)  # 隠れ層の次元数の引数を定義します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--num_layers', type=int, default=2)  # LSTM層の数の引数を定義します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--seq_length', type=int, default=10)  # シーケンス長の引数を定義します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--lr', type=float, default=0.0005)  # 学習率の引数を定義します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--model_dir', type=str)  # モデルディレクトリの引数を定義します。</p><br /><br />
-                            <p class="code-text white">    parser.add_argument('--data_dir', type=str, default=os.environ['SM_CHANNEL_TRAIN'])  # データディレクトリの引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--epochs', type=int, default=20)</span>  # エポック数の引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--batch_size', type=int, default=32)</span>  # バッチサイズの引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--embedding_dim', type=int, default=128)</span>  # 埋め込み次元の引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--hidden_dim', type=int, default=256)</span>  # 隠れ層の次元数の引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--num_layers', type=int, default=2)</span>  # LSTM層の数の引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--seq_length', type=int, default=10)</span>  # シーケンス長の引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--lr', type=float, default=0.0005)</span>  # 学習率の引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--model_dir', type=str)</span>  # モデルディレクトリの引数を定義します。</p><br /><br />
+                            <p class="code-text white">    parser.add_argument<span class="highlight-text">('--data_dir', type=str, default=os.environ['SM_CHANNEL_TRAIN'])</span>  # データディレクトリの引数を定義します。</p><br /><br />
                             <p class="code-text white">    <span class="code-text blue">return</span> parser.parse_args()  # 解析された引数を返します。</p><br /><br />
                             <p class="code-text white"><span class="code-text orange">class</span> LSTMNet(nn.Module):  # LSTMネットワークのクラスを定義します。</p><br /><br />
                             <p class="code-text white">    <span class="code-text orange">def</span> __init__(self, vocab_size, embedding_dim, hidden_dim, num_layers):  # クラスの初期化関数。</p><br /><br />
@@ -233,7 +233,7 @@ const BlogArticle3 = () => {
                             <p class="code-text white">        x = self.embedding(x)  # 埋め込みレイヤーを通過。</p><br /><br />
                             <p class="code-text white">        lstm_out, _ = self.lstm(x)  # LSTMレイヤーを通過。</p><br /><br />
                             <p class="code-text white">        out = self.fc(lstm_out)  # 全結合レイヤーを通過し出力を得る。</p><br /><br />
-                            <p class="code-text white">        return out</p><br /><br />
+                            <p class="code-text white">        <span class="highlight-text">return out</span></p><br /><br />
 
                             <p class="code-text white"><span class="code-text orange">class</span> LyricsDataset(Dataset):  # 歌詞データセットのクラス定義。</p><br /><br />
                             <p class="code-text white">    <span class="code-text orange">def</span> __init__(self, lyrics, seq_length):</p><br /><br />
@@ -246,7 +246,7 @@ const BlogArticle3 = () => {
                             <p class="code-text white">    <span class="code-text orange">def</span> __getitem__(self, index):</p><br /><br />
                             <p class="code-text white">        inputs = torch.tensor(self.lyrics[index:index+self.seq_length], dtype=torch.long)  # 入力データ。</p><br /><br />
                             <p class="code-text white">        targets = torch.tensor(self.lyrics[index+1:index+self.seq_length+1], dtype=torch.long)  # 目標データ。</p><br /><br />
-                            <p class="code-text white">        return inputs, targets</p><br /><br />
+                            <p class="code-text white">        <span class="highlight-text">return inputs, targets</span></p><br /><br />
 
                             <p class="code-text white"><span class="code-text orange">def</span> load_and_preprocess_data(filepath):  # データの読み込みと前処理関数。</p><br /><br />
                             <p class="code-text white">    with open(filepath, 'r', encoding='utf-8') as file:</p><br /><br />
@@ -330,7 +330,7 @@ const BlogArticle3 = () => {
 
                             <p class="code-text white"><span class="code-text blue">if</span> __name__ == '__main__':  # メイン関数の実行。</p><br /><br />
                             <p class="code-text white">    args = parse_args()  # 引数の解析。</p><br /><br />
-                            <p class="code-text white">    main(args)  # メイン関数の実行。</p><br /><br />
+                            <p class="code-text white">    <span class="highlight-text">main(args)</span>  # メイン関数の実行。</p><br /><br />
                         </code>
                     </div>
                 </p>

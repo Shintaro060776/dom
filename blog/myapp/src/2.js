@@ -100,17 +100,17 @@ const BlogArticle2 = () => {
                             <p class="code-text white">text = text.lower()  # テキストを小文字にします。</p><br /><br />
                             <p class="code-text white">text = re.sub(r"[^a-z0-9\s]", '', text)  # 英数字と空白以外の文字を削除します。</p><br /><br />
                             <p class="code-text white">text = re.sub(r"\s+", ' ', text)  # 一つ以上の空白を単一の空白に置換します。</p><br /><br />
-                            <p class="code-text white">return text.strip()  # 文字列の前後の空白を削除します。</p><br /><br />
+                            <p class="code-text white"><span class="highlight-text">return text.strip()</span>  # 文字列の前後の空白を削除します。</p><br /><br />
                             <p class="code-text white">class JokesDataset(Dataset):</p><br /><br />
                             <p class="code-text white"><span class="code-text orange">def</span> __init__(self, sequences, labels):</p><br /><br />
                             <p class="code-text white">self.sequences = sequences  # シーケンスデータを属性に設定します。</p><br /><br />
                             <p class="code-text white">self.labels = labels  # ラベルデータを属性に設定します。</p><br /><br /><br /><br />
 
                             <p class="code-text white"><span class="code-text orange">def</span> __len__(self):</p><br /><br />
-                            <p class="code-text white">return len(self.sequences)  # データセットの長さを返します。</p><br /><br /><br /><br />
+                            <p class="code-text white"><span class="highlight-text">return len(self.sequences)</span>  # データセットの長さを返します。</p><br /><br /><br /><br />
 
                             <p class="code-text white"><span class="code-text orange">def</span> __getitem__(self, idx):</p><br /><br />
-                            <p class="code-text white">return self.sequences[idx], self.labels[idx]  # インデックスに対応するデータを返します。</p><br /><br />
+                            <p class="code-text white"><span class="highlight-text">return self.sequences[idx], self.labels[idx]</span>  # インデックスに対応するデータを返します。</p><br /><br />
                             <p class="code-text white">class JokeGeneratorModel(nn.Module):</p><br /><br />
                             <p class="code-text white"><span class="code-text orange">def</span> __init__(self, vocab_size, embed_dim, hidden_dim):</p><br /><br />
                             <p class="code-text white">super().__init__()  # 親クラスのコンストラクタを呼び出します。</p><br /><br />
@@ -122,7 +122,7 @@ const BlogArticle2 = () => {
                             <p class="code-text white">embedded = self.embedding(x)  # 入力データを埋め込みます。</p><br /><br />
                             <p class="code-text white">lstm_out, _ = self.lstm(embedded)  # LSTM層を通します。</p><br /><br />
                             <p class="code-text white">logits = self.fc(lstm_out)  # 全結合層を通して出力を計算します。</p><br /><br />
-                            <p class="code-text white">return logits  # ロジット（未正規化の確率）を返します。</p><br /><br /><br /><br />
+                            <p class="code-text white"><span class="highlight-text">return logits</span>  # ロジット（未正規化の確率）を返します。</p><br /><br /><br /><br />
 
                             <p class="code-text white">if __name__ == '__main__':</p><br /><br />
                             <p class="code-text white">parser = argparse.ArgumentParser() # コマンドライン引数を定義します。</p><br /><br />
@@ -155,7 +155,7 @@ const BlogArticle2 = () => {
                             <p class="code-text white">torch.save(model.state_dict(), model_save_path) # モデルの状態を保存します。</p><br /><br />
 
                             <p class="code-text white">with tarfile.open(archive_path, mode='w:gz') as archive:</p><br /><br />
-                            <p class="code-text white">archive.add(model_save_path, arcname='model.pth') # モデルをtar.gzファイルとしてアーカイブします。</p><br /><br />
+                            <p class="code-text white"><span class="highlight-text">archive.add(model_save_path, arcname='model.pth')</span> # モデルをtar.gzファイルとしてアーカイブします。</p><br /><br />
                         </code>
                     </div>
 
