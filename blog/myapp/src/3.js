@@ -17,6 +17,7 @@ const BlogArticle3 = () => {
             <div className='paragraph'>
                 <p>
                     歌詞生成アプリケーションを作りました。<br /><br />
+                    URL:http://neilaeden.com/music/<br /><br />
                     ※アーティストの歌詞を、参考に作ったので、あくまで個人利用(実験用)アプリケーションとなります<br /><br />
 
                     基本的に、推論サーバーは、止めています。理由は、常に、動かしておくのは、コストがかかりすぎる為です。<br /><br />
