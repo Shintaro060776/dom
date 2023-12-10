@@ -106,10 +106,10 @@ body {
 }
 
 .paragraph .system-image {
-    max-width: 100%;
-    height: 500px;
+    width: 100%;
+    height: auto;
     display: block;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
     margin-top: 50px;
     margin-left: auto;
