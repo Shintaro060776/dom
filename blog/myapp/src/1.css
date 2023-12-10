@@ -58,13 +58,17 @@ body {
 
 .page-title {
     /* margin-left: 400px; */
-    margin-right: 100px;
+    /* margin-right: 100px; */
+    margin-left: auto;
+    margin-right: auto;
     padding: 0 5px;
     font-size: 0.8rem;
 }
 
 .page-date {
-    margin-right: 100px;
+    /* margin-right: 100px; */
+    margin-left: auto;
+    margin-right: auto;
     font-size: 0.7rem;
     margin-bottom: 70px;
 }
