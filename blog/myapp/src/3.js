@@ -104,6 +104,12 @@ const BlogArticle3 = () => {
                     LSTMの推論プロセスでは、与えられたテキストに基づいて、新しいシーケンス(この場合は歌詞)が、生成されます。<br /><br />
                     LSTMのゲート構造により、関連性のある情報が保持され、不要な情報は忘れられるため、より一貫性のあるテキスト生成が、可能になります。<br /><br />
 
+
+                    <br /><br />  <video className="system-video" controls>
+                        <source src="RPReplay_Final1700745753.mp4" type="video/mp4" />
+                    </video>
+
+
                     <br /><br />以下は、忘備録として、バックエンドサービスである、Sagemaker側で実装した、コードの説明を記載します。
 
                     <div class="code-box">

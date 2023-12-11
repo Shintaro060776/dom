@@ -80,6 +80,10 @@ const BlogArticle2 = () => {
 
                     <br /><br /><img src='/blog/system1.png' alt='third' className='system-image' /><br /><br />
 
+                    <br /><br />  <video className="system-video" controls>
+                        <source src="RPReplay_Final1700157876.MP4" type="video/mp4" />
+                    </video>
+
                     <br /><br />以下は、忘備録として、バックエンドサービスである、Sagemaker側で実装した、コードの説明を記載します。
 
                     <div class="code-box">
