@@ -105,8 +105,9 @@ const BlogArticle3 = () => {
                     LSTMのゲート構造により、関連性のある情報が保持され、不要な情報は忘れられるため、より一貫性のあるテキスト生成が、可能になります。<br /><br />
 
 
-                    <br /><br />  <video className="system-video" controls>
-                        <source src="RPReplay_Final1700745753.mp4" type="video/mp4" />
+                    <br /><br />  <video className="system-video">
+                        <source src="2.mp4" type="video/mp4" />
+                        ご利用のブラウザはこのビデオをサポートしていません。
                     </video>
 
 
