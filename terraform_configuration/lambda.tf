@@ -45,6 +45,8 @@ resource "aws_lambda_function" "my_lambda" {
     handler = "lambda_function.lambda_handler"
 
     runtime = "python3.8"
+
+    filename = "/home/runner/work/dom/dom/lambda-layer/lambda_function.zip"
 }
 
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
