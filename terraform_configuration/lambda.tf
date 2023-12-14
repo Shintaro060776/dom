@@ -32,7 +32,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
                     "ec:*",
                     "apigateway:*"
                 ],
-                Resoure = "*",
+                Resource = "*",
                 Effect = "Allow",
             },
         ],
@@ -45,9 +45,6 @@ resource "aws_lambda_function" "my_lambda" {
     handler = "lambda_function.lambda_handler"
 
     runtime = "python3.8"
-
-    s3_bucket     = "bot20090317"
-    s3_key        = "empty_lambda.zip"
 }
 
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
