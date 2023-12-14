@@ -39,6 +39,10 @@ resource "aws_iam_role_policy" "lambda_policy" {
     })
 }
 
+data "aws_ssm_parameter" "openai_api_key" {
+    name = "/myapp/openai/api_key"
+}
+
 resource "aws_lambda_function" "my_lambda" {
     function_name = "emotion"
     role = aws_iam_role.lambda_role.arn
@@ -51,8 +55,8 @@ resource "aws_lambda_function" "my_lambda" {
     filename = "/home/runner/work/dom/dom/lambda-layer/lambda_function.zip"
 
     environment {
-    variables = {
-      OPENAI_API_KEY = "your_openai_api_key"
+        variables = {
+            OPENAI_API_KEY = data.aws_ssm_parameter.openai_api_key.value
     }
   }
 }
