@@ -55,8 +55,8 @@ resource "aws_cloudwatch_log_group" "lambda_log_group" {
 }
 
 resource "aws_lambda_layer_version" "requests_layer" {
-  filename   = "/dom/lambda-layer/requests_layer.zip"
+  filename   = "/home/runner/work/dom/dom/lambda-layer/requests_layer.zip"
   layer_name = "requests-layer"
   compatible_runtimes = ["python3.8"]
-  source_code_hash = filebase64sha256("/dom/lambda-layer/requests_layer.zip")
+  source_code_hash = filebase64sha256("/home/runner/work/dom/dom/lambda-layer/requests_layer.zip")
 }
