@@ -54,6 +54,8 @@ resource "aws_lambda_function" "my_lambda" {
 
     filename = "/home/runner/work/dom/dom/lambda-layer/lambda_function.zip"
 
+    layers = [aws_lambda_layer_version.requests_layer.arn]
+
     environment {
         variables = {
             OPENAI_API_KEY = data.aws_ssm_parameter.openai_api_key.value
