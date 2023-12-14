@@ -39,6 +39,8 @@ jobs:
       - name: 'Terraform Apply'
         run: terraform apply -auto-approve
         working-directory: terraform_configuration
+        env:
+          TF_VAR_openai_api_key: ${{ secrets.TF_VAR_OPENAI_API_KEY }}
 
   deploy:
     needs: terraform

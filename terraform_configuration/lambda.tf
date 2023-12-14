@@ -46,7 +46,15 @@ resource "aws_lambda_function" "my_lambda" {
 
     runtime = "python3.8"
 
+    timeout = 900
+
     filename = "/home/runner/work/dom/dom/lambda-layer/lambda_function.zip"
+
+    environment {
+    variables = {
+      OPENAI_API_KEY = "your_openai_api_key"
+    }
+  }
 }
 
 resource "aws_cloudwatch_log_group" "lambda_log_group" {
