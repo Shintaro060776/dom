@@ -45,14 +45,15 @@ resource "aws_lambda_permission" "api_gateway_invoke" {
 }
 
 resource "aws_api_gateway_method_settings" "settings" {
-    rest_api_id = aws_api_gateway_rest_api.my_api.id
-    stage_name = aws_api_gateway_stage.example.stage_name
-    method_path = "${aws_api_gateway_resource.my_api_resource.path_part}/POST"
+  rest_api_id = aws_api_gateway_rest_api.my_api.id
+  stage_name  = aws_api_gateway_stage.example.stage_name
+  method_path = "${aws_api_gateway_resource.my_api_resource.path_part}/POST"
 
-    settings {
-        logging_level = "ERROR"
-        metrics_enabled = true
-    }
+  settings {
+    logging_level = "INFO" 
+    metrics_enabled = true
+    data_trace_enabled = false
+  }
 }
 
 resource "aws_api_gateway_stage" "example" {
