@@ -57,6 +57,10 @@ resource "aws_api_gateway_stage" "example" {
     xray_tracing_enabled = true
 }
 
+resource "aws_cloudwatch_log_group" "example" {
+    name = "/aws/api-gateway/my-api"
+}
+
 resource "aws_iam_role" "api_gateway_cloudwatch_role" {
     name = "api_gateway_cloudwatch_role"
 
