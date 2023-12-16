@@ -61,17 +61,17 @@ resource "aws_api_gateway_stage" "example" {
     rest_api_id = aws_api_gateway_rest_api.my_api.id
     deployment_id = aws_api_gateway_deployment.my_api_deployment.id
 
-    access_log_settings {
-        destination_arn = aws_cloudwatch_log_group.example.arn
-        format = "{\"requestId\":\"$context.requestId\", \"ip\": \"$context.identity.sourceIp\", \"caller\":\"$context.identity.caller\", \"user\":\"$context.identity.user\", \"requestTime\":\"$context.requestTime\", \"httpMethod\":\"$context.httpMethod\", \"resourcePath\":\"$context.resourcePath\", \"status\":\"$context.status\", \"protocol\":\"$context.protocol\", \"responseLength\":\"$context.responseLength\"}"
-    }
+    # access_log_settings {
+    #     destination_arn = aws_cloudwatch_log_group.example.arn
+    #     format = "{\"requestId\":\"$context.requestId\", \"ip\": \"$context.identity.sourceIp\", \"caller\":\"$context.identity.caller\", \"user\":\"$context.identity.user\", \"requestTime\":\"$context.requestTime\", \"httpMethod\":\"$context.httpMethod\", \"resourcePath\":\"$context.resourcePath\", \"status\":\"$context.status\", \"protocol\":\"$context.protocol\", \"responseLength\":\"$context.responseLength\"}"
+    # }
 
-    xray_tracing_enabled = true
+    # xray_tracing_enabled = true
 }
 
-resource "aws_cloudwatch_log_group" "example" {
-    name = "/aws/api-gateway/my-api"
-}
+# resource "aws_cloudwatch_log_group" "example" {
+#     name = "/aws/api-gateway/my-api"
+# }
 
 resource "aws_iam_role" "api_gateway_cloudwatch_role" {
     name = "api_gateway_cloudwatch_role"
