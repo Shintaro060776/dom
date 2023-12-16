@@ -43,3 +43,53 @@ resource "aws_lambda_permission" "api_gateway_invoke" {
     principal = "apigateway.amazonaws.com"
     source_arn = "${aws_api_gateway_rest_api.my_api.execution_arn}/*/*/*"
 }
+
+resource "aws_api_gateway_stage" "example" {
+    stage_name = "prod"
+    rest_api_id = aws_api_gateway_rest_api.my_api.id
+    deployment_id = aws_api_gateway_deployment.my_api_deployment.id
+
+    access_log_settings {
+        destination_arn = aws_cloudwatch_log_group.example.arn
+        format = "json_format_string"
+    }
+
+    xray_tracing_enabled = true
+}
+
+resource "aws_iam_role" "api_gateway_cloudwatch_role" {
+    name = "api_gateway_cloudwatch_role"
+
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [
+            {
+                Action = "sts:AssumeRole",
+                Effect = "Allow",
+                Principal = {
+                    Service = "apigateway.amazonaws.com"
+                },
+            },
+        ],
+    })
+}
+
+resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
+    name = "api_gateway_cloudwatch_policy"
+    role = aws_iam_role.api_gateway_cloudwatch_role.id
+
+    policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [
+            {
+                Action = [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                ],
+                Resource = "arn:aws:logs:*:*:*",
+                Effect = "Allow",
+            },
+        ],
+    })
+}
