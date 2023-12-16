@@ -44,6 +44,17 @@ resource "aws_lambda_permission" "api_gateway_invoke" {
     source_arn = "${aws_api_gateway_rest_api.my_api.execution_arn}/*/*/*"
 }
 
+resource "aws_api_gateway_method_settings" "settings" {
+    rest_api_id = aws_api_gateway_rest_api.my_api.id
+    stage_name = aws_api_gateway_stage.example.stage_name
+    method_path = "${aws_api_gateway_resource.my_api_resource.path_part}/POST"
+
+    settings {
+        logging_level = "ERROR"
+        metrics_enabled = true
+    }
+}
+
 resource "aws_api_gateway_stage" "example" {
     stage_name = "prod"
     rest_api_id = aws_api_gateway_rest_api.my_api.id
