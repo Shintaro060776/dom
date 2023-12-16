@@ -73,10 +73,3 @@ resource "aws_lambda_layer_version" "requests_layer" {
   compatible_runtimes = ["python3.8"]
   source_code_hash = filebase64sha256("/home/runner/work/dom/dom/lambda-layer/requests_layer.zip")
 }
-
-resource "aws_lambda_permission" "api_gateway_invoke" {
-    statement_id = "AllowExecutionFromAPIGateway"
-    action = "lambda:InvokeFunction"
-    function_name = aws_lambda_function.my_lambda.function_name
-    source_arn = "${aws_api_gateway_rest_api.my_api.execution_arn}/*/*/*"
-}
