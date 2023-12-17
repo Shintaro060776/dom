@@ -22,8 +22,18 @@ resource "aws_api_gateway_integration" "lambda_integration" {
   http_method = aws_api_gateway_method.my_api_method.http_method
 
   integration_http_method = "POST"
-  type                    = "AWS_PROXY"
+  type                    = "AWS"
   uri                     = aws_lambda_function.my_lambda.invoke_arn
+
+  request_templates = {
+    "application/json" = jsonencode({
+        "statusCode" = 200
+    })
+  }
+
+  response_templates = {
+    "application/json" = "$input.path('$')"
+  }
 }
 
 resource "aws_api_gateway_deployment" "my_api_deployment" {
