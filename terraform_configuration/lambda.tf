@@ -30,6 +30,7 @@ resource "aws_iam_role_policy" "lambda_policy" {
                     "logs:PutLogEvents",
                     "translate:TranslateText",
                     "runtime.sagemaker:InvokeEndpoint",
+                    "sagemaker:InvokeEndpoint",
                     "ec:*",
                     "apigateway:*"
                 ],
