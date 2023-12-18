@@ -1,0 +1,77 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  font-family: arial, sans-serif;
+  overflow-y: hidden;
+}
+
+#container {
+  display: flex;
+  min-height: calc(100vh - 60px);
+  flex-direction: row;
+  background-color: #383434;
+}
+
+#inquiry-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-right: 2px solid #ccc;
+  background-color: #383434;
+}
+
+#response-section {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #383434;
+}
+
+textarea {
+  height: 150px;
+  margin-bottom: 20px;
+  resize: vertical;
+  background-color: #383434;
+  color: white;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: rgb(92, 4, 73);
+  color: white;
+}
+
+button:hover {
+  background-color: rgb(151, 3, 52);
+}
+
+header,
+footer {
+  background-color: #161414;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+header {
+  border-bottom: 2px solid #ccc;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: 2px solid #ccc;
+}
+
+.emotion-slider-container {
+  margin: 20px 0;
+}
+
+.emotion-slider-container input[type="range"] {
+  width: 100%;
+}

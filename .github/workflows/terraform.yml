@@ -71,6 +71,17 @@ jobs:
           npm install
           npm run build
 
+      - name: emotion_backend
+        run: |
+          cd emotion_backend
+          npm install
+
+      - name: emotion_frontend
+        run: |
+          cd emotion/frontend
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -96,7 +107,9 @@ jobs:
 
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/fluid/dist/ ec2-user@$SERVER_IP:/usr/share/nginx/html/fluid/
 
-          ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
+          # Deploy emotion app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/emotion_backend/ ec2-user@SERVER_IP:/usr/share/nginx/html/emotion_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/emotion/frontend/build/ ec2-user@SERVER_IP:/usr/share/nginx/html/emotion/
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
