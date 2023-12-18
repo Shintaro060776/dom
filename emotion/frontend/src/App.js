@@ -52,6 +52,9 @@ const App = () => {
             onEmotionChange={setEmotionLevel}
           />
           <button onClick={handleInquiry}>Inquiry</button>
+          <div className="link">
+            <a href="http://3.112.43.184/">トップページに戻る</a>
+          </div>
         </div>
         <ResponseDisplay response={response} />
       </div>

@@ -13,6 +13,16 @@ html {
   background-color: #383434;
 }
 
+a {
+  padding-top: 50%;
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  color: aquamarine;
+}
+
 #inquiry-section {
   flex: 2;
   display: flex;
@@ -43,6 +53,7 @@ button {
   cursor: pointer;
   background-color: rgb(92, 4, 73);
   color: white;
+  margin-bottom: 20px;
 }
 
 button:hover {
