@@ -9,15 +9,15 @@ const App = () => {
 
   const getEmotionSentence = (level) => {
     switch (level) {
-      case '1':
+      case 1:
         return "幸せなようです。";
-      case '2':
+      case 2:
         return "満足しているようです。";
-      case '3':
+      case 3:
         return "感情的に普通な状態のようです。";
-      case '4':
+      case 4:
         return "イライラされているようです。";
-      case '5':
+      case 5:
         return "怒っているようです";
       default:
         return '';
@@ -25,7 +25,8 @@ const App = () => {
   };
 
   const handleInquiry = async () => {
-    const emotionSentence = getEmotionSentence(emotionLevel);
+    const emotionLevelNum = parseInt(emotionLevel, 10);
+    const emotionSentence = getEmotionSentence(emotionLevelNum);
     const fullText = `${inputText} ${emotionSentence}`;
 
     try {
