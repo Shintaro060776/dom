@@ -4,6 +4,7 @@ import os
 import requests
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
+SAGEMAKER_ENDPOINT_NAME = os.environ.get('SAGEMAKER_ENDPOINT_NAME')
 
 
 def lambda_handler(event, context):
@@ -19,7 +20,7 @@ def lambda_handler(event, context):
     )['TranslatedText']
 
     response = sagemaker_runtime.invoke_endpoint(
-        EndpointName='your-sagemaker-endpoint',
+        EndpointName=SAGEMAKER_ENDPOINT_NAME,
         ContentType='text/plain',
         Body=translated_text
     )
