@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import './App.css';
 
@@ -111,10 +111,40 @@ const Footer = () => (
   </footer>
 );
 
-const ResponseDisplay = ({ response }) => (
-  <div id='response-section'>
-    {response && <div>{response}</div>}
-  </div>
-);
+const ResponseDisplay = ({ response }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  const textResponse = response && response.choices ? response.choices[0].text : '';
+
+  useEffect(() => {
+    if (textResponse) {
+      let index = 0;
+      const timer = setInterval(() => {
+        setDisplayedText((prev) => prev + textResponse.charAt(index));
+        index++;
+        if (index === textResponse.length) clearInterval(timer);
+      }, 50);
+
+      return () => clearInterval(timer);
+    }
+  }, { textResponse });
+
+  useEffect(() => {
+    const cursorTimer = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 500);
+
+    return () => clearInterval(cursorTimer);
+  }, []);
+
+  return (
+    <div id='response-section'>
+      <div>
+        {displayedText}
+        <span className={showCursor ? 'blinking-cursor' : ''}>|</span>
+      </div>
+    </div>
+  );
+};
 
 export default App;
