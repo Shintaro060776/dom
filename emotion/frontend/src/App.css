@@ -38,6 +38,7 @@ a:hover {
   flex-direction: column;
   padding: 20px;
   background-color: #383434;
+  color: white;
 }
 
 textarea {
