@@ -38,7 +38,9 @@ def lambda_handler(event, context):
 
     payload = {
         "prompt": response_text,
-        "max_tokens": 150
+        "max_tokens": 200,
+        "temperature": 0.1,
+        "top_p": 1.0
     }
 
     openai_response = requests.post(url, headers=headers, json=payload)
