@@ -127,7 +127,7 @@ const ResponseDisplay = ({ response }) => {
 
       return () => clearInterval(timer);
     }
-  }, { textResponse });
+  }, [textResponse]);
 
   useEffect(() => {
     const cursorTimer = setInterval(() => {
