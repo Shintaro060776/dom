@@ -61,7 +61,7 @@ resource "aws_lambda_function" "my_lambda" {
     environment {
         variables = {
             OPENAI_API_KEY = data.aws_ssm_parameter.openai_api_key.value
-            SAGEMAKER_ENDPOINT_NAME = "sagemaker-scikit-learn-2023-12-19-11-07-04-000"
+            SAGEMAKER_ENDPOINT_NAME = "sagemaker-scikit-learn-2023-12-19-11-38-07-739"
     }
   }
 }
