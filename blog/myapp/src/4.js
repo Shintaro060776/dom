@@ -46,8 +46,8 @@ const BlogArticle4 = () => {
                     <span className="highlight">5. ResponseDisplay コンポーネント (App.js内)</span><br /><br />
                     ResponseDisplay コンポーネントは、OpenAIからのレスポンスを表示します。タイプライター風のアニメーションで一文字ずつ表示され、カーソルが点滅します。
 
-                    <span className="highlight">6. getEmotionText と getEmotionSentence 関数 (App.js内)</span>
-                    これらの関数は、感情レベルに基づいて対応するテキストを返します。getEmotionText はスライダーのラベルを提供し、getEmotionSentence はユーザーの感情を表す文章を生成します。
+                    <span className="highlight">6. getEmotionText と getEmotionSentence 関数 (App.js内)</span><br /><br />
+                    これらの関数は、感情レベルに基づいて対応するテキストを返します。getEmotionText はスライダーのラベルを提供し、getEmotionSentence はユーザーの感情を表す文章を生成します。<br /><br />
 
                     <span className="highlight">7. Node.js</span><br /><br />
                     Node.jsは、このアプリケーションのサーバーサイド環境として機能します。<br /><br />
@@ -78,7 +78,35 @@ const BlogArticle4 = () => {
                         <source src="/blog/3.mp4" type="video/mp4" />
                         ご利用のブラウザはこのビデオをサポートしていません。
                     </video>
-                </p>
+
+                    <br /><br />以下は、忘備録として、バックエンドサービスである、Sagemaker側で実装した、コードの説明を記載します。<br /><br />
+
+                    <div class="code-box">
+                        <code>
+                            <p class="code-text white"><span class="code-text blue">import</span> os オペレーティングシステムの機能やファイルシステムの操作にアクセスするためのモジュールをインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">import</span> joblib パイソンの機械学習モデルや他の大きなデータ構造を効率的に保存・ロードするためのユーティリティモジュールをインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">import</span> numpy as np 数値計算を行うためのNumPyライブラリをインポートし、以後npというエイリアスで参照します。</p><br /><br />
+                            <p class="code-text white"><span class="code-text blue">from</span> sklearn.feature_extraction.text import TfidfVectorizer:Scikit-learn ライブラリからテキストデータを数値的な特徴ベクトルに変換するTF-IDFベクトル化器をインポートします。</p><br /><br />
+                            <p class="code-text white">import json JSONデータの処理(エンコード・デコード)を行うためのモジュールをインポートします。</p><br /><br />
+                            <p class="code-text white"><span class="highlight-text">def</span> model_fn<span class="code-text orange">(model_dir)</span>:モデルディレクトリパスを引数として受け取り、モデルとベクトル化器をロードする関数を定義します。</p><br /><br />
+                            <p class="code-text white">model = joblib.load(os.path.join(model_dir, 'model.joblib')): 指定されたモデルディレクトリからmodel.joblibファイルをロードして、model変数に割り当てます。</p><br /><br />
+                            <p class="code-text white">vectorizer = joblib.load(os.path.join(model_dir, 'vectorizer.joblib')): 同様に、vectorizer.joblibファイルをロードして、vectorizer変数に割り当てます。</p><br /><br />
+                            <p class="code-text white">return model, vectorizer: ロードされたモデルとベクトル化器を戻り値として返します。</p ><br /><br />
+                            <p class="code-text white"><span class="highlight-text">def</span> input_fn(request_body, request_content_type):: リクエストの本文とコンテンツタイプを引数として受け取り、リクエストデータを処理する関数を定義します。</p ><br /><br />
+                            <p class="code-text white">data = np.array([request_body]): リクエストの本文をNumPy配列に変換します。</p ><br /><br />
+                            <p class="code-text white">return data: 変換されたデータを戻り値として返します。</p ><br /><br />
+                            <p class="code-text white"><span class="highlight-text">def</span> predict_fn(input_data, model):: 入力データとモデルを引数として受け取り、予測を行う関数を定義します。</p ><br /><br />
+                            <p class="code-text white">model, vectorizer = model: 引数で受け取ったモデルからモデルとベクトル化器を展開して取り出します。</p ><br /><br />
+                            <p class="code-text white">input_data_tfidf = vectorizer.transform(input_data): 入力データをベクトル化器でTF - IDFベクトルに変換します。</p ><br /><br />
+                            <p class="code-text white">predictions = model.predict(input_data_tfidf): 変換されたデータをモデルで予測し、予測結果をpredictionsに割り当てます。</p ><br /><br />
+                            <p class="code-text white">labels = ['negative' if pred == 0 else 'positive' for pred in predictions]: 予測結果をラベル（'negative' または 'positive'）に変換します。</p ><br /><br />
+                            <p class="code-text white"><span class="highlight-text">def</span>  output_fn(prediction, content_type):: 予測結果とコンテンツタイプを引数として受け取り、適切なフォーマットで結果を返す関数を定義します。</p ><br /><br />
+                            <p class="code-text white">return json.dumps(prediction): コンテンツタイプがJSONの場合、予測結果をJSON形式にエンコードして返します。</p ><br /><br />
+                            <p class="code-text white">elif content_type == "text/plain":: コンテンツタイプがプレーンテキストの場合、予測結果を文字列に変換して返します。</p ><br /><br />
+                            <p class="code-text white">raise ValueError<span class="code-text orange">("Unsupported content type: { }".format(content_type)):</span> サポートされていないコンテンツタイプが指定された場合、エラーを発生させます。</p ><br /><br />
+                        </code >
+                    </div >
+                </p >
             </div >
         </div >
     );

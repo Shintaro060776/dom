@@ -5,6 +5,7 @@ import requests
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 SAGEMAKER_ENDPOINT_NAME = os.environ.get('SAGEMAKER_ENDPOINT_NAME')
+SLACK_WEBHOOK_URL = os.environ.get('SLACK_WEBHOOK_URL')
 
 
 def lambda_handler(event, context):
@@ -29,7 +30,7 @@ def lambda_handler(event, context):
     response_text = input_text + \
         (" ユーザーは機嫌が良いようです。" if sentiment == "positive" else " ユーザーは機嫌が悪いようです。")
 
-    url = "https://api.openai.com/v1/engines/davinci/completions"
+    url = "https://api.openai.com/v1/engines/gpt-3.5-turbo/completions"
 
     headers = {
         "Content-Type": "application/json",
@@ -38,7 +39,7 @@ def lambda_handler(event, context):
 
     payload = {
         "prompt": response_text,
-        "max_tokens": 200,
+        "max_tokens": 150,
         "temperature": 0.1,
         "top_p": 1.0
     }
@@ -47,6 +48,23 @@ def lambda_handler(event, context):
 
     if openai_response.status_code == 200:
         openai_result = openai_response.json()
+        text_to_send = openai_result.get('choices', [{}])[0].get('text', '')
+
+        slack_message = {
+            "text": f"OpenAI Response: {text_to_send}"
+        }
+        slack_response = requests.post(
+            SLACK_WEBHOOK_URL,
+            data=json.dumps(slack_message),
+            headers={'Content-Type': 'application/json'}
+        )
+
+        if slack_response.status_code != 200:
+            return {
+                'statusCode': slack_response.status_code,
+                'body': json.dumps({"error": "Failed to send message to Slack"})
+            }
+
         return {
             'statusCode': 200,
             'body': json.dumps(openai_result)

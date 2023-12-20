@@ -62,6 +62,7 @@ resource "aws_lambda_function" "my_lambda" {
         variables = {
             OPENAI_API_KEY = data.aws_ssm_parameter.openai_api_key.value
             SAGEMAKER_ENDPOINT_NAME = "sagemaker-scikit-learn-2023-12-19-11-38-07-739"
+            SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/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"
     }
   }
 }
