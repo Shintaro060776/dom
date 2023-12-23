@@ -34,7 +34,7 @@ resource "aws_iam_policy" "realtime" {
 
 resource "aws_iam_policy_attachment" "realtime" {
     name = "realtime-policy-attachment"
-    role = [aws_iam_role.realtime.name]
+    roles = [aws_iam_role.realtime.name]
     policy_arn = aws_iam_policy.realtime.arn
 }
 
