@@ -56,6 +56,7 @@ resource "aws_lambda_function" "lambda_function" {
     timeout = 900
     role = aws_iam_role.realtime.arn
 
+    layers = [aws_lambda_layer_version.requests_layer.arn]
 
     environment {
         variables = {
