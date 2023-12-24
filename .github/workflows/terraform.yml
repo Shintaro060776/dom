@@ -82,6 +82,17 @@ jobs:
           npm install
           npm run build
 
+      - name: realtime_backend
+        run: |
+          cd realtime_backend
+          npm install
+  
+      - name: realtime
+        run: |
+          cd realtime/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -110,6 +121,10 @@ jobs:
           # Deploy emotion app
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/emotion_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/emotion_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/emotion/frontend/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/emotion/
+
+          # Deploy realtime app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/realtime_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/realtime_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/realtime/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/realtime/
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
