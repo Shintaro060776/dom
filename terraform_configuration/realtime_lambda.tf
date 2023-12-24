@@ -25,7 +25,7 @@ resource "aws_iam_policy" "realtime" {
                     "sagemaker:*",
                     "cloudwatch:*",
                     "dynamodb:PutItem",
-                    "dynamodb:GetItem".
+                    "dynamodb:GetItem",
                     "dynamodb:UpdateItem"
                 ],
                 Effect = "Allow",
