@@ -2,6 +2,7 @@ import json
 import boto3
 import requests
 import os
+from datetime import datetime
 
 
 def generate_message(sentiment, user_input):
@@ -21,6 +22,21 @@ def translate_text(text, target_language):
                                       SourceLanguageCode="ja",
                                       TargetLanguageCode=target_language)
     return result.get('TranslatedText')
+
+
+def save_to_dynamodb(user_id, sentiment, openai_response):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('UserFeedback')
+    response = table.put_item(
+        Item={
+            'UserID': user_id,
+            'Timestamp': str(datetime.now()),
+            'Sentiment': sentiment,
+            'Response': openai_response
+        }
+    )
+
+    return response
 
 
 def lambda_handler(event, context):
@@ -52,6 +68,8 @@ def lambda_handler(event, context):
         slack_message = {'text': openai_answer}
         response = requests.post(
             slack_webhook_url, data=json.dumps(slack_message))
+
+        save_to_dynamodb(event['user_id'], sentiment, openai_answer)
 
         return {
             'statusCode': 200,
