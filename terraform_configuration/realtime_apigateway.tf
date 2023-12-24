@@ -1,6 +1,13 @@
 resource "aws_apigatewayv2_api" "realtime" {
     name = "realtime"
     protocol_type = "HTTP"
+
+    cors_configuration {
+        allow_headers = ["*"]
+        allow_methods = ["*"]
+        allow_origins = ["*"]
+        allow_credentials = false
+    }
 }
 
 resource "aws_apigatewayv2_integration" "lambda_integration" {
