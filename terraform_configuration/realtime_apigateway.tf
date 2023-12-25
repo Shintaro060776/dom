@@ -48,7 +48,7 @@ resource "aws_api_gateway_deployment" "realtime_deployment" {
     ]
 
     rest_api_id = aws_api_gateway_rest_api.realtime.id
-    stage_name = "prod"
+    # stage_name = "prod"
 }
 
 
@@ -73,7 +73,7 @@ resource "aws_api_gateway_method_settings" "settings_realtime" {
 }
 
 resource "aws_api_gateway_stage" "realtime" {
-    # stage_name = "prod"
+    stage_name = "prod"
     rest_api_id = aws_api_gateway_rest_api.realtime.id
     deployment_id = aws_api_gateway_deployment.realtime_deployment.id
 
