@@ -47,7 +47,6 @@ resource "aws_api_gateway_deployment" "realtime_deployment" {
     stage_name  = "test"
 }
 
-
 resource "aws_lambda_permission" "realtime_permission" {
     statement_id  = "AllowExecutionFromAPIGateway"
     action        = "lambda:InvokeFunction"
