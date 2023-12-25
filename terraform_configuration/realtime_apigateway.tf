@@ -59,7 +59,6 @@ resource "aws_api_gateway_stage" "realtime_stage" {
         destination_arn = aws_cloudwatch_log_group.api_gw_log_group.arn
         format = "{\"requestId\":\"$context.requestId\", \"ip\":\"$context.identity.sourceIp\", \"requestTime\":\"$context.requestTime\", \"httpMethod\":\"$context.httpMethod\", \"status\":\"$context.status\", \"protocol\":\"$context.protocol\", \"responseLength\":\"$context.responseLength\"}"
     }
-
     xray_tracing_enabled = true
 }
 
