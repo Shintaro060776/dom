@@ -9,7 +9,7 @@ app.post('/api/realtime', async (req, res) => {
         const { user_input } = req.body;
 
         const lambdaResponse = await axios.post(
-            'https://z2a2auewh9.execute-api.ap-northeast-1.amazonaws.com/realtime/api/realtime',
+            'https://6xc8jru0di.execute-api.ap-northeast-1.amazonaws.com/prod/realtime',
             { user_input }
         );
 
