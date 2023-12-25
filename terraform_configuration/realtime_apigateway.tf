@@ -9,8 +9,8 @@ resource "aws_api_gateway_rest_api" "realtime" {
 
 resource "aws_api_gateway_resource" "realtime_resource" {
     rest_api_id = aws_api_gateway_rest_api.realtime.id
-    parent_id = aws_api_gateway_rest_api.realtime.root_resource_id
-    parh_part = "realtime"
+    parent_id   = aws_api_gateway_rest_api.realtime.root_resource_id
+    path_part   = "realtime"  
 }
 
 resource "aws_api_gateway_method" "realtime_method" {
