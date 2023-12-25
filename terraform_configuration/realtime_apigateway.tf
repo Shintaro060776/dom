@@ -32,6 +32,7 @@ resource "aws_api_gateway_integration" "lambda_integration_realtime" {
   }
 }
 
+
 resource "aws_api_gateway_integration_response" "realtime_integration_response_200" {
     depends_on = [aws_api_gateway_integration.lambda_integration_realtime]
 
