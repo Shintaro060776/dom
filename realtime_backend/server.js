@@ -6,7 +6,7 @@ const port = process.env.PORT || 4000;
 
 app.use(express.json());
 
-const API_GATEWAY_URL = 'https://6xc8jru0di.execute-api.ap-northeast-1.amazonaws.com/prod/realtime';
+const API_GATEWAY_URL = 'https://rcnp91lym3.execute-api.ap-northeast-1.amazonaws.com/prd/realtime';
 
 app.post('/api/realtime', async (req, res) => {
     try {
