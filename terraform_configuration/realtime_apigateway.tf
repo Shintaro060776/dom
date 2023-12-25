@@ -84,8 +84,8 @@ resource "aws_api_gateway_stage" "realtime" {
     xray_tracing_enabled = true
 }
 
-resource "aws_cloudwatch_log_group" "example" {
-    name = "/aws/api-gateway/my-api"
+resource "aws_cloudwatch_log_group" "realtime" {
+    name = "/aws/api-gateway/realtime"
 }
 
 resource "aws_iam_role" "api_gateway_cloudwatch_role_realtime" {
