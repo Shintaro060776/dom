@@ -1,10 +1,6 @@
 resource "aws_api_gateway_rest_api" "realtime" {
     name = "realtime"
     description = "Realtime API"
-
-    endpoint_configuration {
-        types = ["EDGE"]
-    }
 }
 
 resource "aws_api_gateway_resource" "realtime_resource" {
@@ -18,6 +14,13 @@ resource "aws_api_gateway_method" "realtime_method" {
     resource_id = aws_api_gateway_resource.realtime_resource.id
     http_method = "POST"
     authorization = "NONE"
+
+    
+  settings {
+    logging_level       = "INFO" 
+    metrics_enabled     = true
+    data_trace_enabled  = true  
+  }
 }
 
 resource "aws_api_gateway_integration" "lambda_integration_realtime" {
@@ -28,6 +31,12 @@ resource "aws_api_gateway_integration" "lambda_integration_realtime" {
     integration_http_method = "POST"
     type = "AWS_PROXY"
     uri = aws_lambda_function.lambda_function.invoke_arn
+
+  request_templates = {
+    "application/json" = jsonencode({
+        "statusCode" = 200
+    })
+  }
 }
 
 resource "aws_api_gateway_deployment" "realtime_deployment" {
@@ -45,6 +54,8 @@ resource "aws_api_gateway_stage" "realtime_stage" {
         destination_arn = aws_cloudwatch_log_group.api_gw_log_group.arn
         format = "{\"requestId\":\"$context.requestId\", \"ip\":\"$context.identity.sourceIp\", \"requestTime\":\"$context.requestTime\", \"httpMethod\":\"$context.httpMethod\", \"status\":\"$context.status\", \"protocol\":\"$context.protocol\", \"responseLength\":\"$context.responseLength\"}"
     }
+
+    xray_tracing_enabled = true
 }
 
 resource "aws_cloudwatch_log_group" "api_gw_log_group" {
