@@ -32,7 +32,7 @@ resource "aws_api_gateway_method" "realtime_method" {
 #     integration_uri = aws_lambda_function.lambda_function.invoke_arn
 # }
 
-resource "aws_api_gateway_integration" "lambda_integration" {
+resource "aws_api_gateway_integration" "lambda_integration_realtime" {
     rest_api_id = aws_api_gateway_rest_api.realtime.id
     resource_id = aws_api_gateway_resource.realtime_resource.id
     http_method = aws_api_gateway_method.realtime_method.http_method
