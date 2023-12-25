@@ -1,29 +1,29 @@
 resource "aws_api_gateway_rest_api" "realtime" {
-    name = "realtime"
+    name        = "realtime"
     description = "API Gateway for my lambda function"
 }
 
+
 resource "aws_api_gateway_resource" "realtime_resource" {
     rest_api_id = aws_api_gateway_rest_api.realtime.id
-    parent_id = aws_api_gateway_rest_api.realtime.root_resource_id
-    path_part = "realtime"
+    parent_id   = aws_api_gateway_rest_api.realtime.root_resource_id
+    path_part   = "realtime"
 }
 
-resource "aws_api_gateway_method" "my_api_method_realtime" {
-  rest_api_id   = aws_api_gateway_rest_api.realtime.id
-  resource_id   = aws_api_gateway_resource.realtime_resource.id
-  http_method   = "POST"
-  authorization = "NONE"
+resource "aws_api_gateway_method" "realtime_method" {
+    rest_api_id   = aws_api_gateway_rest_api.realtime.id
+    resource_id   = aws_api_gateway_resource.realtime_resource.id
+    http_method   = "POST"
+    authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "lambda_integration_realtime" {
-  rest_api_id = aws_api_gateway_rest_api.realtime.id
-  resource_id = aws_api_gateway_resource.realtime_resource.id
-  http_method = aws_api_gateway_method.my_api_method_realtime.http_method
-
-  integration_http_method = "POST"
-  type                    = "AWS"
-  uri                     = aws_lambda_function.lambda_function.invoke_arn
+resource "aws_api_gateway_integration" "realtime_integration" {
+    rest_api_id              = aws_api_gateway_rest_api.realtime.id
+    resource_id              = aws_api_gateway_resource.realtime_resource.id
+    http_method              = aws_api_gateway_method.realtime_method.http_method
+    integration_http_method  = "POST"
+    type                     = "AWS_PROXY"
+    uri                      = aws_lambda_function.lambda_function.invoke_arn
 
   request_templates = {
     "application/json" = jsonencode({
@@ -34,30 +34,26 @@ resource "aws_api_gateway_integration" "lambda_integration_realtime" {
 
 
 resource "aws_api_gateway_integration_response" "realtime_integration_response_200" {
-    depends_on = [aws_api_gateway_integration.lambda_integration_realtime]
-
+    depends_on  = [aws_api_gateway_integration.realtime_integration]
     rest_api_id = aws_api_gateway_rest_api.realtime.id
     resource_id = aws_api_gateway_resource.realtime_resource.id
-    http_method = aws_api_gateway_method.my_api_method_realtime.http_method
+    http_method = aws_api_gateway_method.realtime_method.http_method
     status_code = "200"
 }
 
 resource "aws_api_gateway_deployment" "realtime_deployment" {
-    depends_on = [
-        aws_api_gateway_integration.lambda_integration_realtime
-    ]
-
+    depends_on  = [aws_api_gateway_integration.realtime_integration]
     rest_api_id = aws_api_gateway_rest_api.realtime.id
-    # stage_name = "prod"
+    stage_name  = "prod"
 }
 
 
-resource "aws_lambda_permission" "api_gateway_invoke_realtime" {
-    statement_id = "AllowExecutionFromAPIGateway"
-    action = "lambda:InvokeFunction"
+resource "aws_lambda_permission" "realtime_permission" {
+    statement_id  = "AllowExecutionFromAPIGateway"
+    action        = "lambda:InvokeFunction"
     function_name = aws_lambda_function.lambda_function.function_name
-    principal = "apigateway.amazonaws.com"
-    source_arn = "${aws_api_gateway_rest_api.realtime.execution_arn}/*/*/*"
+    principal     = "apigateway.amazonaws.com"
+    source_arn    = "${aws_api_gateway_rest_api.realtime.execution_arn}/*/*/realtime"
 }
 
 resource "aws_api_gateway_method_settings" "settings_realtime" {
