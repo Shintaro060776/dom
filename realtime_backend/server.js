@@ -10,13 +10,24 @@ app.post('/api/realtime', async (req, res) => {
 
         const lambdaResponse = await axios.post(
             'https://6xc8jru0di.execute-api.ap-northeast-1.amazonaws.com/prod/realtime',
-            { user_input }
+            { user_input },
+            { timeout: 5000 } // example timeout
         );
 
         res.status(200).json(lambdaResponse.data);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        console.error("Error details:", {
+            message: error.message,
+            status: error.response?.status,
+            headers: error.response?.headers,
+            data: error.response?.data,
+        });
+
+        const clientErrorMessage = error.response
+            ? `Error from server: ${error.response.status} ${error.response.statusText}`
+            : 'Internal server error';
+
+        res.status(500).json({ message: clientErrorMessage });
     }
 });
 
