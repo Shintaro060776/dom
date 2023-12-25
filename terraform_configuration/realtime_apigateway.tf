@@ -14,8 +14,13 @@ resource "aws_api_gateway_method" "realtime_method" {
     resource_id = aws_api_gateway_resource.realtime_resource.id
     http_method = "POST"
     authorization = "NONE"
+}
 
-    
+resource "aws_api_gateway_method_settings" "realtime" {
+  rest_api_id = aws_api_gateway_rest_api.realtime.id
+  stage_name  = aws_api_gateway_stage.realtime_stage.stage_name
+  method_path = "*/*"
+
   settings {
     logging_level       = "INFO" 
     metrics_enabled     = true
