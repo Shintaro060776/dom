@@ -23,7 +23,7 @@ resource "aws_api_gateway_integration" "lambda_integration_realtime" {
 
   integration_http_method = "POST"
   type                    = "AWS"
-  uri                     = aws_lambda_function.realtime.invoke_arn
+  uri                     = aws_lambda_function.lambda_function.invoke_arn
 
   request_templates = {
     "application/json" = jsonencode({
