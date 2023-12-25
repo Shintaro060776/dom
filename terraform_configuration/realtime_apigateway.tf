@@ -1,15 +1,3 @@
-# resource "aws_apigatewayv2_api" "realtime" {
-#     name = "realtime"
-#     protocol_type = "HTTP"
-
-#     cors_configuration {
-#         allow_headers = ["*"]
-#         allow_methods = ["*"]
-#         allow_origins = ["*"]
-#         allow_credentials = false
-#     }
-# }
-
 resource "aws_api_gateway_rest_api" "realtime" {
     name = "realtime"
     description = "Realtime API"
@@ -19,18 +7,18 @@ resource "aws_api_gateway_rest_api" "realtime" {
     }
 }
 
+resource "aws_api_gateway_resource" "realtime_resource" {
+    rest_api_id = aws_api_gateway_rest_api.realtime.id
+    parent_id = aws_api_gateway_rest_api.realtime.root_resource_id
+    parh_part = "realtime"
+}
+
 resource "aws_api_gateway_method" "realtime_method" {
     rest_api_id = aws_api_gateway_rest_api.realtime.id
     resource_id = aws_api_gateway_resource.realtime_resource.id
     http_method = "POST"
     authorization = "NONE"
 }
-
-# resource "aws_apigatewayv2_integration" "lambda_integration" {
-#     api_id = aws_apigatewayv2_api.realtime.id
-#     integration_type = "AWS_PROXY"
-#     integration_uri = aws_lambda_function.lambda_function.invoke_arn
-# }
 
 resource "aws_api_gateway_integration" "lambda_integration_realtime" {
     rest_api_id = aws_api_gateway_rest_api.realtime.id
@@ -42,28 +30,11 @@ resource "aws_api_gateway_integration" "lambda_integration_realtime" {
     uri = aws_lambda_function.lambda_function.invoke_arn
 }
 
-# resource "aws_apigatewayv2_route" "realtime_route" {
-#     api_id = aws_apigatewayv2_api.realtime.id
-#     route_key = "ANY /api/realtime"
-#     target = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
-# }
-
 resource "aws_api_gateway_deployment" "realtime_deployment" {
     depends_on = [aws_api_gateway_integration.lambda_integration]
     rest_api_id = aws_api_gateway_rest_api.realtime.id
     stage_name = "prod"
 }
-
-# resource "aws_apigatewayv2_stage" "realtime" {
-#     api_id = aws_apigatewayv2_api.realtime.id
-#     name = "realtime"
-#     auto_deploy = true
-
-#     access_log_settings {
-#         destination_arn = aws_cloudwatch_log_group.api_gw_log_group.arn
-#         format = "$context.identity.sourceIp - [$context.requestTime] \"$context.httpMethod $context.resourcePath $context.protocol\" $context.status $context.responseLength $context.requestId"
-#     }
-# }
 
 resource "aws_api_gateway_stage" "realtime_stage" {
     deployment_id = aws_api_gateway_deployment.realtime_deployment.id
@@ -125,14 +96,6 @@ resource "aws_iam_role_policy" "api_gw_cloudwatch" {
         ],
     })
 }
-
-# resource "aws_lambda_permission" "api_gateway_permission" {
-#     statement_id = "AllowExecutionFromAPIGateway"
-#     action = "lambda:InvokeFunction"
-#     function_name = aws_lambda_function.lambda_function.function_name
-#     principal = "apigateway.amazonaws.com"
-#     source_arn = "${aws_apigatewayv2_api.realtime.execution_arn}/*/*"
-# }
 
 resource "aws_lambda_permission" "api_gateway_permission" {
     statement_id = "AllowExecutionFromAPIGateway"
