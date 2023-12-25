@@ -18,7 +18,7 @@ resource "aws_apigatewayv2_integration" "lambda_integration" {
 
 resource "aws_apigatewayv2_route" "realtime_route" {
     api_id = aws_apigatewayv2_api.realtime.id
-    route_key = "ANY /realtime"
+    route_key = "ANY /api/realtime"
     target = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }
 
