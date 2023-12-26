@@ -35,7 +35,7 @@ function App() {
   const handleSubmit = async () => {
     try {
       const result = await axios.post('http://3.112.43.184/api/realtime', { input });
-      setResponse(result.data);
+      setResponse(result.data.message);
     } catch (error) {
       console.error('Error fetching response:', error);
     }

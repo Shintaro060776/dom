@@ -49,6 +49,8 @@ if __name__ == '__main__':
         ('clf', SVC(C=args.C)),
     ])
 
+    pipeline.fit(X_train, y_train)
+
     parameters = {
         'tfidf__max_df': (0.5, 0.75, 1.0),
         'clf__C': [1, 10, 100],
