@@ -26,7 +26,10 @@ resource "aws_iam_policy" "realtime" {
                     "cloudwatch:*",
                     "dynamodb:PutItem",
                     "dynamodb:GetItem",
-                    "dynamodb:UpdateItem"
+                    "dynamodb:UpdateItem",
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
                 ],
                 Effect = "Allow",
                 Resource = "*"
