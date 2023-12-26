@@ -103,7 +103,7 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy_real" {
 }
 
 resource "aws_cloudwatch_log_group" "real_api_logs" {
-  name = "/aws/apigateway/real"
+  name = "/aws/apigateway/API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.real_api.id}/prd"
 }
 
 resource "aws_lambda_permission" "real_api_gateway_permission" {
