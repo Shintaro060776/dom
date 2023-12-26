@@ -73,11 +73,13 @@ a:hover {
   word-wrap: break-word;
 }
 
-.blink {
-  animation: blinker 1s step-start infinite;
+.typewriter-blink::after {
+  content: '|';
+  animation: blink 1s step-start infinite;
 }
 
-@keyframes blinker {
+/* 点滅アニメーション */
+@keyframes blink {
   50% {
     opacity: 0;
   }

@@ -4,15 +4,15 @@ import './App.css';
 
 const useTypewriter = (text, speed = 100) => {
   const [typed, setTyped] = useState('');
-  const [blink, setBlink] = useState('');
+  const [blink, setBlink] = useState(true);
 
   useEffect(() => {
-    if (typed.length < text.length) {
-      const timeoutId = setTimeout(() => {
-        setTyped((current) => current + text.chartAt(current.length));
-      }, speed);
+    let timeoutId;
 
-      return () => clearTimeout(timeoutId);
+    if (typed.length < text.length) {
+      timeoutId = setTimeout(() => {
+        setTyped((current) => current + text.charAt(current.length));
+      }, speed);
     } else {
       const blinkInterval = setInterval(() => {
         setBlink((current) => !current);
@@ -20,6 +20,8 @@ const useTypewriter = (text, speed = 100) => {
 
       return () => clearInterval(blinkInterval);
     }
+
+    return () => clearTimeout(timeoutId);
   }, [text, typed, speed]);
 
   return { typed, blink };
@@ -52,14 +54,11 @@ function App() {
           placeholder="問い合わせ内容を入力してください"
         />
         <textarea
-          value={response}
+          value={typed}
           readOnly
           placeholder="AIからの回答が、ここに表示されます"
+          className={`typewriter ${blink ? 'typewriter-blink' : ''}`}
         />
-        <div className='typewriter'>
-          {typed}
-          <span className={blink ? 'blink' : ''}>|</span>
-        </div>
       </div>
       <button onClick={handleSubmit}>Inquiry for AI</button>
       <footer className="App-footer">
