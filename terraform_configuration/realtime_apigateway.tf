@@ -48,11 +48,11 @@ resource "aws_api_gateway_stage" "real_stage" {
     format          = "json"
   }
 
-  cloudwatch_logs_role_arn = aws_iam_role.api_gateway_cloudwatch_role.arn
+  cloudwatch_logs_role_arn = aws_iam_role.api_gateway_cloudwatch_role_real.arn
 }
 
-resource "aws_iam_role" "api_gateway_cloudwatch_role" {
-  name = "api_gateway_cloudwatch_role"
+resource "aws_iam_role" "api_gateway_cloudwatch_role_real" {
+  name = "api_gateway_cloudwatch_role_real"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
@@ -68,9 +68,9 @@ resource "aws_iam_role" "api_gateway_cloudwatch_role" {
   })
 }
 
-resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
-  name = "api_gateway_cloudwatch_policy"
-  role = aws_iam_role.api_gateway_cloudwatch_role.id
+resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy_real" {
+  name = "api_gateway_cloudwatch_policy_real"
+  role = aws_iam_role.api_gateway_cloudwatch_role_real.id
 
   policy = jsonencode({
     Version = "2012-10-17",
