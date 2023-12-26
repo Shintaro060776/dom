@@ -9,7 +9,7 @@ const useTypewriter = (text, speed = 100) => {
   useEffect(() => {
     if (typed.length < text.length) {
       const timeoutId = setTimeout(() => {
-        setTyped((current) => current + text.chatAt(current.length));
+        setTyped((current) => current + text.chartAt(current.length));
       }, speed);
 
       return () => clearTimeout(timeoutId);

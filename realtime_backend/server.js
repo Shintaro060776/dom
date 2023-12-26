@@ -13,7 +13,7 @@ app.post('/api/realtime', async (req, res) => {
         const response = await axios.post(API_GATEWAY_URL, req.body);
         res.json(response.data);
     } catch (error) {
-        res.status(500).json({ message: 'Internal Server Error', error: error });
+        res.status(500).json({ message: 'Internal Server Error', error: error.message });
     }
 });
 
