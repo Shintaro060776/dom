@@ -52,7 +52,7 @@ resource "aws_api_gateway_stage" "real_stage" {
 resource "aws_api_gateway_method_settings" "real_settings" {
   rest_api_id = aws_api_gateway_rest_api.real_api.id
   stage_name  = aws_api_gateway_stage.real_stage.stage_name
-  method_path = "*"  
+  method_path = "*/*"
 
   settings {
     metrics_enabled = true
