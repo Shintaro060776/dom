@@ -41,15 +41,35 @@ def save_to_dynamodb(user_id, sentiment, openai_response):
 
 def lambda_handler(event, context):
     try:
+        print('Received event:', event)
+
         slack_webhook_url = os.environ['SLACK_WEBHOOK_URL']
         openai_api_key = os.environ['OPENAI_API_KEY']
+        print('Environment variables retrieved')
 
-        sentiment = event['sentiment']
-        user_input = event['user_input']
+        if 'body' in event:
+            body = json.loads(event['body'])
+            user_input = body.get('input', '').strip()
+            print('User input:', user_input)
+        else:
+            print('No body in the event')
+            return {
+                'statusCode': 400,
+                'body': json.dumps('No body in the request')
+            }
+
+        if not user_input:
+            print('User input is empty')
+            return {
+                'statusCode': 400,
+                'body': json.dumps('Input text cannot be empty.')
+            }
 
         translated_input = translate_text(user_input, "en")
+        print('Translated input:', translated_input)
 
-        message = generate_message(sentiment, translated_input)
+        message = f"ユーザーの入力: '{translated_input}'"
+        print('Message to OpenAI:', message)
 
         headers = {
             'Content-Type': 'application/json',
@@ -65,11 +85,25 @@ def lambda_handler(event, context):
             'https://api.openai.com/v1/engines/davinci-codex/completions', headers=headers, json=data)
         openai_answer = openai_response.json().get('choices')[
             0].get('text').strip()
-        slack_message = {'text': openai_answer}
-        response = requests.post(
-            slack_webhook_url, data=json.dumps(slack_message))
+        print('OpenAI response:', openai_answer)
 
-        save_to_dynamodb(event['user_id'], sentiment, openai_answer)
+        slack_message = {'text': openai_answer}
+        requests.post(slack_webhook_url, data=json.dumps(slack_message))
+        print('Message sent to Slack')
+
+        user_id = event.get('user_id', 'unknown')
+        print('User ID:', user_id)
+
+        dynamodb = boto3.resource('dynamodb')
+        table = dynamodb.Table('UserFeedback')
+        table.put_item(
+            Item={
+                'UserID': user_id,
+                'Timestamp': str(datetime.now()),
+                'Response': openai_answer
+            }
+        )
+        print('Data saved to DynamoDB')
 
         return {
             'statusCode': 200,
@@ -77,7 +111,7 @@ def lambda_handler(event, context):
         }
 
     except Exception as e:
-        print(e)
+        print(f"Error processing the request: {str(e)}")
         return {
             'statusCode': 500,
             'body': json.dumps('Error processing the request')

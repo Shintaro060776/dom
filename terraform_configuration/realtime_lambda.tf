@@ -29,7 +29,8 @@ resource "aws_iam_policy" "realtime" {
                     "dynamodb:UpdateItem",
                     "logs:CreateLogGroup",
                     "logs:CreateLogStream",
-                    "logs:PutLogEvents"
+                    "logs:PutLogEvents",
+                    "translate:TranslateText"
                 ],
                 Effect = "Allow",
                 Resource = "*"
