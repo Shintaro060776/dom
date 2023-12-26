@@ -27,24 +27,30 @@ resource "aws_api_gateway_integration" "lambda_real_integration" {
 }
 
 resource "aws_api_gateway_deployment" "real_deployment" {
-  depends_on = [aws_api_gateway_integration.lambda_real_integration]
+  depends_on = [
+    aws_api_gateway_integration.lambda_real_integration
+  ]
 
   rest_api_id = aws_api_gateway_rest_api.real_api.id
-  stage_name  = "prod"
-}
+  stage_name  = "prod"  
 
-resource "aws_api_gateway_stage" "real_stage" {
-  stage_name    = "prod"
-  rest_api_id   = aws_api_gateway_rest_api.real_api.id
-  deployment_id = aws_api_gateway_deployment.real_deployment.id
-
-  xray_tracing_enabled = true
-
-  access_log_settings {
-    destination_arn = aws_cloudwatch_log_group.real_api_logs.arn
-    format          = "json"
+  lifecycle {
+    create_before_destroy = true
   }
 }
+
+# resource "aws_api_gateway_stage" "real_stage" {
+#   stage_name    = "prod"
+#   rest_api_id   = aws_api_gateway_rest_api.real_api.id
+#   deployment_id = aws_api_gateway_deployment.real_deployment.id
+
+#   xray_tracing_enabled = true
+
+#   access_log_settings {
+#     destination_arn = aws_cloudwatch_log_group.real_api_logs.arn
+#     format          = "json"
+#   }
+# }
 
 resource "aws_cloudwatch_log_group" "real_api_logs" {
   name = "/aws/apigateway/real"
