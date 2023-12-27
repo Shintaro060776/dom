@@ -1,3 +1,4 @@
+
 import json
 import boto3
 import requests
@@ -102,7 +103,7 @@ def lambda_handler(event, context):
 
         print('Sending to OpenAI:', json.dumps(data))
         openai_response = requests.post(
-            'https://api.openai.com/v1/engines/davinci/completions',
+            'https://api.openai.com/v1/engines/text-davinci-003/completions',
             headers=headers,
             json=data
         )

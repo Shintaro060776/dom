@@ -5,6 +5,7 @@ import BlogArticle from './1';
 import BlogArticle2 from './2';
 import BlogArticle3 from './3';
 import BlogArticle4 from './4';
+import BlogArticle5 from './5';
 
 const blogEntries = [
   {
@@ -35,6 +36,13 @@ const blogEntries = [
     thumbnail: "/blog/20231018_07_37_0.png",
     path: "/blog4/4"
   },
+  {
+    id: 5,
+    title: "Realtime Chatbot Emotional Analysis",
+    date: "2023/03/27",
+    thumbnail: "/blog/20231126_12_19_0.png",
+    path: "/blog5/5"
+  },
 ];
 
 function handleTopLinkClick(event) {
@@ -60,6 +68,7 @@ function App() {
           <Route path="/blog2/2" element={<BlogArticle2 />} />
           <Route path="/blog3/3" element={<BlogArticle3 />} />
           <Route path="/blog4/4" element={<BlogArticle4 />} />
+          <Route path="/blog5/5" element={<BlogArticle5 />} />
           <Route path="/blog" element={
             <main className="blog-container">
               <h2 className="blog-title">Blog</h2>
