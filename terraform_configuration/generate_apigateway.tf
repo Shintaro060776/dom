@@ -12,7 +12,7 @@ resource "aws_api_gateway_resource" "generate_resource" {
 resource "aws_api_gateway_method" "generate_method" {
     rest_api_id = aws_api_gateway_rest_api.generate_api.id
     resource_id = aws_api_gateway_resource.generate_resource.id
-    http_method = "GET"
+    http_method = "POST"
     authorization = "NONE"
 }
 
