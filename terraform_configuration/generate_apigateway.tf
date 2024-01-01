@@ -114,3 +114,4 @@ resource "aws_iam_role" "api_gateway_logging_role" {
         ],
     })
 }
+
