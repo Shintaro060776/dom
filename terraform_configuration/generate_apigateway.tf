@@ -73,25 +73,27 @@ resource "aws_api_gateway_stage" "generate" {
 }
 
 resource "aws_iam_role_policy" "api_gateway_cloudwatch_log_policy" {
-    name = "api_gateway_cloudwatch_log_policy"
-    role = aws_iam_role.api_gateway_lambda_role.id
+  name = "api_gateway_cloudwatch_log_policy"
+  role = aws_iam_role.api_gateway_lambda_role.id
 
-    policy = jsonencode({
-        Version = "2012-10-17",
-        Statement = [
-            Effect = "Allow",
-            Action = "logs:CreateLogGroup",
-            Resource = "arn:aws:logs:ap-northeast-1:715573459931:*"
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = "logs:CreateLogGroup",
+                Resource = "arn:aws:logs:ap-northeast-1:715573459931:*"
+      },
+      {
+        Effect   = "Allow",
+        Action   = [
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
         ],
-        {
-            Effect = "Allow",
-            Action = [
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            Resource = [
-                "${aws_cloudwatch_log_group.generate_log_group.arn}:*"
-            ]
-        }
-    })
+        Resource = [
+          "${aws_cloudwatch_log_group.generate_log_group.arn}:*"
+        ]
+      }
+    ]
+  })
 }
