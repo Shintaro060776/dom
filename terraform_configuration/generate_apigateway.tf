@@ -74,7 +74,7 @@ resource "aws_api_gateway_stage" "generate" {
 
 resource "aws_iam_role_policy" "api_gateway_cloudwatch_log_policy" {
   name = "api_gateway_cloudwatch_log_policy"
-  role = aws_iam_role.api_gateway_lambda_role.id
+  role = aws_iam_role.api_gateway_logging_role.id
 
   policy = jsonencode({
     Version = "2012-10-17",
@@ -96,4 +96,21 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_log_policy" {
       }
     ]
   })
+}
+
+resource "aws_iam_role" "api_gateway_logging_role" {
+    name = "api_gateway_logging_role"
+
+    assume_role_policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [
+            {
+                Action = "sts:AssumeRole",
+                Effect = "Allow",
+                Principal = {
+                    Service = "apigateway.amazonaws.com"
+                },
+            },
+        ],
+    })
 }
