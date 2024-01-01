@@ -32,7 +32,7 @@ resource "aws_api_gateway_deployment" "generate_deployment" {
     ]
 
     rest_api_id = aws_api_gateway_rest_api.generate_api.id
-    stage_name = "prod"
+    # stage_name = "prod"
 }
 
 resource "aws_lambda_permission" "generate_api_gateway_invoke" {
@@ -50,7 +50,7 @@ resource "aws_cloudwatch_log_group" "generate_log_group" {
 }
 
 resource "aws_api_gateway_stage" "generate" {
-#   stage_name    = "prod"
+  stage_name    = "prod"
   rest_api_id   = aws_api_gateway_rest_api.generate_api.id
   deployment_id = aws_api_gateway_deployment.generate_deployment.id
 
