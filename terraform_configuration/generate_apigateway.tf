@@ -50,26 +50,26 @@ resource "aws_cloudwatch_log_group" "generate_log_group" {
 }
 
 resource "aws_api_gateway_stage" "generate" {
-    stage_name = "prod"
-    rest_api_id = aws_api_gateway_rest_api.generate_api.id
-    deployment_id = aws_api_gateway_deployment.generate_deployment.id
+  stage_name    = "prod"
+  rest_api_id   = aws_api_gateway_rest_api.generate_api.id
+  deployment_id = aws_api_gateway_deployment.generate_deployment.id
 
-    xray_tracing_enabled = true
+  xray_tracing_enabled = true  
 
-    access_log_settings {
-        description_arn = aws_cloudwatch_log_group.generate.generate_log_group.arn
-        format = jsonencode({
-            request_id       = "$context.requestId",
-            ip               = "$context.identity.sourceIp",
-            caller           = "$context.identity.caller",
-            user             = "$context.identity.user",
-            request_time     = "$context.requestTime",
-            http_method      = "$context.httpMethod",
-            status           = "$context.status",
-            protocol         = "$context.protocol",
-            response_length  = "$context.responseLength"
-        })
-    }
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.generate_log_group.arn
+    format          = jsonencode({
+      request_id       = "$context.requestId",
+      ip               = "$context.identity.sourceIp",
+      caller           = "$context.identity.caller",
+      user             = "$context.identity.user",
+      request_time     = "$context.requestTime",
+      http_method      = "$context.httpMethod",
+      status           = "$context.status",
+      protocol         = "$context.protocol",
+      response_length  = "$context.responseLength"
+    })
+  }
 }
 
 resource "aws_iam_role_policy" "api_gateway_cloudwatch_log_policy" {
