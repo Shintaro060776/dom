@@ -38,9 +38,9 @@ resource "aws_iam_role_policy" "lambda_policy_generate" {
 }
 
 resource "aws_lambda_function" "generate_lambda" {
-    function_name = "generate_lambda_function"
+    function_name = "generate_text_classification"
     role = aws_iam_role.lambda_role_generate.arn
-
+    timeout = 900
     handler = "index.handler"
     runtime = "python3.8"
 
