@@ -48,3 +48,50 @@ resource "aws_cloudwatch_log_group" "generate_log_group" {
 
     retention_in_days = 90
 }
+
+resource "aws_api_gateway_stage" "generate" {
+    stage_name = "prod"
+    rest_api_id = aws_api_gateway_rest_api.generate_api.id
+    deployment_id = aws_api_gateway_deployment.generate_deployment.id
+
+    xray_tracing_enabled = true
+
+    access_log_settings {
+        description_arn = aws_cloudwatch_log_group.generate.generate_log_group.arn
+        format = jsonencode({
+            request_id       = "$context.requestId",
+            ip               = "$context.identity.sourceIp",
+            caller           = "$context.identity.caller",
+            user             = "$context.identity.user",
+            request_time     = "$context.requestTime",
+            http_method      = "$context.httpMethod",
+            status           = "$context.status",
+            protocol         = "$context.protocol",
+            response_length  = "$context.responseLength"
+        })
+    }
+}
+
+resource "aws_iam_role_policy" "api_gateway_cloudwatch_log_policy" {
+    name = "api_gateway_cloudwatch_log_policy"
+    role = aws_iam_role.api_gateway_lambda_role.id
+
+    policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [
+            Effect = "Allow",
+            Action = "logs:CreateLogGroup",
+            Resource = "arn:aws:logs:ap-northeast-1:715573459931:*"
+        ],
+        {
+            Effect = "Allow",
+            Action = [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            Resource = [
+                "${aws_cloudwatch_log_group.generate_log_group.arn}:*"
+            ]
+        }
+    })
+}
