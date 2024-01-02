@@ -41,7 +41,7 @@ resource "aws_lambda_function" "generate_lambda" {
     function_name = "generate_text_classification"
     role = aws_iam_role.lambda_role_generate.arn
     timeout = 900
-    handler = "index.handler"
+    handler = "lambda_function.handler"
     runtime = "python3.8"
 
     s3_bucket = "well-generate20090317"

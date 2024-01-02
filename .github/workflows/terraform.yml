@@ -146,7 +146,8 @@ jobs:
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
             cd /usr/share/nginx/html/realtime_backend
             pm2 restart 1
-            # wellのBackend側のPM2を再起動するようにする
+            /usr/share/nginx/html/well_backend
+            pm2 restart 2
           '
 
           rm -f deploy_key
