@@ -93,6 +93,17 @@ jobs:
           npm install
           npm run build
 
+      - name: well_backend
+        run: |
+          cd well_backend
+          npm install
+  
+      - name: well-generate
+        run: |
+          cd well-generate/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -126,11 +137,16 @@ jobs:
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/realtime_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/realtime_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/realtime/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/realtime/
 
+          # Deploy well app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/well_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/well_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/well-generate/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/well-generate/
+
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
             cd /usr/share/nginx/html/realtime_backend
             pm2 restart 1
+            # wellのBackend側のPM2を再起動するようにする
           '
 
           rm -f deploy_key
