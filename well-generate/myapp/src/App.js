@@ -7,7 +7,7 @@ const Sidebar = () => {
     <div className="sidebar">
       <a href="#home">Home</a>
       <a href="#archive">Archive</a>
-      <a href="#back-to-top">Back To Top</a>
+      <a href="http://3.112.43.184/">Back To Top</a>
     </div>
   );
 };

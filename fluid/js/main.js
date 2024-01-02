@@ -269,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (scrolled >= cardAppearThreshold) {
             if (scrollDirection === 'down') {
-                cardPosition = Math.max(cardPosition - 7, -500);
+                cardPosition = Math.max(cardPosition - 7, -1500);
                 card1Position = cardPosition + 130;
                 card2Position = card1Position + 130;
                 card3Position = card2Position + 130;
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card5Position = card4Position + 130;
                 card6Position = card5Position + 130;
             } else {
-                cardPosition = Math.min(cardPosition + 7, 500);
+                cardPosition = Math.min(cardPosition + 7, 1500);
                 card1Position = cardPosition + 130;
                 card2Position = card1Position + 130;
                 card3Position = card2Position + 130;
