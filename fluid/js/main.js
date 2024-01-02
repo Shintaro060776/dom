@@ -163,6 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let card1Position = 130;
     let card2Position = 170;
     let card3Position = 210;
+    let card4Position = 250;
+    let card5Position = 290;
+    let card6Position = 330;
 
     window.addEventListener('scroll', () => {
 
