@@ -7,17 +7,21 @@ logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
 translate_client = boto3.client('translate')
+sagemaker_runtime = boto3.client('sagemaker-runtime')
 
 
 def lambda_handler(event, context):
-    sagemaker_runtime = boto3.client('sagemaker-runtime')
-
     category_endpoint = os.environ['CATEGORY_CLASSIFICATION_ENDPOINT']
     text_generation_endpoint = os.environ['TEXT_GENERATION_ENDPOINT']
 
     try:
-        input_text = event["body"]
-        logger.info(f"Received input: {input_text}")
+        logger.info(f"Received event: {event}")
+
+        if event.get("body"):
+            input_text = json.loads(event["body"]).get("text")
+            logger.info(f"Received input text: {input_text}")
+        else:
+            return error_response(400, "No text provided in request body")
 
         translated_text = translate_text(input_text)
         logger.info(f"Translated text: {translated_text}")
@@ -28,6 +32,7 @@ def lambda_handler(event, context):
             Body=translated_text
         )
         category_result = category_response['Body'].read().decode()
+        logger.info(f"Category classification response: {category_response}")
         logger.info(f"Category classification result: {category_result}")
 
         text_generation_response = sagemaker_runtime.invoke_endpoint(
@@ -37,6 +42,7 @@ def lambda_handler(event, context):
                 {'category': category_result, 'text': translated_text})
         )
         generated_text = text_generation_response['Body'].read().decode()
+        logger.info(f"Text generation response: {text_generation_response}")
         logger.info(f"Generated text: {generated_text}")
 
         return {

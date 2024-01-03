@@ -8,10 +8,9 @@ app.use(express.json())
 
 app.post('/api/generate', async (req, res) => {
     try {
-        const { data } = req.body;
         const response = await axios.post(
             'https://fai9gyqpg1.execute-api.ap-northeast-1.amazonaws.com/prod/generate',
-            { data }
+            req.body
         );
         res.json(response.data);
     } catch (error) {
