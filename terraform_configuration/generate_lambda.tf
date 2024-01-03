@@ -29,7 +29,8 @@ resource "aws_iam_role_policy" "lambda_policy_generate" {
                     "logs:CreateLogStream",
                     "logs:PutLogEvents",
                     "s3:GetObject",
-                    "translate:TranslateText"
+                    "translate:TranslateText",
+                    "comprehend:DetectDominantLanguage"
                 ],
                 Effect = "Allow",
                 Resource = "*"
