@@ -6,6 +6,8 @@ import os
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+translate_client = boto3.client('translate')
+
 
 def lambda_handler(event, context):
     sagemaker_runtime = boto3.client('sagemaker-runtime')
@@ -17,10 +19,13 @@ def lambda_handler(event, context):
         input_text = event["body"]
         logger.info(f"Received input: {input_text}")
 
+        translated_text = translate_text(input_text)
+        logger.info(f"Translated text: {translated_text}")
+
         category_response = sagemaker_runtime.invoke_endpoint(
             EndpointName=category_endpoint,
             ContentType='text/plain',
-            Body=input_text
+            Body=translated_text
         )
         category_result = category_response['Body'].read().decode()
         logger.info(f"Category classification result: {category_result}")
@@ -28,7 +33,8 @@ def lambda_handler(event, context):
         text_generation_response = sagemaker_runtime.invoke_endpoint(
             EndpointName=text_generation_endpoint,
             ContentType='application/json',
-            Body=json.dumps({'category': category_result})
+            Body=json.dumps(
+                {'category': category_result, 'text': translated_text})
         )
         generated_text = text_generation_response['Body'].read().decode()
         logger.info(f"Generated text: {generated_text}")
@@ -38,17 +44,22 @@ def lambda_handler(event, context):
             'body': json.dumps({'generatedText': generated_text})
         }
 
-    except sagemaker_runtime.exceptions.ValidationError as e:
-        logger.error(f"Validation error in SageMaker request: {e}")
-        return error_response(400, "Validation error in SageMaker request: " + str(e))
-
-    except sagemaker_runtime.exceptions.ModelError as e:
-        logger.error(f"SageMaker model error: {e}")
-        return error_response(500, "SageMaker model error: " + str(e))
-
     except Exception as e:
-        logger.error(f"Internal server error: {e}")
+        logger.error(f"Error: {e}")
         return error_response(500, "Internal server error: " + str(e))
+
+
+def translate_text(text, target_language='en'):
+    try:
+        response = translate_client.translate_text(
+            Text=text,
+            SourceLanguageCode='auto',
+            TargetLanguageCode=target_language
+        )
+        return response.get('TranslatedText', text)
+    except Exception as e:
+        logger.error(f"Translation error: {e}")
+        return text
 
 
 def error_response(status_code, message):
