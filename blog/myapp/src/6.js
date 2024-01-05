@@ -45,7 +45,7 @@ const BlogArticle6 = () => {
 
                     <div class="code-box">
                         <code>
-                            <p class="code-text white"><span class="code-text blue">import</span> os</p><br /><br />
+                            {/* <p class="code-text white"><span class="code-text blue">import</span> os</p><br /><br />
                             <p class="code-text white"><span class="code-text blue">import</span> argparse</p><br /><br />
                             <p class="code-text white"><span class="code-text blue">import</span> torch</p><br /><br />
                             <p class="code-text white"><span class="code-text blue">import</span> torch.nn as nn</p><br /><br />
@@ -241,7 +241,7 @@ const BlogArticle6 = () => {
                             <p class="code-text white">except Exception as e:</p><br /><br />
                             <p class="code-text white">logging.error("Error in training: %s", e)</p><br /><br />
                             <p class="code-text white">raise e</p><br /><br />
-                            <p class="code-text white">メインの実行ブロック: このスクリプトのメイン部分では、コマンドライン引数を処理し、データを読み込み、全てのカテゴリに対してモデルの訓練を行い、訓練されたモデルを保存します。</p><br /><br />
+                            <p class="code-text white">メインの実行ブロック: このスクリプトのメイン部分では、コマンドライン引数を処理し、データを読み込み、全てのカテゴリに対してモデルの訓練を行い、訓練されたモデルを保存します。</p><br /><br /> */}
 
                         </code >
                     </div >
