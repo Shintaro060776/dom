@@ -23,8 +23,9 @@ def lambda_handler(event, context):
         else:
             return error_response(400, "No text provided in request body")
 
-        translated_text = translate_text(input_text)
-        logger.info(f"Translated text: {translated_text}")
+        translated_text = translate_text(input_text, target_language='en')
+        logger.info(
+            f"Translated text for category classification: {translated_text}")
 
         category_response = sagemaker_runtime.invoke_endpoint(
             EndpointName=category_endpoint,
@@ -42,12 +43,15 @@ def lambda_handler(event, context):
                 {'category': category_result, 'text': translated_text})
         )
         generated_text = text_generation_response['Body'].read().decode()
-        logger.info(f"Text generation response: {text_generation_response}")
         logger.info(f"Generated text: {generated_text}")
+
+        translated_generated_text = translate_text(
+            generated_text, target_language='ja')
+        logger.info(f"Translated generated text: {translated_generated_text}")
 
         return {
             'statusCode': 200,
-            'body': json.dumps({'generatedText': generated_text})
+            'body': json.dumps({'generatedText': translated_generated_text})
         }
 
     except Exception as e:
@@ -55,7 +59,7 @@ def lambda_handler(event, context):
         return error_response(500, "Internal server error: " + str(e))
 
 
-def translate_text(text, target_language='en'):
+def translate_text(text, target_language='ja'):
     try:
         response = translate_client.translate_text(
             Text=text,

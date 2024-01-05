@@ -37,5 +37,5 @@ if __name__ == '__main__':
     print("Accuracy:", accuracy_score(y_test, predictions))
 
     joblib.dump(model, os.path.join(args.model_dir, 'model.joblib'))
-    joblib.dump(vectorizer.vocabulary_, os.path.join(
-        args.model_dir, 'tfidf_vocabulary.pkl'))
+    joblib.dump(vectorizer, os.path.join(
+        args.model_dir, 'tfidf_vectorizer.joblib'))
