@@ -20,7 +20,7 @@ resource "aws_api_gateway_method" "api_method" {
     authorization = "NONE"
 }
 
-resource "aws_api_gateway_integration" "lambda_integration" {
+resource "aws_api_gateway_integration" "lambda_integration_claim" {
     rest_api_id = aws_api_gateway_rest_api.claim_api.id
     resource_id = aws_api_gateway_resource.api_resource.id
     http_method = aws_api_gateway_method.api_method.http_method
@@ -59,7 +59,7 @@ resource "aws_iam_role" "api_gateway_cloudwatch" {
     })
 }
 
-resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy" {
+resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy_claim" {
     name = "api-gateway-cloudwatch-policy-unique"
     role = aws_iam_role.api_gateway_cloudwatch.id
 
@@ -85,7 +85,7 @@ resource "aws_api_gateway_deployment" "claim_api_deployment" {
     stage_name = "prod"
 
     depends_on = [
-        aws_api_gateway_integration.lambda_integration
+        aws_api_gateway_integration.lambda_integration_claim
     ]
 }
 
