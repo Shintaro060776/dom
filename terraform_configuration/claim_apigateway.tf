@@ -38,9 +38,9 @@ resource "aws_lambda_permission" "api_gateway_permission" {
 }
 
 
-resource "aws_api_gateway_account" "api_gw_account" {
-    cloudwatch_role_arn = aws_iam_role.api_gateway_cloudwatch.arn
-}
+# resource "aws_api_gateway_account" "api_gw_account" {
+#     cloudwatch_role_arn = aws_iam_role.api_gateway_cloudwatch.arn
+# }
 
 resource "aws_iam_role" "api_gateway_cloudwatch" {
   name = "api-gateway-cloudwatch-role-unique"
@@ -73,7 +73,7 @@ resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy_claim" {
           "logs:PutLogEvents"
         ],
         Effect = "Allow",
-        Resource = "arn:aws:logs:*:*:*"
+        Resource = "${aws_cloudwatch_log_group.api_gw_log_group.arn}:*"
       },
     ],
   })
