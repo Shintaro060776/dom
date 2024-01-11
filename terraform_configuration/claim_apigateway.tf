@@ -3,7 +3,7 @@ resource "aws_api_gateway_rest_api" "claim_api" {
     description = "API for handling user claims"
 
     endpoint_configuration {
-        type = ["REGIONAL"]
+        types = ["REGIONAL"]
     }
 }
 
