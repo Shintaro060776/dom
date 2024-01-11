@@ -43,41 +43,40 @@ resource "aws_api_gateway_account" "api_gw_account" {
 }
 
 resource "aws_iam_role" "api_gateway_cloudwatch" {
-    name = "api-gateway-cloudwatch-role-unique"
+  name = "api-gateway-cloudwatch-role-unique"
 
-    assume_role_policy = jsonencode({
-        Version = "2012-10-17",
-        Statement = [
-            {
-                Action = "sts:AssumeRole",
-                Effect = "Allow",
-                Principal = {
-                    Service = "apigateway.amazonaws.com"
-                },
-            },
-        ],
-    })
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = "sts:AssumeRole",
+        Effect = "Allow",
+        Principal = {
+          Service = "apigateway.amazonaws.com"
+        },
+      },
+    ],
+  })
 }
 
 resource "aws_iam_role_policy" "api_gateway_cloudwatch_policy_claim" {
-    name = "api-gateway-cloudwatch-policy-unique"
-    role = aws_iam_role.api_gateway_cloudwatch.id
+  name = "api-gateway-cloudwatch-policy-unique"
+  role = aws_iam_role.api_gateway_cloudwatch.id
 
-    policy = jsonencode({
-        Version = "2012-10-17",
-        Statement = [
-            {
-                Action = [
-                    "logs:CreateLogGroup",
-                    "logs:CreateLogStream",
-                    "logs:PutLogEvents",
-                    "logs:DescribeLogStream"
-                ],
-                Effect = "Allow",
-                Resource = "*"
-            },
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
         ],
-    })
+        Effect = "Allow",
+        Resource = "arn:aws:logs:*:*:*"
+      },
+    ],
+  })
 }
 
 resource "aws_api_gateway_deployment" "claim_api_deployment" {
@@ -85,7 +84,8 @@ resource "aws_api_gateway_deployment" "claim_api_deployment" {
     stage_name = "prod"
 
     depends_on = [
-        aws_api_gateway_integration.lambda_integration_claim
+        aws_api_gateway_integration.lambda_integration_claim,
+        aws_api_gateway_method.api_method
     ]
 }
 
