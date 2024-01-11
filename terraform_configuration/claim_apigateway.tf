@@ -90,7 +90,7 @@ resource "aws_api_gateway_deployment" "claim_api_deployment" {
 }
 
 resource "aws_api_gateway_stage" "api_stage" {
-    stage_name = "prod"
+    # stage_name = "prod"
     rest_api_id = aws_api_gateway_rest_api.claim_api.id
     deployment_id = aws_api_gateway_deployment.claim_api_deployment.id
 
