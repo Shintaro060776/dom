@@ -104,6 +104,17 @@ jobs:
           npm install
           npm run build
 
+      - name: claim_backend
+        run: |
+          cd claim_backend
+          npm install
+  
+      - name: claim-generate
+        run: |
+          cd claim_generation/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -141,6 +152,10 @@ jobs:
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/well_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/well_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/well-generate/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/well-generate/
 
+          # Deploy claim app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/claim_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/claim_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/claim_generation/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/claim_generation/
+
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
@@ -148,6 +163,8 @@ jobs:
             pm2 restart 1
             /usr/share/nginx/html/well_backend
             pm2 restart 2
+            # /usr/share/nginx/html/claim_backend
+            # pm2 restart 3
           '
 
           rm -f deploy_key
