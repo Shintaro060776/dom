@@ -14,6 +14,7 @@ resource "aws_lambda_function" "claim_handler_lambda" {
             SAGEMAKER_ENDPOINT_SENTIMENT = "unique-sagemaker-sentiment-endpoint"
             SAGEMAKER_ENDPOINT_TEXT_GEN  = "unique-sagemaker-text-gen-endpoint"
             SLACK_WEBHOOK_URL            = data.aws_ssm_parameter.slack_webhook.value
+            DYNAMODB_TABLE_NAME          = "claim"
         }
     }
 }
@@ -50,7 +51,9 @@ resource "aws_iam_role_policy" "lambda_policy_unique" {
                     "logs:PutLogEvents",
                     "s3:GetObject",
                     "translate:TranslateText",
-                    "comprehend:DetectDominantLanguage"
+                    "comprehend:DetectDominantLanguage",
+                    "dynamodb:PutItem",
+                    "dynamodb:GetItem"
                 ],
                 Effect = "Allow",
                 Resource = "*"
