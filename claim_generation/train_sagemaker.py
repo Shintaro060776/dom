@@ -51,16 +51,17 @@ class LSTMModel(nn.Module):
                             num_layers, batch_first=True)
         self.fc = nn.Linear(hidden_size, output_size)
 
-    def forward(self, x):
+    def forward(self, x, h0=None, c0=None):
         batch_size = x.size(0)
         x = self.embedding(x)
-        h0 = torch.zeros(self.num_layers, batch_size,
-                         self.hidden_size).to(x.device)
-        c0 = torch.zeros(self.num_layers, batch_size,
-                         self.hidden_size).to(x.device)
-        out, _ = self.lstm(x, (h0, c0))
+        if h0 is None and c0 is None:
+            h0 = torch.zeros(self.num_layers, batch_size,
+                             self.hidden_size).to(x.device)
+            c0 = torch.zeros(self.num_layers, batch_size,
+                             self.hidden_size).to(x.device)
+        out, (h0, c0) = self.lstm(x, (h0, c0))
         out = self.fc(out)
-        return out
+        return out, (h0, c0)
 
 
 def collate_batch(batch):
@@ -104,16 +105,17 @@ if __name__ == "__main__":
     dataset = TextDataset(train_texts, vocab)
     data_loader = DataLoader(
         dataset, batch_size=args.batch_size, shuffle=True, collate_fn=collate_batch)
-    num_epochs = 10
+    num_epochs = 5
 
     for epoch in range(num_epochs):
         print(f"Epoch: {epoch + 1}")
         for inputs, targets in data_loader:
             print("Running a batch...")
             optimizer.zero_grad()
-            outputs = model(inputs)
-            loss = criterion(outputs.view(-1, vocab_size),
-                             targets.view(-1))
+
+            outputs, _ = model(inputs)
+
+            loss = criterion(outputs.view(-1, vocab_size), targets.view(-1))
             loss.backward()
             optimizer.step()
             print(f"Batch loss: {loss.item()}")

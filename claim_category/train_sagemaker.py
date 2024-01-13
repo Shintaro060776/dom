@@ -35,7 +35,8 @@ def main(args):
     print(
         f"Classification Report:\n{classification_report(y_test, predictions)}")
 
-    joblib.dump(model, os.path.join(output_dir, 'model.joblib'))
+    # joblib.dump(model, os.path.join(output_dir, 'model.joblib'))
+    joblib.dump((vectorizer, model), os.path.join(output_dir, "model.joblib"))
 
 
 if __name__ == '__main__':

@@ -9,6 +9,8 @@ resource "aws_lambda_function" "claim_handler_lambda" {
 
     role = aws_iam_role.lambda_exec_unique.arn
 
+    layers = [aws_lambda_layer_version.requests_layer.arn]
+
     environment {
         variables = {
             SAGEMAKER_ENDPOINT_SENTIMENT = "unique-sagemaker-sentiment-endpoint"
