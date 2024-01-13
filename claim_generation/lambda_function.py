@@ -4,6 +4,7 @@ import os
 import logging
 from botocore.exceptions import ClientError
 import requests
+from uuid import uuid4
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -79,14 +80,17 @@ def lambda_handler(event, context):
         #     Payload=json.dumps(slack_message)
         # )
 
+        unique_id = str(uuid4())
+
         dynamodb_client = boto3.client('dynamodb')
         dynamodb_client.put_item(
             TableName=dynamodb_table_name,
             Item={
+                'id': {'S': unique_id},
                 'UserInput': {'S': user_input},
                 'TranslatedText': {'S': translated_text},
                 'SentimentResult': {'S': json.dumps(sentiment_result)},
-                'GeneratedText': {'S': text_gen_result},
+                'GeneratedText': {'S': text_gen_result['generated_text']},
                 'FinalText': {'S': final_text}
             }
         )

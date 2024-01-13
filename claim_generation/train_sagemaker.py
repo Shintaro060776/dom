@@ -105,7 +105,7 @@ if __name__ == "__main__":
     dataset = TextDataset(train_texts, vocab)
     data_loader = DataLoader(
         dataset, batch_size=args.batch_size, shuffle=True, collate_fn=collate_batch)
-    num_epochs = 5
+    num_epochs = 15
 
     for epoch in range(num_epochs):
         print(f"Epoch: {epoch + 1}")
