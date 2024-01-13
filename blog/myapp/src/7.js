@@ -145,7 +145,7 @@ if __name__ == "__main__":
 
                     このアプリケーションの、具体的な構築手順は、以下の通りです。<br /><br />
 
-                    <img src='/blog/system5.png' alt='fifthsystem' className='system-image' /><br /><br />
+                    <img src='/blog/system7.png' alt='fifthsystem' className='system-image' /><br /><br />
 
                     <span className="highlight">データセットの作成と前処理</span><br /><br />
                     トレーニングに使用する、データセットを作成します。テキストデータを含む、CSVファイルから、データを読み込んでいます。<br /><br />
@@ -177,9 +177,9 @@ if __name__ == "__main__":
                     ★以下は検証動画です
 
                     <br /><br />  <video className="system-video" controls>
-                        <source src="/blog/video5.mp4" type="video/mp4" />
+                        <source src="/blog/claim.mp4" type="video/mp4" />
                         ご利用のブラウザはこのビデオをサポートしていません。
-                    </video><br /><br />
+                    </video>
 
                     <br /><br />以下は、忘備録として、バックエンドサービスである、Sagemaker側で実装した、コードの説明を記載します。<br /><br />
 
