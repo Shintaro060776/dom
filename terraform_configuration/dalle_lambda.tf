@@ -40,12 +40,12 @@ resource "aws_iam_role" "lambda_iam_role" {
     })
 }
 
-resource "aws_cloudwatch_log_group" "lambda_log_group" {
+resource "aws_cloudwatch_log_group" "dalle_lambda_log_group" {
     name = "/aws/lambda/${aws_lambda_function.openai_image_generator.function_name}"
     retention_in_days = 14
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
     role = aws_iam_role.lambda_iam_role.name
-    policy_arn = arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole""
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
