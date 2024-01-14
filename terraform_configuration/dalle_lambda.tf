@@ -14,11 +14,15 @@ resource "aws_lambda_function" "openai_image_generator" {
 
     filename = "/home/runner/work/dom/dom/dalle/lambda_function.zip"
 
-    layers = [aws_lambda_layer_version.openai_layer.arn]
+    layers = [
+        aws_lambda_layer_version.openai_layer.arn,
+        aws_lambda_layer_version.requests_layer.arn
+    ]
 
     environment {
         variables = {
             OPENAI_API_KEY = data.aws_ssm_parameter.openai_api_key.value
+            SLACK_WEBHOOK_URL            = data.aws_ssm_parameter.slack_webhook.value
         }
     }
 }

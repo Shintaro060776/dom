@@ -1,10 +1,12 @@
 import os
 import json
+import requests
 from openai import OpenAI
 
 
 def lambda_handler(event, context):
     api_key = os.environ['OPENAI_API_KEY']
+    slack_webhook_url = os.environ['SLACK_WEBHOOK_URL']
 
     client = OpenAI(api_key=api_key)
 
@@ -21,6 +23,25 @@ def lambda_handler(event, context):
         )
 
         image_url = response.data[0].url
+
+        slack_message = {
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": f"Generated Image: {prompt}"
+                    },
+                    "accessory": {
+                        "type": "image",
+                        "image_url": image_url,
+                        "alt_text": "Generated image"
+                    }
+                }
+            ]
+        }
+
+        requests.post(slack_webhook_url, json=slack_message)
 
         return {
             'statusCode': 200,
