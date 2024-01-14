@@ -1,6 +1,10 @@
 resource "aws_api_gateway_rest_api" "unique_openai_api" {
   name        = "unique-openai-api"
   description = "API for OpenAI Lambda Function"
+
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
 }
 
 resource "aws_api_gateway_resource" "unique_openai_resource" {
@@ -31,7 +35,7 @@ resource "aws_api_gateway_deployment" "unique_openai_deployment" {
   ]
 
   rest_api_id = aws_api_gateway_rest_api.unique_openai_api.id
-  stage_name  = "prod"
+  # stage_name  = "prod"
 }
 
 resource "aws_cloudwatch_log_group" "unique_openai_log_group" {
@@ -87,4 +91,15 @@ resource "aws_lambda_permission" "api_gateway_permission_dalle" {
     principal = "apigateway.amazonaws.com"
 
     source_arn = "${aws_api_gateway_rest_api.unique_openai_api.execution_arn}/*/*"
+}
+
+resource "aws_api_gateway_stage" "unique_openai_stage" {
+  stage_name = "prod"
+  rest_api_id = aws_api_gateway_rest_api.unique_openai_api.id
+  deployment_id = aws_api_gateway_deployment.unique_openai_deployment.id
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.unique_openai_log_group.arn
+    format          = "{'requestId':'$context.requestId','ip':'$context.identity.sourceIp','requestTime':'$context.requestTime','httpMethod':'$context.httpMethod','status':'$context.status','protocol':'$context.protocol','responseLength':'$context.responseLength'}"
+  }
 }
