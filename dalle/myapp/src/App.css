@@ -1,0 +1,79 @@
+.app {
+  text-align: center;
+}
+
+.header {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(35, 9, 121, 1) 5%, rgba(0, 212, 255, 1) 100%);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 30px;
+}
+
+.image-container {
+  width: 1024px;
+  height: 1024px;
+  margin: 20px auto;
+  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
+  border: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  background-color: #f8f8f8;
+}
+
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.fetch-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: white;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(121, 9, 98, 1) 54%, rgba(0, 212, 255, 1) 100%);
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.fetch-button:hover {
+  background: rgb(2, 0, 36);
+  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(93, 9, 121, 0.6699054621848739) 54%, rgba(0, 212, 255, 1) 100%);
+}
+
+.input-container {
+  margin-bottom: 1rem;
+}
+
+.input-container input {
+  width: 50%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 2px solid #ddd;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s;
+}
+
+.input-container input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(202, 13, 60);
+}
