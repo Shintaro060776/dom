@@ -9,7 +9,7 @@ resource "aws_lambda_function" "openai_image_generator" {
     function_name = "openai_image_generator"
     role = aws_iam_role.lambda_iam_role.arn
     handler = "lambda_function.lambda_handler"
-    runtime = "python3.8"
+    runtime = "python3.11"
     timeout = 900
 
     filename = "/home/runner/work/dom/dom/dalle/lambda_function.zip"
