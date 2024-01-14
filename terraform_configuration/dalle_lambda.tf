@@ -1,5 +1,5 @@
 resource "aws_lambda_layer_version" "openai_layer" {
-    filename = "./openai.zip"
+    filename = "/dom/openai.zip"
     layer_name = "openai_layer"
 
     compatible_runtimes = ["python3.8"]
