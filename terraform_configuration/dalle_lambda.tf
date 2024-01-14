@@ -53,3 +53,12 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
     role = aws_iam_role.lambda_iam_role.name
     policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
+
+resource "aws_lambda_permission" "api_gateway_permission" {
+    statement_id = "AllowExecutionFromAPIGateway"
+    action = "lambda:InvokeFunction"
+    function_name = aws_lambda_function.openai_image_generator.arn
+    principal = "apigateway.amazonaws.com"
+
+    source_arn = "${aws_api_gateway_rest_api.unique_openai_api.execution_arn}/*/*/*"
+}
