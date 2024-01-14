@@ -54,7 +54,7 @@ resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
     policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-resource "aws_lambda_permission" "api_gateway_permission" {
+resource "aws_lambda_permission" "api_gateway_permission_dalle" {
     statement_id = "AllowExecutionFromAPIGateway"
     action = "lambda:InvokeFunction"
     function_name = aws_lambda_function.openai_image_generator.arn
