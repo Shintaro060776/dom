@@ -79,3 +79,12 @@ resource "aws_iam_role_policy" "unique_openai_apigw_cloudwatch_policy" {
 resource "aws_api_gateway_account" "unique_openai_account" {
   cloudwatch_role_arn = aws_iam_role.unique_openai_apigw_cloudwatch_role.arn
 }
+
+resource "aws_lambda_permission" "api_gateway_permission_dalle" {
+    statement_id = "AllowExecutionFromAPIGateway"
+    action = "lambda:InvokeFunction"
+    function_name = aws_lambda_function.openai_image_generator.arn
+    principal = "apigateway.amazonaws.com"
+
+    source_arn = "${aws_api_gateway_rest_api.unique_openai_api.execution_arn}/*/*"
+}
