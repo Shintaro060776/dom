@@ -12,7 +12,7 @@ resource "aws_lambda_function" "openai_image_generator" {
     runtime = "python3.8"
     timeout = 900
 
-    filename = "./dalle/lambda_function.zip"
+    filename = "/home/runner/work/dom/dom/dalle/lambda_function.zip"
 
     layers = [aws_lambda_layer_version.openai_layer.arn]
 
