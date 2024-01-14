@@ -1,8 +1,8 @@
 resource "aws_lambda_layer_version" "openai_layer" {
-    filename = "/home/runner/work/dom/dom/openai.zip"
+    filename = "/home/runner/work/dom/dom/python/mylayer.zip"
     layer_name = "openai_layer"
 
-    compatible_runtimes = ["python3.8"]
+    compatible_runtimes = ["python3.11"]
 }
 
 resource "aws_lambda_function" "openai_image_generator" {
