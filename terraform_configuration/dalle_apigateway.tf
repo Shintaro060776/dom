@@ -22,6 +22,8 @@ resource "aws_api_gateway_integration" "unique_openai_lambda_integration" {
   http_method = "POST"
   type        = "AWS_PROXY"
   uri         = aws_lambda_function.openai_image_generator.invoke_arn
+
+  depends_on = [aws_api_gateway_method.unique_openai_post]
 }
 
 resource "aws_api_gateway_deployment" "unique_openai_deployment" {
