@@ -5,6 +5,13 @@ resource "aws_lambda_layer_version" "openai_layer" {
     compatible_runtimes = ["python3.11"]
 }
 
+resource "aws_lambda_layer_version" "additional_request_layer" {
+    filename = "/home/runner/work/dom/dom/python/myenv/lib/python3.11/site-packages/requests.zip"
+    layer_name = "additional_request_layer"
+
+    compatible_runtimes = ["python3.11"]
+}
+
 resource "aws_lambda_function" "openai_image_generator" {
     function_name = "openai_image_generator"
     role = aws_iam_role.lambda_iam_role.arn
@@ -16,7 +23,8 @@ resource "aws_lambda_function" "openai_image_generator" {
 
     layers = [
         aws_lambda_layer_version.openai_layer.arn,
-        aws_lambda_layer_version.requests_layer.arn
+        aws_lambda_layer_version.requests_layer.arn,
+        aws_lambda_layer_version.additional_request_layer.arn
     ]
 
     environment {
