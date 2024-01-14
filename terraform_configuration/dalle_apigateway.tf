@@ -19,7 +19,7 @@ resource "aws_api_gateway_method" "unique_openai_post" {
 resource "aws_api_gateway_integration" "unique_openai_lambda_integration" {
   rest_api_id = aws_api_gateway_rest_api.unique_openai_api.id
   resource_id = aws_api_gateway_resource.unique_openai_resource.id
-  http_method = aws_api_gateway_method.unique_openai_post.http_method
+  http_method = "POST"
   type        = "AWS_PROXY"
   uri         = aws_lambda_function.openai_image_generator.invoke_arn
 }
