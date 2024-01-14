@@ -180,8 +180,8 @@ jobs:
             pm2 restart 2
             /usr/share/nginx/html/claim_backend
             pm2 restart 3
-            # /usr/share/nginx/html/dalle_backend
-            # pm2 restart 4
+            /usr/share/nginx/html/dalle_backend
+            pm2 restart 4
           '
 
           rm -f deploy_key
