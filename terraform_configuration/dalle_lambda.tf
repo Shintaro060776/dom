@@ -6,7 +6,7 @@ resource "aws_lambda_layer_version" "openai_layer" {
 }
 
 resource "aws_lambda_layer_version" "additional_request_layer" {
-    filename = "/home/runner/work/dom/dom/requests.zip"
+    filename = "/home/runner/work/dom/dom/requests1.zip"
     layer_name = "additional_request_layer"
 
     compatible_runtimes = ["python3.11"]
