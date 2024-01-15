@@ -37,8 +37,8 @@ resource "aws_lambda_function" "gpt4_lambda_function" {
 
   environment {
     variables = {
-      OPENAI_API_KEY       = data.aws_ssm_parameter.gpt4_openai_api_key.value
-      SLACK_WEBHOOK_URL    = data.aws_ssm_parameter.gpt4_slack_webhook.value
+      OPENAI_API_KEY = data.aws_ssm_parameter.openai_api_key.value
+      SLACK_WEBHOOK_URL            = data.aws_ssm_parameter.slack_webhook.value
     }
   }
 }
