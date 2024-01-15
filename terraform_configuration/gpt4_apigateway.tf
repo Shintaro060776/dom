@@ -37,7 +37,7 @@ resource "aws_api_gateway_deployment" "gpt4_api_deployment" {
 resource "aws_api_gateway_stage" "gpt4_api_stage" {
     stage_name = aws_api_gateway_deployment.gpt4_api_deployment.stage_name
     rest_api_id = aws_api_gateway_rest_api.gpt4_api_gateway.id
-    deployment_id = aws_api_gateway_deployment.gptp4_api_deployment.id
+    deployment_id = aws_api_gateway_deployment.gpt4_api_deployment.id
 
     xray_tracing_enabled = true
 
