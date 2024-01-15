@@ -166,6 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let card4Position = 250;
     let card5Position = 290;
     let card6Position = 330;
+    let card7Position = 370;
+    let card8Position = 410;
+    let card9Position = 450;
 
     window.addEventListener('scroll', () => {
 
@@ -208,6 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const card4 = document.getElementById('card4');
             const card5 = document.getElementById('card5');
             const card6 = document.getElementById('card6');
+            const card7 = document.getElementById('card7');
+            const card8 = document.getElementById('card8');
+            const card9 = document.getElementById('card9');
 
             if (!cardVisible && scrollDirection === 'down') {
                 card.classList.add('visible');
@@ -231,6 +237,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 card6.classList.add('visible');
                 card.style.right = '10%';
                 cardVisible = true;
+                card7.classList.add('visible');
+                card.style.right = '10%';
+                cardVisible = true;
+                card8.classList.add('visible');
+                card.style.right = '10%';
+                cardVisible = true;
+                card9.classList.add('visible');
+                card.style.right = '10%';
+                cardVisible = true;
             } else if (cardVisible && scrollDirection === 'up') {
                 card.style.right = '-100%'
                 cardVisible = false
@@ -245,6 +260,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 card5.style.right = '-100%'
                 cardVisible = false
                 card6.style.right = '-100%'
+                cardVisible = false
+                card7.style.right = '-100%'
+                cardVisible = false
+                card8.style.right = '-100%'
+                cardVisible = false
+                card9.style.right = '-100%'
                 cardVisible = false
             }
         } else {
@@ -262,6 +283,12 @@ document.addEventListener('DOMContentLoaded', () => {
             isCardMovingRight = false;
             document.getElementById('card6').classList.remove('visible');
             isCardMovingRight = false;
+            document.getElementById('card7').classList.remove('visible');
+            isCardMovingRight = false;
+            document.getElementById('card8').classList.remove('visible');
+            isCardMovingRight = false;
+            document.getElementById('card9').classList.remove('visible');
+            isCardMovingRight = false;
         }
 
         let scrollDirection = scrolled > lastScrollTop ? 'down' : 'up';
@@ -269,23 +296,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (scrolled >= cardAppearThreshold) {
             if (scrollDirection === 'down') {
-                cardPosition = Math.max(cardPosition - 7, -1500);
+                cardPosition = Math.max(cardPosition - 7, -2500);
                 card1Position = cardPosition + 130;
                 card2Position = card1Position + 130;
                 card3Position = card2Position + 130;
                 card4Position = card3Position + 130;
                 card5Position = card4Position + 130;
                 card6Position = card5Position + 130;
+                card7Position = card6Position + 130;
+                card8Position = card7Position + 130;
+                card9Position = card8Position + 130;
             } else {
-                cardPosition = Math.min(cardPosition + 7, 1500);
+                cardPosition = Math.min(cardPosition + 7, 2500);
                 card1Position = cardPosition + 130;
                 card2Position = card1Position + 130;
                 card3Position = card2Position + 130;
                 card4Position = card3Position + 130;
                 card5Position = card4Position + 130;
                 card6Position = card5Position + 130;
+                card7Position = card6Position + 130;
+                card8Position = card7Position + 130;
+                card9Position = card8Position + 130;
             }
-            updateCardPosition(cardPosition, card1Position, card2Position, card3Position, card4Position, card5Position, card6Position);
+            updateCardPosition(cardPosition, card1Position, card2Position, card3Position, card4Position, card5Position, card6Position, card7Position, card8Position, card9Position);
         }
 
         let opacity = 1 - (scrolled - startThreshold) / (endThreshold - startThreshold);
@@ -293,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('portfolio').style.opacity = opacity;
     });
 
-    function updateCardPosition(pos, pos1, pos2, pos3, pos4, pos5, pos6) {
+    function updateCardPosition(pos, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9) {
         const card = document.getElementById('card');
         const card1 = document.getElementById('card1');
         const card2 = document.getElementById('card2');
@@ -301,6 +334,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const card4 = document.getElementById('card4');
         const card5 = document.getElementById('card5');
         const card6 = document.getElementById('card6');
+        const card7 = document.getElementById('card7');
+        const card8 = document.getElementById('card8');
+        const card9 = document.getElementById('card9');
         if (!card) return;
         card.style.right = `${pos}%`;
         card.classList.add('visible');
@@ -328,5 +364,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!card6) return;
         card6.style.right = `${pos6}%`;
         card6.classList.add('visible');
+
+        if (!card7) return;
+        card7.style.right = `${pos7}%`;
+        card7.classList.add('visible');
+
+        if (!card8) return;
+        card8.style.right = `${pos8}%`;
+        card8.classList.add('visible');
+
+        if (!card9) return;
+        card9.style.right = `${pos9}%`;
+        card9.classList.add('visible');
     }
 });

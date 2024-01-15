@@ -146,7 +146,7 @@ canvas {
 }
 
 .extra-space {
-    height: 35000px;
+    height: 55000px;
 }
 
 #loading {
@@ -364,7 +364,10 @@ canvas {
 #card3,
 #card4,
 #card5,
-#card6 {
+#card6,
+#card7,
+#card8,
+#card9 {
     position: fixed;
     top: 50%;
     right: -100%;
@@ -423,6 +426,33 @@ canvas {
     margin: 0 auto;
 }
 
+.card-image7 {
+    width: 100%;
+    height: 50%;
+    background: url('20231027_04_02_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-image8 {
+    width: 100%;
+    height: 50%;
+    background: url('20231027_04_02_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-image9 {
+    width: 100%;
+    height: 50%;
+    background: url('20231027_04_02_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
 .card-image1 {
     width: 100%;
     height: 50%;
@@ -461,7 +491,10 @@ canvas {
 #card3 a,
 #card4 a,
 #card5 a,
-#card6 a {
+#card6 a,
+#card7 a,
+#card8 a,
+#card9 a {
     color: inherit;
     text-decoration: none;
 }
@@ -487,7 +520,10 @@ canvas {
 #card3.visible,
 #card4.visible,
 #card5.visible,
-#card6.visible {
+#card6.visible,
+#card7.visible,
+#card8.visible,
+#card9.visible {
     right: 10%;
 }
 
@@ -532,7 +568,10 @@ canvas {
     #card3,
     #card4,
     #card5,
-    #card6 {
+    #card6,
+    #card7,
+    #card8,
+    #card9 {
         width: 300px;
         height: 400px;
     }
@@ -553,7 +592,10 @@ canvas {
     #card3,
     #card4,
     #card5,
-    #card6 {
+    #card6,
+    #card7,
+    #card8,
+    #card9 {
         width: 300px;
         height: 400px;
     }
@@ -579,7 +621,10 @@ canvas {
     #card3,
     #card4,
     #card5,
-    #card6 {
+    #card6,
+    #card7,
+    #card8,
+    #card9 {
         width: 700px;
         height: 700px;
     }
@@ -623,7 +668,10 @@ canvas {
     #card3,
     #card4,
     #card5,
-    #card6 {
+    #card6,
+    #card7,
+    #card8,
+    #card9 {
         width: 700px;
         height: 700px;
     }
