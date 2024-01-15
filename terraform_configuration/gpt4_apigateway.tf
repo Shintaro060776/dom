@@ -31,11 +31,11 @@ resource "aws_api_gateway_deployment" "gpt4_api_deployment" {
     ]
 
     rest_api_id = aws_api_gateway_rest_api.gpt4_api_gateway.id
-    stage_name = "prod"
+    # stage_name = "prod"
 }
 
 resource "aws_api_gateway_stage" "gpt4_api_stage" {
-    stage_name = aws_api_gateway_deployment.gpt4_api_deployment.stage_name
+    stage_name = "prod"
     rest_api_id = aws_api_gateway_rest_api.gpt4_api_gateway.id
     deployment_id = aws_api_gateway_deployment.gpt4_api_deployment.id
 
