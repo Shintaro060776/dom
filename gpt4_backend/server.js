@@ -4,7 +4,7 @@ const app = express();
 
 app.use(express.json());
 
-app.post('/apt/gpt4', async (req, res) => {
+app.post('/api/gpt4', async (req, res) => {
     try {
         const response = await axios.post('https://i2i6rp7og4.execute-api.ap-northeast-1.amazonaws.com/prod/gpt4path', req.body);
         res.send(response.data);

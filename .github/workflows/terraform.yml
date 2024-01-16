@@ -197,8 +197,8 @@ jobs:
             pm2 restart 3
             /usr/share/nginx/html/dalle_backend
             pm2 restart 4
-            # /usr/share/nginx/html/gpt4_backend
-            # pm2 restart 5
+            /usr/share/nginx/html/gpt4_backend
+            pm2 restart 5
           '
 
           rm -f deploy_key
