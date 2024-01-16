@@ -6,9 +6,9 @@ import './App.css';
 function App() {
   const [messages, setMessages] = useState([]);
 
-  const handleSendMessage = (userText, aiResponse) => {
+  const handleSendMessage = (userText, aiResponseText) => {
     const newUserMessage = { text: userText, sender: 'user' };
-    const newAiMessage = { text: aiResponse.message, sender: 'ai' };
+    const newAiMessage = { text: aiResponseText, sender: 'ai' };
     setMessages([...messages, newUserMessage, newAiMessage]);
   };
 

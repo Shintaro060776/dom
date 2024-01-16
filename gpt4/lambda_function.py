@@ -1,6 +1,7 @@
 import json
 import logging
 import openai
+from openai import OpenAI
 import os
 import requests
 
@@ -18,14 +19,16 @@ def send_slack_notification(user_input, ai_response):
 
 def lambda_handler(event, context):
     try:
-        openai.api_key = os.environ.get("OPENAI_API_KEY")
+        client = OpenAI(
+            api_key=os.environ.get("OPENAI_API_KEY")
+        )
 
         body = json.loads(event["body"])
         user_input = body.get("message", "")
 
         logger.info(f"User Input: {user_input}")
 
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
@@ -33,7 +36,7 @@ def lambda_handler(event, context):
             ]
         )
 
-        ai_response = response.choices[0].message["content"]
+        ai_response = response.choices[0].message.content
         logger.info(f"AI Response: {ai_response}")
 
         send_slack_notification(user_input, ai_response)

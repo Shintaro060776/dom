@@ -9,7 +9,8 @@ function MessageInput({ onSendMessage }) {
         if (text) {
             try {
                 const response = await axios.post('http://3.112.43.184/api/gpt4', { message: text });
-                onSendMessage(text, response.data);
+                const aiResponseText = response.data.response
+                onSendMessage(text, aiResponseText);
             } catch (error) {
                 console.error('Error sending message:', error);
             }
