@@ -20,10 +20,12 @@ function MessageInput({ onSendMessage }) {
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+                <input className='message-input' type="text" value={text} onChange={(e) => setText(e.target.value)} />
                 <button type="submit">Send</button>
             </form>
-            <a href='http://3.112.43.184/'>トップページに戻る</a>
+            <div className='link-container'>
+                <a href='http://3.112.43.184/' className='link-to-home'>トップページに戻る</a>
+            </div>
         </div>
     );
 }

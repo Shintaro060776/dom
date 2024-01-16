@@ -58,6 +58,7 @@ body {
   border-radius: 20px;
   border: 1px solid #e9ecef;
   margin-right: 10px;
+  width: 500px;
 }
 
 button {
@@ -101,4 +102,20 @@ a:hover {
 .message-list::-webkit-scrollbar-thumb {
   background: #007bff;
   border-radius: 10px;
+}
+
+.link-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.link-to-home {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+}
+
+.link-to-home:hover {
+  color: #ddd;
 }
