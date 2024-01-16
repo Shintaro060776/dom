@@ -55,25 +55,32 @@ body {
 }
 
 .message-input-container {
-  border-top: 1px solid #e9ecef;
-  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #497474;
+  padding: 10px 20px;
+  box-sizing: border-box;
   display: flex;
+  justify-content: center;
   align-items: center;
+  border-top: 1px solid #e9ecef;
 }
 
 .message-input {
-  flex-grow: 1;
   padding: 10px;
   border-radius: 20px;
-  border: 1px solid #e9ecef;
+  border: 1px solid #e9acef;
   margin-right: 10px;
-  width: 500px;
+  width: 400px;
+  max-width: 400px;
 }
 
 button {
   padding: 10px 15px;
   background-color: #9eeb0f;
-  color: rgb(19, 17, 17);
+  color: black;
   border: none;
   border-radius: 20px;
   cursor: pointer;
@@ -114,9 +121,12 @@ a:hover {
 }
 
 .link-container {
+  position: fixed;
+  bottom: 70px;
+  left: 0;
+  width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 
 .link-to-home {
