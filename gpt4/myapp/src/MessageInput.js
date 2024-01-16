@@ -1,0 +1,28 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+
+function MessageInput({ onSendMessage }) {
+    const [text, setText] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (text) {
+            try {
+                const response = axios.post('http://3.112.43.184/api/gpt4', { message: text });
+                onSendMessage(text, response.data);
+            } catch (error) {
+                console.error('Error sending message:', error);
+            }
+            setText('');
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <input type="text" value={text} onChange={(e) => setText(e.target.value)} />
+            <button type="submit">Send</button>
+        </form>
+    );
+}
+
+export default MessageInput;
