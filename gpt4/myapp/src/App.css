@@ -22,6 +22,9 @@ body {
   padding: 20px;
   height: 400px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .message {
@@ -33,16 +36,22 @@ body {
 }
 
 .user-message {
+  align-self: flex-end;
   background-color: #007bff;
   color: white;
-  margin-left: auto;
-  text-align: right;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 20px;
+  max-width: 80%;
 }
 
 .ai-message {
   background-color: #e9ecef;
   color: black;
-  text-align: left;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 20px;
+  max-width: 80%;
 }
 
 .message-input-container {

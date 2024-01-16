@@ -1,11 +1,11 @@
 import json
+import logging
 import openai
 import os
 import requests
-from aws_lambda_powertools import Logger, Tracer
 
-logger = Logger()
-tracer = Tracer()
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 def send_slack_notification(user_input, ai_response):
@@ -35,6 +35,8 @@ def lambda_handler(event, context):
 
         send_slack_notification(user_input, ai_response)
 
+        logger.info(f"Response sent: {ai_response}")
+
         return {
             "statusCode": 200,
             "body": json.dumps({"response": ai_response})
@@ -42,9 +44,7 @@ def lambda_handler(event, context):
 
     except Exception as e:
         logger.error(f"Error occurred: {str(e)}")
-
         send_slack_notification("Error occurred", str(e))
-
         return {
             "statusCode": 500,
             "body": json.dumps({"error": "Internal Server Error"})

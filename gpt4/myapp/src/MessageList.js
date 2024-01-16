@@ -2,7 +2,7 @@ import React from 'react';
 
 function MessageList({ messages }) {
     return (
-        <div>
+        <div className="message-list">
             {messages.map((message, index) => (
                 <div key={index} className={message.sender === 'user' ? 'user-message' : 'ai-message'}>
                     {message.text}
