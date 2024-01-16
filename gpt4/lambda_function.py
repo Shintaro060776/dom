@@ -21,7 +21,9 @@ def lambda_handler(event, context):
         openai.api_key = os.environ.get("OPENAI_API_KEY")
 
         body = json.loads(event["body"])
-        user_input = body["user_input"]
+        user_input = body.get("message", "")
+
+        logger.info(f"User Input: {user_input}")
 
         response = openai.ChatCompletion.create(
             model="gpt-4",
@@ -31,11 +33,10 @@ def lambda_handler(event, context):
             ]
         )
 
-        ai_response = response["choices"][0]["message"]["content"]
+        ai_response = response.choices[0].message["content"]
+        logger.info(f"AI Response: {ai_response}")
 
         send_slack_notification(user_input, ai_response)
-
-        logger.info(f"Response sent: {ai_response}")
 
         return {
             "statusCode": 200,

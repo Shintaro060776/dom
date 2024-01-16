@@ -1,3 +1,11 @@
+resource "aws_lambda_layer_version" "openai_latest_layer" {
+    filename = "/home/runner/work/dom/dom/openai_layer.zip"
+    layer_name = "openai_latest_layer"
+
+    compatible_runtimes = ["python3.11"]
+}
+
+
 resource "aws_iam_role" "gpt4_lambda_role" {
   name = "gpt4_lambda_role_unique_name" 
 
@@ -32,7 +40,8 @@ resource "aws_lambda_function" "gpt4_lambda_function" {
   layers = [
     aws_lambda_layer_version.openai_layer.arn,
     aws_lambda_layer_version.requests_layer.arn,
-    aws_lambda_layer_version.additional_request_layer.arn
+    aws_lambda_layer_version.additional_request_layer.arn,
+    aws_lambda_layer_version.openai_latest_layer.arn,
     ]
 
   environment {
