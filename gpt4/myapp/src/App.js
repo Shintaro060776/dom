@@ -13,7 +13,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='app-container'>
       <MessageList messages={messages} />
       <MessageInput onSendMessage={handleSendMessage} />
     </div>
