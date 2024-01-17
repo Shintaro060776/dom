@@ -27,8 +27,11 @@ body {
 
 .message-list {
   padding: 20px;
+  max-height: 400px;
   overflow-y: auto;
   flex-grow: 1;
+  flex-direction: column-reverse;
+  align-items: flex-start;
 }
 
 .message {
