@@ -62,7 +62,7 @@ resource "aws_lambda_function" "speech2" {
 
     timeout = 900
 
-    emvironment {
+    environment {
         variables = {
             OPENAI_API_KEY = data.aws_ssm_parameter.openai_api_key.value,
             SLACK_WEBHOOK_URL = data.aws_ssm_parameter.slack_webhook.value
