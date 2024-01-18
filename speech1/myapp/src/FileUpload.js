@@ -29,7 +29,13 @@ const FileUpload = () => {
                 setIsLoading(false);
             } catch (error) {
                 console.error('Upload error:', error);
-                alert('Error uploading file');
+                if (error.response) {
+                    console.error('Response:', error.response.data);
+                    alert(`Error uploading file: ${error.response.status} ${error.response.statusText}`);
+                } else {
+                    alert('Error uploading file');
+                }
+            } finally {
                 setIsLoading(false);
             }
         }
@@ -44,30 +50,34 @@ const FileUpload = () => {
                 setIsLoading(false);
             } catch (error) {
                 console.error('Error fetching summary:', error);
-                alert('Error fetching summary');
+                if (error.response) {
+                    console.error('Response:', error.response.data);
+                    alert(`Error fetching summary: ${error.response.status} ${error.response.statusText}`);
+                } else {
+                    alert('Error fetching summary');
+                }
+            } finally {
                 setIsLoading(false);
             }
-        } else {
-            alert('Please upload a file first');
-        }
-    };
+        };
 
-    return (
-        <div className="file-upload-container">
-            <a href='http://3.112.43.184/'>トップページに戻る</a>
-            <input type="file" className="file-input" onChange={handleFileChange} />
-            <div className='file-upload-actions'>
-                <button className="upload-button" onClick={handleUpload}>Upload</button>
-                <button className="summary-button" onClick={fetchSummary} disabled={isLoading}>
-                    {isLoading ? 'Loading...' : 'Show Summary'}
-                </button>
+        return (
+            <div className="file-upload-container">
+                <a href='http://3.112.43.184/'>トップページに戻る</a>
+                <input type="file" className="file-input" onChange={handleFileChange} />
+                <div className='file-upload-actions'>
+                    <button className="upload-button" onClick={handleUpload}>Upload</button>
+                    <button className="summary-button" onClick={fetchSummary} disabled={isLoading}>
+                        {isLoading ? 'Loading...' : 'Show Summary'}
+                    </button>
+                </div>
+                {summary && <div className="summary-container">
+                    <h3>要約結果:</h3>
+                    <p>{summary}</p>
+                </div>}
             </div>
-            {summary && <div className="summary-container">
-                <h3>要約結果:</h3>
-                <p>{summary}</p>
-            </div>}
-        </div>
-    );
+        );
+    };
 };
 
 export default FileUpload;

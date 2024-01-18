@@ -18,7 +18,12 @@ app.post('/api/upload', async (req, res) => {
         res.json(response.data);
     } catch (error) {
         console.error('Error in /upload:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        if (error.response) {
+            console.error('Response:', error.response.data);
+            res.status(error.response.status).json({ message: error.response.data });
+        } else {
+            res.status(500).json({ message: 'Internal server error' });
+        }
     }
 });
 
@@ -31,7 +36,12 @@ app.get('/api/get', async (req, res) => {
         res.json(response.data);
     } catch (error) {
         console.error('Error fetching summary:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        if (error.response) {
+            console.error('Response:', error.response.data);
+            res.status(error.response.status).json({ message: error.response.data });
+        } else {
+            res.status(500).json({ message: 'Internal server error' });
+        }
     }
 });
 
