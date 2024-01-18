@@ -3,7 +3,7 @@ resource "aws_api_gateway_rest_api" "Speech2" {
     description = "Speech2"
 }
 
-resource "aws_api_gateway_resource" "speech2" {
+resource "aws_api_gateway_resource" "Speech2" {
     rest_api_id = aws_api_gateway_rest_api.Speech2.id
     parent_id = aws_api_gateway_rest_api.Speech2.root_resource_id
     path_part = "speech2"
