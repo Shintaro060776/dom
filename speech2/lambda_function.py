@@ -9,12 +9,17 @@ def lambda_handler(event, context):
     expiration = 300
 
     try:
-        if event.get('queryStringParameters') and 'fileName' in event['queryStringParameters']:
-            file_name = event['queryStringParameters']['fileName']
+        body = json.loads(event.get('body', '{}'))
+
+        if 'fileName' in body:
+            file_name = body['fileName']
             response = s3_client.generate_presigned_url('put_object',
                                                         Params={
-                                                            'Bucket': bucket_name, 'Key': file_name},
-                                                        ExpiresIn=expiration)
+                                                            'Bucket': bucket_name,
+                                                            'Key': file_name,
+                                                            'ACL': 'bucket-owner-full-control'},
+                                                        ExpiresIn=expiration,
+                                                        HttpMethod="PUT")
             return {
                 'statusCode': 200,
                 'body': json.dumps({'url': response})

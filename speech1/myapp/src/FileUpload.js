@@ -21,7 +21,8 @@ const FileUpload = () => {
 
                 await axios.put(url, file, {
                     headers: {
-                        'Content-Type': file.type
+                        'Content-Type': file.type,
+                        'x-amz-acl': 'bucket-owner-full-control'
                     }
                 });
 
