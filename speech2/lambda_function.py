@@ -1,10 +1,11 @@
 import json
 import boto3
 import traceback
+from botocore.client import Config
 
 
 def lambda_handler(event, context):
-    s3_client = boto3.client('s3')
+    s3 = boto3.client("s3", config=Config(signature_version="s3v4"))
     bucket_name = 'speech20090317'
     expiration = 300
 
@@ -13,13 +14,13 @@ def lambda_handler(event, context):
 
         if 'fileName' in body:
             file_name = body['fileName']
-            response = s3_client.generate_presigned_url('put_object',
-                                                        Params={
-                                                            'Bucket': bucket_name,
-                                                            'Key': file_name,
-                                                            'ACL': 'bucket-owner-full-control'},
-                                                        ExpiresIn=expiration,
-                                                        HttpMethod="PUT")
+            response = s3.generate_presigned_url('put_object',
+                                                 Params={
+                                                     'Bucket': bucket_name,
+                                                     'Key': file_name,
+                                                     'ACL': 'bucket-owner-full-control'},
+                                                 ExpiresIn=expiration,
+                                                 HttpMethod="PUT")
             return {
                 'statusCode': 200,
                 'body': json.dumps({'url': response})

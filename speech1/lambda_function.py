@@ -4,6 +4,7 @@ import openai
 import os
 import boto3
 import requests
+import tempfile
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -19,7 +20,7 @@ def send_slack_notification(user_input, ai_response):
 
 def save_summary_to_dynamodb(file_key, summary):
     dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table('SummaryTable')
+    table = dynamodb.Table('speech')
     table.put_item(
         Item={
             'file_key': file_key,
@@ -30,29 +31,40 @@ def save_summary_to_dynamodb(file_key, summary):
 
 def lambda_handler(event, context):
     try:
-        client = openai.OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-
+        s3_client = boto3.client('s3')
         bucket_name = event['Records'][0]['s3']['bucket']['name']
         file_key = event['Records'][0]['s3']['object']['key']
 
-        s3_client = boto3.client('s3')
-        audio_file = s3_client.get_object(Bucket=bucket_name, Key=file_key)
-        audio_content = audio_file['Body'].read()
+        logger.info(
+            f"Retrieving file from S3: Bucket: {bucket_name}, Key: {file_key}")
 
-        transcript = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=audio_content,
-            response_format="text"
-        )
+        audio_file_response = s3_client.get_object(
+            Bucket=bucket_name, Key=file_key)
+        audio_content = audio_file_response['Body'].read()
 
-        text = transcript['text']
+        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as temp_file:
+            temp_file.write(audio_content)
+            temp_file_path = temp_file.name
+
+        with open(temp_file_path, 'rb') as audio_file:
+            client = openai.OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+            transcript_response = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file,
+                response_format="text"
+            )
+
+        os.remove(temp_file_path)
+
+        text = transcript_response
         logger.info(f"Transcript: {text}")
 
+        prompt = f"以下のテキストを要約してください:\n{text}"
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": text}
+                {"role": "user", "content": prompt}
             ]
         )
 
