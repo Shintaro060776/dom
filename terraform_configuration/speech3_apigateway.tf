@@ -47,5 +47,5 @@ resource "aws_lambda_permission" "Speech3" {
     function_name = aws_lambda_function.speech3.function_name
     principal = "apigateway.amazonaws.com"
 
-    source_arn = "${aws_api_gateway_rest_api.Speech3.execution_arn}/*/*/*"
+    source_arn = "${aws_api_gateway_rest_api.Speech3.execution_arn}/prod/GET/speech3"
 }

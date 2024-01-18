@@ -214,8 +214,8 @@ jobs:
             pm2 restart 4
             /usr/share/nginx/html/gpt4_backend
             pm2 restart 5
-            # /usr/share/nginx/html/speech_backend
-            # pm2 restart 6
+            /usr/share/nginx/html/speech_backend
+            pm2 restart 6
           '
 
           rm -f deploy_key

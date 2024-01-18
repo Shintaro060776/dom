@@ -6,8 +6,8 @@ app.use(express.json());
 
 const port = 9000;
 
-const apiGatewayUrl = 'ここにAPI GatewayのURLを記載';
-const apiGatewayDynamoDBEndpoint = 'ここにAPI GatewayのURLを記載'
+const apiGatewayUrl = 'https://wjzbog50ma.execute-api.ap-northeast-1.amazonaws.com/prod/speech2';
+const apiGatewayDynamoDBEndpoint = 'https://td3tuwkskg.execute-api.ap-northeast-1.amazonaws.com/prod/speech3'
 
 app.post('/api/upload', async (req, res) => {
     try {
@@ -36,5 +36,5 @@ app.get('/api/get', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server is running on port ${port}`);
 });
