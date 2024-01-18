@@ -137,6 +137,17 @@ jobs:
           npm install
           npm run build
 
+      - name: speech_backend
+        run: |
+          cd speech_backend
+          npm install
+  
+      - name: speech
+        run: |
+          cd speech1/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -186,6 +197,10 @@ jobs:
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/gpt4_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/gpt4_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/gpt4/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/gpt4/
 
+          # Deploy speech app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/speech_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/speech_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/speech1/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/speech1/
+
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
@@ -199,6 +214,8 @@ jobs:
             pm2 restart 4
             /usr/share/nginx/html/gpt4_backend
             pm2 restart 5
+            # /usr/share/nginx/html/speech_backend
+            # pm2 restart 6
           '
 
           rm -f deploy_key
