@@ -33,6 +33,8 @@ resource "aws_api_gateway_integration" "image2video_integration" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.image2video_lambda.invoke_arn
+
+  content_handling        = "CONVERT_TO_BINARY"
 }
 
 resource "aws_api_gateway_deployment" "image2video_deployment" {
