@@ -1,27 +1,28 @@
 const express = require('express');
 const axios = require('axios');
+const multer = require('multer');
 const app = express();
 
-app.use(express.json());
+const upload = multer();
 
-app.post('/api/image2video', async (req, res) => {
+app.post('/api/image2video', upload.single('image'), async (req, res) => {
     try {
+        if (!req.file) {
+            throw new Error("No file uploaded with field name 'image'");
+        }
+
+        const formData = new FormData();
+        formData.append('image', req.file.buffer, req.file.originalname);
+
         const response = await axios.post(
             'https://kgqmlycmzc.execute-api.ap-northeast-1.amazonaws.com/prd/image',
-            req.body
+            formData,
+            { headers: { ...formData.getHeaders() } }
         );
         res.json(response.data);
     } catch (error) {
-        if (error.response) {
-            console.error("Error response from API:", error.response.data);
-            res.status(error.response.status).json(error.response.data);
-        } else if (error.request) {
-            console.error("No response received:", error.request);
-            res.status(500).json({ message: "No response received from API" });
-        } else {
-            console.error("Error setting up request:", error.message);
-            res.status(500).json({ message: "Error sending request to API" });
-        }
+        console.error("Error:", error.message);
+        res.status(500).json({ message: error.message });
     }
 });
 
