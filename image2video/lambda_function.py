@@ -4,6 +4,7 @@ import os
 import json
 import logging
 import traceback
+import base64
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -70,8 +71,10 @@ def lambda_handler(event, context):
     logger.info("Received event:" + json.dumps(event))
 
     try:
-        if 'image_data' not in event:
-            raise KeyError("Key 'image_data' not found in event")
+        if 'body' in event and event.get('isBase64Encoded', False):
+            image_data = base64.b64decode(event['body'])
+        else:
+            raise KeyError("Image data not found in event body")
 
         logger.info("Processing started...")
 

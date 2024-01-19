@@ -33,8 +33,32 @@ resource "aws_api_gateway_integration" "image2video_integration" {
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.image2video_lambda.invoke_arn
-
   content_handling        = "CONVERT_TO_BINARY"
+
+  request_templates = {
+    "multipart/form-data" = jsonencode({
+      body    = "$input.body",
+      headers = {
+        #foreach($header in $input.params().header.keySet())
+        "$header" = "$util.escapeJavaScript($input.params().header.get($header))"
+        #if($foreach.hasNext),#end
+        #end
+      },
+      method  = "$context.httpMethod",
+      params  = {
+        #foreach($param in $input.params().path.keySet())
+        "$param" = "$util.escapeJavaScript($input.params().path.get($param))"
+        #if($foreach.hasNext),#end
+        #end
+      },
+      query   = {
+        #foreach($queryParam in $input.params().querystring.keySet())
+        "$queryParam" = "$util.escapeJavaScript($input.params().querystring.get($queryParam))"
+        #if($foreach.hasNext),#end
+        #end
+      }
+    })
+  }
 }
 
 resource "aws_api_gateway_deployment" "image2video_deployment" {
