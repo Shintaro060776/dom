@@ -60,63 +60,6 @@ const BlogArticle10 = () => {
 
                     <div class="code-box">
                         <code>
-                            <p class="code-text white"><span class="code-text blue">import</span> json</p><br /><br />
-                            <p class="code-text white"><span class="code-text blue">import</span> logging</p><br /><br />
-                            <p class="code-text white"><span class="code-text blue">import</span> openai</p><br /><br />
-                            <p class="code-text white">from openai <span class="code-text blue">import</span> OpenAI</p><br /><br />
-                            <p class="code-text white"><span class="code-text blue">import</span> os</p><br /><br />
-                            <p class="code-text white"><span class="code-text blue">import</span> requests</p><br /><br />
-
-                            <p class="code-text white">logger = logging.getLogger()</p><br /><br />
-                            <p class="code-text white">logger.setLevel(logging.INFO)</p><br /><br />
-
-
-                            <p class="code-text white"><span class="highlight-text">def</span> send_slack_notification(user_input, ai_response):</p><br /><br />
-                            <p class="code-text white">webhook_url = os.environ.get("SLACK_WEBHOOK_URL")</p><br /><br />
-                            <p class="code-text white">message = f"User Input: {user_input}\nAI Response: {ai_response}"</p><br /><br />
-                            <p class="code-text white">slack_data = &#123;'text': message&#125;</p><br /><br />
-                            <p class="code-text white">response = requests.post(webhook_url, json=slack_data)</p><br /><br />
-                            <p class="code-text white">return response</p><br /><br />
-
-
-                            <p class="code-text white"><span class="highlight-text">def</span> lambda_handler(event, context):</p><br /><br />
-                            <p class="code-text white">try:</p><br /><br />
-                            <p class="code-text white">client = OpenAI(</p><br /><br />
-                            <p class="code-text white">api_key=os.environ.get("OPENAI_API_KEY")</p><br /><br />
-                            <p class="code-text white">)</p><br /><br />
-
-                            <p class="code-text white">body = json.loads(event["body"])</p><br /><br />
-                            <p class="code-text white">user_input = body.get("message", "")</p><br /><br />
-
-                            <p class="code-text white">logger.info(f"User Input: {user_input}")</p><br /><br />
-
-                            <p class="code-text white">response = client.chat.completions.create(</p><br /><br />
-                            <p class="code-text white">model="gpt-4",</p><br /><br />
-                            <p class="code-text white">messages=[</p><br /><br />
-                            <p class="code-text white">&#123;"role": "system", "content": "You are a helpful assistant."&#125;,</p><br /><br />
-                            <p class="code-text white">&#123;"role": "user", "content": `{user_input}`&#125;</p><br /><br />
-                            <p class="code-text white">]</p><br /><br />
-                            <p class="code-text white">)</p><br /><br />
-
-                            <p class="code-text white">ai_response = response.choices[0].message.content</p><br /><br />
-                            <p class="code-text white">logger.info(f"AI Response: {ai_response}")</p><br /><br />
-
-                            <p class="code-text white">send_slack_notification(user_input, ai_response)</p><br /><br />
-
-                            <p class="code-text white">return &#123;</p><br /><br />
-                            <p class="code-text white">    "statusCode": 200,</p><br /><br />
-                            <p class="code-text white">"body": json.dumps(&#123;"response": ai_response&#125;)</p><br /><br />
-                            <p class="code-text white">&#125;</p><br /><br />
-
-                            <p class="code-text white">except Exception as e:</p><br /><br />
-                            <p class="code-text white">logger.error(f"Error occurred: {String(e)}")</p><br /><br />
-                            <p class="code-text white">send_slack_notification("Error occurred", String(e))</p><br /><br />
-
-                            <p class="code-text white">return &#123;</p><br /><br />
-                            <p class="code-text white">    "statusCode": 500,</p><br /><br />
-                            <p class="code-text white">"body": json.dumps(&#123;"error": "Internal Server Error"&#125;)</p><br /><br />
-                            <p class="code-text white">&#125;</p><br /><br />
-
                         </code >
                     </div >
                 </p >
