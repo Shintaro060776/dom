@@ -148,6 +148,17 @@ jobs:
           npm install
           npm run build
 
+      - name: image2video_backend
+        run: |
+          cd image2video_backend
+          npm install
+  
+      - name: image2video
+        run: |
+          cd image2video/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -201,6 +212,10 @@ jobs:
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/speech_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/speech_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/speech1/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/speech1/
 
+          # Deploy image2video app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/image2video_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/image2video_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/image2video/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/image2video/
+
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
@@ -216,6 +231,8 @@ jobs:
             pm2 restart 5
             /usr/share/nginx/html/speech_backend
             pm2 restart 6
+            # /usr/share/nginx/html/image2video_backend
+            # pm2 restart 7
           '
 
           rm -f deploy_key

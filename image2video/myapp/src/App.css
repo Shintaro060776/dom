@@ -1,0 +1,107 @@
+.App {
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.App-header {
+  background-color: #20232a;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding: 0 20px;
+  width: 100%;
+}
+
+.App-header nav {
+  margin-right: 40px;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.image-preview,
+.video-preview {
+  border: 2px solid #ddd;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background: rgb(46, 42, 42);
+  width: 45%;
+  height: auto;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 5px;
+}
+
+.video-preview video {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 5px;
+}
+
+.action {
+  width: 100%;
+  padding: 10px 0;
+}
+
+.App-footer {
+  padding: 10px 0;
+  background-color: #20232a;
+}
+
+.action input,
+.action button {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  width: 200px;
+  height: 50px;
+}
+
+.App-header a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.App-header a:hover {
+  color: #61dafb;
+}
+
+button {
+  background-color: #0804e4;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #2188ff;
+}
+
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
