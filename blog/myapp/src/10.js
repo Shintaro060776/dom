@@ -68,4 +68,4 @@ const BlogArticle10 = () => {
     );
 };
 
-export default BlogArticle9;
+export default BlogArticle10;
