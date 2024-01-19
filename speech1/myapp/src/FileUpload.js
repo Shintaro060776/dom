@@ -67,19 +67,26 @@ const FileUpload = () => {
     };
 
     return (
-        <div className="file-upload-container">
-            <a href='http://3.112.43.184/'>トップページに戻る</a>
-            <input type="file" className="file-input" onChange={handleFileChange} />
-            <div className='file-upload-actions'>
-                <button className="upload-button" onClick={handleUpload}>Upload</button>
-                <button className="summary-button" onClick={fetchSummary} disabled={isLoading}>
-                    {isLoading ? 'Loading...' : 'Show Summary'}
-                </button>
+        <div>
+            <header className='app-header'>
+                <h1>Speech-to-Text/GPT4</h1>
+                <nav>
+                    <a href='http://3.112.43.184/'>トップページに戻る</a>
+                </nav>
+            </header>
+            <div className="file-upload-container">
+                <input type="file" className="file-input" onChange={handleFileChange} />
+                <div className='file-upload-actions'>
+                    <button className="upload-button" onClick={handleUpload}>Upload</button>
+                    <button className="summary-button" onClick={fetchSummary} disabled={isLoading}>
+                        {isLoading ? 'Loading...' : 'Show Summary'}
+                    </button>
+                </div>
+                {summary && <div className="summary-container">
+                    <h3>要約結果:</h3>
+                    <p>{summary}</p>
+                </div>}
             </div>
-            {summary && <div className="summary-container">
-                <h3>要約結果:</h3>
-                <p>{summary}</p>
-            </div>}
         </div>
     );
 };

@@ -2,7 +2,7 @@ import json
 import boto3
 from boto3.dynamodb.conditions import Key
 
-TABLE_NAME = 'TableName'
+TABLE_NAME = 'speech'
 
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(TABLE_NAME)

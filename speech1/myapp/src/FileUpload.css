@@ -57,6 +57,7 @@ h3 {
 a {
     color: white;
     text-decoration: none;
+    font-size: 1rem;
 }
 
 a:hover {
@@ -94,4 +95,48 @@ a:hover {
 .upload-button,
 .summary-button {
     margin-bottom: 0;
+}
+
+.app-header {
+    background-color: #61dafb;
+    color: rgb(235, 222, 222);
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    animation: colorChange 10s infinite alternate;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.app-header nav {
+    margin-top: 10px;
+}
+
+@keyframes colorChange {
+    0% {
+        background-color: #61dafb;
+    }
+
+    25% {
+        background-color: #e91e63;
+    }
+
+    50% {
+        background-color: #9c27b0;
+    }
+
+    75% {
+        background-color: #673ab7;
+    }
+
+    100% {
+        background-color: #3f51b5;
+    }
 }
