@@ -32,7 +32,7 @@ resource "aws_api_gateway_integration" "image2video_integration" {
   http_method             = aws_api_gateway_method.image2video_method.http_method
   integration_http_method = "POST"
   type                    = "HTTP_PROXY"
-  uri                     = "arn:aws:lambda:ap-northeast-1:715573459931:function:image2video_lambda_function"
+  uri                     = aws_lambda_function.image2video_lambda.invoke_arn
   passthrough_behavior    = "WHEN_NO_MATCH"
 
   request_templates = {
@@ -75,3 +75,4 @@ resource "aws_api_gateway_stage" "image2video_stage" {
   rest_api_id   = aws_api_gateway_rest_api.image2video_api.id
   stage_name    = "prod" 
 }
+
