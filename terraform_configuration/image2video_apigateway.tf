@@ -31,9 +31,9 @@ resource "aws_api_gateway_integration" "image2video_integration" {
   resource_id             = aws_api_gateway_resource.image2video_resource.id
   http_method             = aws_api_gateway_method.image2video_method.http_method
   integration_http_method = "POST"
-  type                    = "HTTP_PROXY"
-  uri                     = "arn:aws:apigateway:ap-northeast-1:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-northeast-1:715573459931:function:image2video_lambda_function/invocations"
-  passthrough_behavior    = "WHEN_NO_MATCH"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.image2video_lambda.invoke_arn
+  content_handling        = "CONVERT_TO_BINARY"
 
   request_templates = {
     "multipart/form-data" = jsonencode({
@@ -75,4 +75,3 @@ resource "aws_api_gateway_stage" "image2video_stage" {
   rest_api_id   = aws_api_gateway_rest_api.image2video_api.id
   stage_name    = "prod" 
 }
-
