@@ -7,7 +7,7 @@ app.use(express.json());
 app.post('/api/image2video', async (req, res) => {
     try {
         const response = await axios.post(
-            'https://ragxkwusia.execute-api.ap-northeast-1.amazonaws.com/prod/image2video',
+            'https://kgqmlycmzc.execute-api.ap-northeast-1.amazonaws.com/prd/image',
             req.body
         );
         res.json(response.data);
