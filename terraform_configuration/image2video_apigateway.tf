@@ -10,6 +10,7 @@ resource "aws_lambda_permission" "image2video_lambda_permission" {
 resource "aws_api_gateway_rest_api" "image2video_api" {
   name        = "image2video_api"
   description = "API for image2video application"
+  binary_media_types = ["multipart/form-data"]
 }
 
 resource "aws_api_gateway_resource" "image2video_resource" {

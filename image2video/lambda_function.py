@@ -2,6 +2,11 @@ import requests
 import boto3
 import os
 import json
+import logging
+import traceback
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 ssm = boto3.client('ssm')
@@ -61,8 +66,19 @@ def check_generation_status(generation_id):
 
 
 def lambda_handler(event, context):
+
+    logger.info("Received event:" + json.dumps(event))
+
     try:
-        image_data = event['image_data']
+        if 'image_data' not in event:
+            raise KeyError("Key 'image_data' not found in event")
+
+        logger.info("Processing started...")
+
+        if 'isBase64Encoded' in event and event['isBase64Encoded']:
+            image_data = base64.b64decode(event['image_data'])
+        else:
+            raise KeyError("'body' does not contain Base64 encoded data")
 
         generation_id = start_video_generation(image_data)
         send_slack_message(f"Video generation started: ID {generation_id}")
@@ -81,6 +97,8 @@ def lambda_handler(event, context):
             send_slack_message(f"Generation complete! Video URL: {video_url}")
             return {"message": "Generation complete!", "video_url": video_url}
     except Exception as e:
+        logger.error("An error occurred: %s", str(e))
+        logger.error(traceback.format_exc())
         error_message = str(e)
         send_slack_message(f"Error in video generation: {error_message}")
         return {"error": error_message}
