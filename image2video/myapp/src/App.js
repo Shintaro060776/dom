@@ -22,7 +22,7 @@ function App() {
     formData.append('image', selectedFile);
 
     try {
-      const response = await axios.post('http://localhost:10000/api/image2video', formData, {
+      const response = await axios.post('http://3.112.43.184/api/image2video', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
