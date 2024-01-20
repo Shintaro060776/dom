@@ -67,31 +67,46 @@ def check_generation_status(generation_id):
         raise Exception(f"Error checking generation status: {str(e)}")
 
 
-def parse_multipart_body(body, is_base64_encoded):
-    boundary = re.search(r'boundary=(.+)', body).group(1)
-    boundary = boundary.replace('"', '').encode()
+def parse_multipart_body(body, is_base64_encoded, headers):
+    try:
+        if is_base64_encoded:
+            body = base64.b64decode(body)
 
-    parts = body.split(b'--' + boundary + b'\r\n')[1:-1]
+        if isinstance(body, bytes):
+            body = body.decode('utf-8')
 
-    for part in parts:
-        if b'name="image"' in part:
-            header, image_data = part.split(b'\r\n\r\n')
-            return image_data.strip()
+        content_type_header = headers.get('Content-Type', '')
+        boundary = content_type_header.split("boundary=")[1]
+        boundary = '--' + boundary
 
-    raise KeyError("Image data not found in event body")
+        parts = body.split(boundary + '\r\n')[1:-1]
+
+        for part in parts:
+            header_part, data_part = part.split('\r\n\r\n', 1)
+            if 'name="image"' in header_part:
+                return data_part.strip()
+
+        logger.error(
+            "Image data not found in event body. Parts: {}".format(parts))
+        raise KeyError("Image data not found in event body")
+
+    except Exception as e:
+        logger.error(f"Error in parse_multipart_body: {str(e)}")
+        logger.error(f"Headers: {headers}")
+        logger.error(f"Is base64 encoded: {is_base64_encoded}")
+        logger.error(f"Body: {body}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        raise
 
 
 def lambda_handler(event, context):
     logger.info("Received event: %s", json.dumps(event))
-    # is_base64_encoded = event.get('isBase64Encoded', False)
-
     try:
-        # if is_base64_encoded:
-        #     image_data = parse_multipart_body(event['body'], is_base64_encoded)
-        # else:
-        #     raise KeyError("Expected Base64 encoded data")
+        headers = event.get('headers', {})
+        body = event['body']
+        is_base64_encoded = event.get('isBase64Encoded', False)
 
-        image_data = parse_multipart_body(event['body'], False)
+        image_data = parse_multipart_body(body, is_base64_encoded, headers)
 
         logger.info("Processing started...")
 

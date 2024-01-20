@@ -1,22 +1,19 @@
 const express = require('express');
 const axios = require('axios');
+const multer = require('multer');
 const FormData = require('form-data');
 const app = express();
-const bodyParser = require('body-parser');
 
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+const upload = multer();
 
-app.post('/api/image2video', async (req, res) => {
+app.post('/api/image2video', upload.single('image'), async (req, res) => {
     try {
-        if (!req.body.image || !req.body.filename) {
-            throw new Error("No image data or filename provided");
+        if (!req.file) {
+            throw new Error("No file uploaded with field name 'image'");
         }
 
-        const imageBuffer = Buffer.from(req.body.image, 'base64');
-
         const formData = new FormData();
-        formData.append('image', imageBuffer, { filename: req.body.filename });
+        formData.append('image', req.file.buffer, req.file.originalname);
 
         const response = await axios.post(
             'https://kgqmlycmzc.execute-api.ap-northeast-1.amazonaws.com/prd/image',
