@@ -18,22 +18,29 @@ function App() {
     }
 
     setLoading(true);
-    const formData = new FormData();
-    formData.append('image', selectedFile);
+    const reader = new FileReader();
 
-    try {
-      const response = await axios.post('http://3.112.43.184/api/image2video', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setVideoUrl(response.data.videoUrl);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error uploading image:", error);
-      setLoading(false);
-      alert("Error uploading image");
-    }
+    reader.onloadend = async () => {
+      try {
+        const base64String = reader.result.split(',')[1];
+        const response = await axios.post('http://3.112.43.184/api/image2video', {
+          image: base64String,
+          filename: selectedFile.name
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        setVideoUrl(response.data.videoUrl);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+        setLoading(false);
+        alert("Error uploading image");
+      }
+    };
+
+    reader.readAsDataURL(selectedFile);
   };
 
   return (

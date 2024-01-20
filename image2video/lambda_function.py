@@ -5,6 +5,7 @@ import json
 import logging
 import traceback
 import base64
+import re
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -66,22 +67,34 @@ def check_generation_status(generation_id):
         raise Exception(f"Error checking generation status: {str(e)}")
 
 
-def lambda_handler(event, context):
+def parse_multipart_body(body, is_base64_encoded):
+    boundary = re.search(r'boundary=(.+)', body).group(1)
+    boundary = boundary.replace('"', '').encode()
 
-    logger.info("Received event:" + json.dumps(event))
+    if is_base64_encoded:
+        body = base64.b64decode(body)
+
+    parts = body.split(b'--' + boundary + b'\r\n')[1:-1]
+
+    for part in parts:
+        if b'name="image"' in part:
+            header, image_data = part.split(b'\r\n\r\n')
+            return image_data.strip()
+
+    raise KeyError("Image data not found in event body")
+
+
+def lambda_handler(event, context):
+    logger.info("Received event: %s", json.dumps(event))
+    is_base64_encoded = event.get('isBase64Encoded', False)
 
     try:
-        if 'body' in event and event.get('isBase64Encoded', False):
-            image_data = base64.b64decode(event['body'])
+        if is_base64_encoded:
+            image_data = parse_multipart_body(event['body'], is_base64_encoded)
         else:
-            raise KeyError("Image data not found in event body")
+            raise KeyError("Expected Base64 encoded data")
 
         logger.info("Processing started...")
-
-        if 'isBase64Encoded' in event and event['isBase64Encoded']:
-            image_data = base64.b64decode(event['image_data'])
-        else:
-            raise KeyError("'body' does not contain Base64 encoded data")
 
         generation_id = start_video_generation(image_data)
         send_slack_message(f"Video generation started: ID {generation_id}")
@@ -101,7 +114,7 @@ def lambda_handler(event, context):
             return {"message": "Generation complete!", "video_url": video_url}
     except Exception as e:
         logger.error("An error occurred: %s", str(e))
-        logger.error(traceback.format_exc())
+        logger.error("Traceback: %s", traceback.format_exc())
         error_message = str(e)
         send_slack_message(f"Error in video generation: {error_message}")
         return {"error": error_message}
