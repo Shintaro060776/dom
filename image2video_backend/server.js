@@ -1,12 +1,13 @@
 const express = require('express');
 const axios = require('axios');
-const multer = require('multer');
 const FormData = require('form-data');
 const app = express();
+const bodyParser = require('body-parser');
 
-const upload = multer();
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-app.post('/api/image2video', express.json(), async (req, res) => {
+app.post('/api/image2video', async (req, res) => {
     try {
         if (!req.body.image || !req.body.filename) {
             throw new Error("No image data or filename provided");

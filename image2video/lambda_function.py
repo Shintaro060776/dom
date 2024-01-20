@@ -71,9 +71,6 @@ def parse_multipart_body(body, is_base64_encoded):
     boundary = re.search(r'boundary=(.+)', body).group(1)
     boundary = boundary.replace('"', '').encode()
 
-    if is_base64_encoded:
-        body = base64.b64decode(body)
-
     parts = body.split(b'--' + boundary + b'\r\n')[1:-1]
 
     for part in parts:
@@ -86,13 +83,15 @@ def parse_multipart_body(body, is_base64_encoded):
 
 def lambda_handler(event, context):
     logger.info("Received event: %s", json.dumps(event))
-    is_base64_encoded = event.get('isBase64Encoded', False)
+    # is_base64_encoded = event.get('isBase64Encoded', False)
 
     try:
-        if is_base64_encoded:
-            image_data = parse_multipart_body(event['body'], is_base64_encoded)
-        else:
-            raise KeyError("Expected Base64 encoded data")
+        # if is_base64_encoded:
+        #     image_data = parse_multipart_body(event['body'], is_base64_encoded)
+        # else:
+        #     raise KeyError("Expected Base64 encoded data")
+
+        image_data = parse_multipart_body(event['body'], False)
 
         logger.info("Processing started...")
 
