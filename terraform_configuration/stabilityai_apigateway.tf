@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "stabilityai" {
 resource "aws_api_gateway_resource" "stabilityai" {
     rest_api_id = aws_api_gateway_rest_api.stabilityai.id
     parent_id = aws_api_gateway_rest_api.stabilityai.root_resource_id
-    path_part = "stabilityai"
+    path_part = "stabilityai1"
 }
 
 resource "aws_api_gateway_method" "stabilityai" {
@@ -46,5 +46,5 @@ resource "aws_lambda_permission" "stabilityai" {
     function_name = aws_lambda_function.stabilityai1.function_name
     principal = "apigateway.amazonaws.com"
 
-    source_arn = "${aws_api_gateway_rest_api.stabilityai.execution_arn}/prod/POST/stabilityai1"
+    source_arn = "${aws_api_gateway_rest_api.stabilityai.execution_arn}/prod/*/stabilityai1"
 }
