@@ -46,5 +46,5 @@ resource "aws_lambda_permission" "stabilityai" {
     function_name = aws_lambda_function.stabilityai1.function_name
     principal = "apigateway.amazonaws.com"
 
-    source_arn = "${aws_api_gateway_rest_api.stabilityai.execution_arn}/prod/stabilityai1"
+    source_arn = "${aws_api_gateway_rest_api.stabilityai.execution_arn}/prod/*/stabilityai1"
 }
