@@ -6,13 +6,13 @@ resource "aws_api_gateway_rest_api" "video_status_api" {
 resource "aws_api_gateway_resource" "video_status_resource" {
   rest_api_id = aws_api_gateway_rest_api.video_status_api.id
   parent_id   = aws_api_gateway_rest_api.video_status_api.root_resource_id
-  path_part   = "stabilityai3"
+  path_part   = "check_video_status"
 }
 
 resource "aws_api_gateway_method" "video_status_method" {
   rest_api_id   = aws_api_gateway_rest_api.video_status_api.id
   resource_id   = aws_api_gateway_resource.video_status_resource.id
-  http_method   = "GET"  
+  http_method   = "GET"
   authorization = "NONE"
 }
 
@@ -41,5 +41,5 @@ resource "aws_lambda_permission" "video_status_lambda_permission" {
   function_name = aws_lambda_function.stabilityai3.function_name
   principal     = "apigateway.amazonaws.com"
 
-  source_arn = "${aws_api_gateway_rest_api.video_status_api.execution_arn}/prod/stabilityai3"
+  source_arn = "${aws_api_gateway_rest_api.video_status_api.execution_arn}/prod/check_video_status/stabilityai3"
 }
