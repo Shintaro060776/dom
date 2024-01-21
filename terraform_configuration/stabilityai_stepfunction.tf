@@ -57,6 +57,11 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
                         "Variable": "$.statusCode",
                         "NumericEquals": 200,
                         "Next": "ProcessVideo"
+                    },
+                    {
+                        "Variable": "$.statusCode",
+                        "NumericEquals": 202,
+                        "Next": "WaitForCompletion"
                     }
                 ],
                 "Default": "GenerationFailed"
@@ -66,15 +71,15 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
                 "Resource": "${aws_lambda_function.stabilityai3.arn}",
                 "End": true
             },
-            "GenerationFailed": {
-                "Type": "Fail",
-                "Cause": "Video Generation Failed",
-                "Error": "Status Code Not 200"
-            },
             "WaitForCompletion": {
                 "Type": "Wait",
                 "Seconds": 30,
                 "Next": "StartVideoGeneration"
+            },
+            "GenerationFailed": {
+                "Type": "Fail",
+                "Cause": "Video Generation Failed",
+                "Error": "Status Code Not 200"
             }
         }
     }
