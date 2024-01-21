@@ -23,7 +23,7 @@ app.post('/api/image2video', async (req, res) => {
 app.get('/api/check_video_status/:generationId', async (req, res) => {
     try {
         const generationId = req.params.generationId;
-        const response = await axios.get(`https://2zgglsjin0.execute-api.ap-northeast-1.amazonaws.com/prod/check_video_status/${generationId}`);
+        const response = await axios.get(`https://lzff0y2zo7.execute-api.ap-northeast-1.amazonaws.com/prod/stabilityai3/${generationId}`);
         res.json(response.data);
     } catch (error) {
         console.error("Error forwarding request to API Gateway:", error);
