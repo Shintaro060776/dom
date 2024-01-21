@@ -11,6 +11,37 @@ function App() {
     setSelectedFile(event.target.files[0]);
   };
 
+  const uploadImageToS3 = async (presignedUrl, file) => {
+    try {
+      await axios.put(presignedUrl, file);
+      return true;
+    } catch (error) {
+      console.error("Error uploading image to S3:", error);
+      return false;
+    }
+  };
+
+
+  const checkVideoStatus = async (generationId) => {
+    try {
+      const statusResponse = await axios.get(`http://3.112.43.184/api/check_video_status/${generationId}`);
+      if (statusResponse.data.statusCode === 200) {
+        setVideoUrl(statusResponse.data.videoUrl);
+        setLoading(false);
+      } else if (statusResponse.data.statusCode === 202) {
+        setTimeout(() => checkVideoStatus(generationId), 5000);
+      } else {
+        alert("Error during video generation process");
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error("Error checking video status:", error);
+      setLoading(false);
+      alert("Error checking video status");
+    }
+  };
+
+
   const handleSubmit = async () => {
     if (!selectedFile) {
       alert("Please select a file first");
@@ -18,21 +49,27 @@ function App() {
     }
 
     setLoading(true);
-    const formData = new FormData();
-    formData.append('image', selectedFile);
-
     try {
-      const response = await axios.post('http://3.112.43.184/api/image2video', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const presignedResponse = await axios.post('http://3.112.43.184/api/image2video', {
+        fileName: selectedFile.name
       });
-      setVideoUrl(response.data.videoUrl);
-      setLoading(false);
+
+      const presignedUrl = presignedResponse.data.url;
+
+      const generationId = presignedResponse.data.generationId;
+
+      const uploadSuccess = await uploadImageToS3(presignedUrl, selectedFile);
+
+      if (uploadSuccess) {
+        checkVideoStatus(generationId);
+      } else {
+        setLoading(false);
+        alert("Error uploading image to S3");
+      }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error("Error getting presigned URL or uploading image:", error);
       setLoading(false);
-      alert("Error uploading image");
+      alert("Error during video generation process");
     }
   };
 

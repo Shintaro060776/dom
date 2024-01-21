@@ -1,33 +1,36 @@
 const express = require('express');
 const axios = require('axios');
-const multer = require('multer');
-const FormData = require('form-data');
+const bodyParser = require('body-parser');
+
 const app = express();
+const port = 10000;
 
-const upload = multer();
+app.use(bodyParser.json());
 
-app.post('/api/image2video', upload.single('image'), async (req, res) => {
+app.post('/api/image2video', async (req, res) => {
     try {
-        if (!req.file) {
-            throw new Error("No file uploaded with field name 'image'");
-        }
-
-        const formData = new FormData();
-        formData.append('image', req.file.buffer, req.file.originalname);
-
         const response = await axios.post(
-            'https://kgqmlycmzc.execute-api.ap-northeast-1.amazonaws.com/prd/image',
-            formData,
-            { headers: { ...formData.getHeaders() } }
+            'https://qse55vmn5m.execute-api.ap-northeast-1.amazonaws.com/prod/stabilityai',
+            req.body
         );
         res.json(response.data);
     } catch (error) {
-        console.error("Error:", error.message);
-        res.status(500).json({ message: error.message });
+        console.error('Error on forwarding request to API Gateway:', error.message);
+        res.status(500).json({ 'axios': 'Internal Server Error' });
     }
 });
 
-const PORT = 10000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.get('/api/check_video_status/:generationId', async (req, res) => {
+    try {
+        const generationId = req.params.generationId;
+        const response = await axios.get(`API_GATEWAY_ENDPOINT/check_video_status/${generationId}`);
+        res.json(response.data);
+    } catch (error) {
+        console.error("Error forwarding request to API Gateway:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
