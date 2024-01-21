@@ -13,15 +13,14 @@ logger.setLevel(logging.INFO)
 
 ssm = boto3.client('ssm')
 
+STABILITY_API_KEY = os.environ['STABILITY_API_KEY']
+S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+SLACK_WEBHOOK_URL = os.environ['SLACK_WEBHOOK_URL']
+
 
 def get_parameter(param_name):
     response = ssm.get_parameter(Name=param_name, WithDecryption=True)
     return response['Parameter']['Value']
-
-
-STABILITY_API_KEY = os.environ['STABILITY_API_KEY']
-S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-SLACK_WEBHOOK_URL = os.environ['SLACK_WEBHOOK_URL']
 
 
 def send_slack_message(message):
@@ -70,25 +69,49 @@ def check_generation_status(generation_id):
 def parse_multipart_body(body, is_base64_encoded, headers):
     try:
         if is_base64_encoded:
-            body = base64.b64decode(body)
+            logger.info("Decoding base64 body")
+            try:
+                body = base64.b64decode(body)
+                logger.info("Base64 body decoded")
+            except Exception as e:
+                logger.error("Error decoding base64 body: %s", str(e))
+                raise Exception(f"Base64 decoding error: {str(e)}")
 
         if isinstance(body, bytes):
+            logger.info("Decoding body from bytes to UTF-8")
             body = body.decode('utf-8')
+            logger.info(f"Decoded body: {body}")
 
-        content_type_header = headers.get('Content-Type', '')
-        boundary = content_type_header.split("boundary=")[1]
-        boundary = '--' + boundary
+            content_type_header = headers.get('Content-Type', '')
+            logger.info(f"Content-Type header: {content_type_header}")
 
-        parts = body.split(boundary + '\r\n')[1:-1]
+            if "boundary=" in content_type_header:
+                boundary = content_type_header.split("boundary=")[1]
+                boundary = '--' + boundary
+                logger.info(f"boundary: {boundary}")
+                logger.info(f"Body: {body[:500]}")
 
-        for part in parts:
-            header_part, data_part = part.split('\r\n\r\n', 1)
-            if 'name="image"' in header_part:
-                return data_part.strip()
+                parts = body.split(boundary)
+                logger.info(f"Number of parts: {len(parts)}")
+                parts = parts[1:-1]
 
-        logger.error(
-            "Image data not found in event body. Parts: {}".format(parts))
-        raise KeyError("Image data not found in event body")
+                logger.info(f"Parts: {parts}")
+
+                for part in parts:
+                    logger.info(f"Part: {part[:500]}")
+                    part = part.strip()
+                    header_part, data_part = part.split('\r\n\r\n', 1)
+                    if 'name="image"' in header_part:
+                        logger.info("Image data found in event body")
+                        return data_part.strip()
+
+            else:
+                logger.error("Content-Type header or boundary not found")
+                raise ValueError("Content-Type header or boundary not found")
+
+        else:
+            logger.error("Body is not in bytes format")
+            raise TypeError("Body is not in bytes format")
 
     except Exception as e:
         logger.error(f"Error in parse_multipart_body: {str(e)}")
@@ -100,7 +123,6 @@ def parse_multipart_body(body, is_base64_encoded, headers):
 
 
 def lambda_handler(event, context):
-    logger.info("Received event: %s", json.dumps(event))
     try:
         headers = event.get('headers', {})
         body = event['body']
