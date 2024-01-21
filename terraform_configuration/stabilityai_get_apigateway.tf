@@ -41,5 +41,5 @@ resource "aws_lambda_permission" "video_status_lambda_permission" {
   function_name = aws_lambda_function.stabilityai3.function_name
   principal     = "apigateway.amazonaws.com"
 
-  source_arn = "${aws_api_gateway_rest_api.video_status_api.execution_arn}/prod/check_video_status/*"
+  source_arn = "${aws_api_gateway_rest_api.video_status_api.execution_arn}/prod/*/stabilityai3"
 }
