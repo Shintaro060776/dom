@@ -17,8 +17,7 @@ def lambda_handler(event, context):
         api_key = os.environ['STABILITY_API_KEY']
 
         headers = {
-            'Authorization': f'Bearer {api_key}',
-            'Content-Type': 'multipart/form-data'
+            'Authorization': f'Bearer {api_key}'
         }
         data = {
             'seed': 0,
@@ -30,11 +29,16 @@ def lambda_handler(event, context):
         mime_type = 'image/jpeg' if file_extension.lower() == 'jpg' else 'image/png'
         files = {'image': (object_key, image_data, mime_type)}
 
-        response = requests.post(
+        api_response = requests.post(
             api_url, headers=headers, data=data, files=files)
-        response.raise_for_status()
 
-        generation_id = response.json().get('id')
+        print(f"API Response Status Code: {api_response.status_code}")
+        print(f"API Response Headers: {api_response.headers}")
+        print(f"API Response Body: {api_response.text}")
+
+        api_response.raise_for_status()
+
+        generation_id = api_response.json().get('id')
         if generation_id:
             return {
                 'statusCode': 200,
