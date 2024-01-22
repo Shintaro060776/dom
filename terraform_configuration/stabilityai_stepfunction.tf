@@ -44,51 +44,51 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
 
     definition = <<EOF
 {
-    "Comment": "Video Generation State machine",
-    "StartAt": "StartVideoGeneration",
-    "States": {
-        "StartVideoGeneration": {
-            "Type": "Task",
-            "Resource": "${aws_lambda_function.stabilityai2.arn}",
-            "Next": "WaitForCompletion"
+  "Comment": "Video Generation State machine",
+  "StartAt": "StartVideoGeneration",
+  "States": {
+    "StartVideoGeneration": {
+      "Type": "Task",
+      "Resource": "${aws_lambda_function.stabilityai2.arn}",
+      "Next": "CheckVideoStatus"
+    },
+    "CheckVideoStatus": {
+      "Type": "Task",
+      "Resource": "${aws_lambda_function.stabilityai3.arn}",
+      "Next": "CheckGenerationStatus"
+    },
+    "CheckGenerationStatus": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.statusCode",
+          "NumericEquals": 200,
+          "Next": "ProcessVideo"
         },
-        "CheckVideoStatus": {
-            "Type": "Task",
-            "Resource": "${aws_lambda_function.stabilityai3.arn}",
-            "Next": "CheckGenerationStatus"
-        },
-        "CheckGenerationStatus": {
-            "Type": "Choice",
-            "Choices": [
-                {
-                    "Variable": "$.statusCode",
-                    "NumericEquals": 200,
-                    "Next": "ProcessVideo"
-                },
-                {
-                    "Variable": "$.statusCode",
-                    "NumericEquals": 202,
-                    "Next": "WaitForCompletion"
-                }
-            ],
-            "Default": "GenerationFailed"
-        },
-        "WaitForCompletion": {
-            "Type": "Wait",
-            "Seconds": 10,
-            "Next": "CheckGenerationStatus"
-        },
-        "ProcessVideo": {
-            "Type": "Task",
-            "Resource": "${aws_lambda_function.stabilityai3.arn}",
-            "End": true
-        },
-        "GenerationFailed": {
-            "Type": "Fail",
-            "Cause": "Video Generation Failed",
-            "Error": "Status Code Not 200"
+        {
+          "Variable": "$.statusCode",
+          "NumericEquals": 202,
+          "Next": "WaitForCompletion"
         }
+      ],
+      "Default": "GenerationFailed"
+    },
+    "WaitForCompletion": {
+      "Type": "Wait",
+      "Seconds": 10,
+      "Next": "CheckVideoStatus"
+    },
+    "ProcessVideo": {
+      "Type": "Task",
+      "Resource": "${aws_lambda_function.stabilityai3.arn}",
+      "End": true
+    },
+    "GenerationFailed": {
+      "Type": "Fail",
+      "Cause": "Video Generation Failed",
+      "Error": "Status Code Not 200"
     }
+  }
 }
     EOF
 
