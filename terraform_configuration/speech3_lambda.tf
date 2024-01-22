@@ -30,7 +30,8 @@ resource "aws_iam_policy" "lambda_policy_speech3" {
                     "s3:GetObject",
                     "logs:CreateLogGroup",
                     "logs:CreateLogStream",
-                    "logs:PutLogEvents"
+                    "logs:PutLogEvents",
+                    "states:StartExecution"
                 ],
                 Effect = "Allow",
                 Resource = "*"

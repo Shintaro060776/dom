@@ -28,7 +28,8 @@ resource "aws_iam_policy" "lambda_policy_stabilityai2" {
                     "logs:CreateLogGroup",
                     "logs:CreateLogStream",
                     "logs:PutLogEvents",
-                    "lambda:InvokeFunction"
+                    "lambda:InvokeFunction",
+                    "states:StartExecution"
                 ],
                 Effect = "Allow",
                 Resource = "*"
