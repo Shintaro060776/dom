@@ -13,14 +13,18 @@ function App() {
 
   const uploadImageToS3 = async (presignedUrl, file) => {
     try {
-      await axios.put(presignedUrl, file);
+      await axios.put(presignedUrl, file, {
+        headers: {
+          'Content-Type': file.type,
+          'x-amz-acl': 'bucket-owner-full-control'
+        }
+      });
       return true;
     } catch (error) {
       console.error("Error uploading image to S3:", error);
       return false;
     }
   };
-
 
   const checkVideoStatus = async (generationId) => {
     try {
