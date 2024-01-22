@@ -49,8 +49,8 @@ resource "aws_lambda_permission" "stabilityai" {
     source_arn = "${aws_api_gateway_rest_api.stabilityai.execution_arn}/prod/*/stabilityai1"
 }
 
-resource "aws_api_gateway_rest_api_policy" "stabilityai1" {
-    rest_api_id = aws_api_gateway_rest_api.stabilityai1.id
+resource "aws_api_gateway_rest_api_policy" "stabilityai" {
+    rest_api_id = aws_api_gateway_rest_api.stabilityai.id
 
     policy = jsonencode({
         Version = "2012-10-17",
