@@ -43,9 +43,17 @@ resource "aws_iam_policy" "cloudwatch_logs_policy" {
                 Action = [
                     "logs:CreateLogGroup",
                     "logs:CreateLogStream",
-                    "logs:PutLogEvents"
+                    "logs:PutLogEvents",
+                    "logs:PutResourcePolicy",
+                    "logs:CreateLogDelivery",
+                    "logs:GetLogDelivery",
+                    "logs:UpdateLogDelivery",
+                    "logs:DeleteLogDelivery",
+                    "logs:ListLogDeliveries",
+                    "logs:DescribeResourcePolicies",
+                    "logs:DescribeLogGroups"
                 ],
-                Resource = aws_cloudwatch_log_group.step_functions_log_group.arn
+                Resource = "arn:aws:logs:ap-northeast-1:715573459931:log-group:/aws/vendedlogs/states/*:*"
             }
         ]
     })
