@@ -45,7 +45,7 @@ resource "aws_iam_policy" "cloudwatch_logs_policy" {
                     "logs:CreateLogStream",
                     "logs:PutLogEvents"
                 ],
-                Resource = "arn:aws:logs:*:*:*"
+                Resource = aws_cloudwatch_log_group.step_functions_log_group.arn
             }
         ]
     })
