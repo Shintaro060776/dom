@@ -53,30 +53,32 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
       "Next": "CheckVideoStatus"
     },
     "CheckVideoStatus": {
-      "Type": "Task",
-      "Resource": "${aws_lambda_function.stabilityai3.arn}",
-      "Next": "CheckGenerationStatus"
+        "Type": "Task",
+        "Resource": "${aws_lambda_function.stabilityai3.arn}",
+        "InputPath": "$.generation_id",
+        "ResultPath": "$.videoStatus",
+        "Next": "CheckGenerationStatus"
     },
     "CheckGenerationStatus": {
-      "Type": "Choice",
-      "Choices": [
-        {
-          "Variable": "$.statusCode",
-          "NumericEquals": 200,
-          "Next": "ProcessVideo"
-        },
-        {
-          "Variable": "$.statusCode",
-          "NumericEquals": 202,
-          "Next": "WaitForCompletion"
-        }
-      ],
-      "Default": "GenerationFailed"
+        "Type": "Choice",
+        "Choices": [
+            {
+                "Variable": "$.videoStatus.statusCode",
+                "NumericEquals": 200,
+                "Next": "ProcessVideo"
+            },
+            {
+                "Variable": "$.videoStatus.statusCode",
+                "NumericEquals": 202,
+                "Next": "WaitForCompletion"
+            }
+        ],
+        "Default": "GenerationFailed"
     },
     "WaitForCompletion": {
       "Type": "Wait",
       "Seconds": 10,
-      "Next": "CheckVideoStatus"
+      "Next": "CheckGenerationStatus"
     },
     "ProcessVideo": {
       "Type": "Task",
