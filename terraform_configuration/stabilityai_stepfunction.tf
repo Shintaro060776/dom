@@ -70,16 +70,6 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
     name = "VideoGenerationStateMachine"
     role_arn = aws_iam_role.step_function_role.arn
 
-    logging_configuration {
-        include_execution_data = true
-        level = "ALL"
-        destinations {
-            cloud_watch_logs_log_group {
-                log_group_arn = aws_cloudwatch_log_group.step_functions_log_group.arn
-            }
-        }
-    }
-
     definition = <<EOF
     {
         "Comment": "Video Generation State machine",
@@ -124,4 +114,10 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
         }
     }
     EOF
+
+        logging_configuration {
+        log_destination        = aws_cloudwatch_log_group.step_functions_log_group.arn
+        include_execution_data = true
+        level                  = "ERROR"
+    }
 }
