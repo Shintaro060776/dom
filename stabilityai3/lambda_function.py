@@ -2,6 +2,7 @@ import json
 import boto3
 import requests
 import os
+import base64
 
 
 def lambda_handler(event, context):
@@ -12,40 +13,33 @@ def lambda_handler(event, context):
         s3_bucket_for_video = 'image2video20090317'
 
         try:
-            headers = {'Authorization': f'Bearer {api_key}'}
+            headers = {
+                'Authorization': f'Bearer {api_key}',
+                'Accept': 'application/json'
+            }
+
             response = requests.get(api_url, headers=headers)
 
             if response.status_code == 200:
+                response_json = response.json()
+                video_base64 = response_json.get('video')
+                video_data = base64.b64decode(video_base64)  # Base64デコード
+
                 s3 = boto3.client('s3')
-                video_data = response.content
                 video_key = f'videos/{generation_id}.mp4'
                 s3.put_object(Bucket=s3_bucket_for_video,
                               Key=video_key, Body=video_data)
                 video_url = f'https://{s3_bucket_for_video}.s3.amazonaws.com/{video_key}'
-                return {
-                    'statusCode': 200,
-                    'body': json.dumps({'video_url': video_url})
-                }
+                return {'statusCode': 200, 'body': json.dumps({'video_url': video_url})}
+
             elif response.status_code == 202:
-                return {
-                    'statusCode': 202,
-                    'body': json.dumps({'message': 'Video generation in progress'})
-                }
+                return {'statusCode': 202, 'body': json.dumps({'message': 'Video generation in progress'})}
             else:
-                return {
-                    'statusCode': response.status_code,
-                    'body': json.dumps({'error': response.text})
-                }
+                return {'statusCode': response.status_code, 'body': json.dumps({'error': response.text})}
 
         except Exception as e:
             print(f"Error: {str(e)}")
-            return {
-                'statusCode': 500,
-                'body': json.dumps({'error': str(e)})
-            }
+            return {'statusCode': 500, 'body': json.dumps({'error': str(e)})}
 
     else:
-        return {
-            'statusCode': 400,
-            'body': json.dumps({'error': 'Invalid event format'})
-        }
+        return {'statusCode': 400, 'body': json.dumps({'error': 'Invalid event format'})}

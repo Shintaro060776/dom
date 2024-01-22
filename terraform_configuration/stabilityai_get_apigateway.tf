@@ -44,3 +44,18 @@ resource "aws_lambda_permission" "video_status_lambda_permission" {
   source_arn = "${aws_api_gateway_rest_api.video_status_api.execution_arn}/prod/*/stabilityai3"
 }
 
+resource "aws_api_gateway_rest_api_policy" "stabilityai_get" {
+    rest_api_id = aws_api_gateway_rest_api.video_status_api.id
+
+    policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [
+            {
+                Effect = "Allow",
+                Principal = "*",
+                Action = "execute-api:Invoke",
+                Resource = "${aws_api_gateway_rest_api.video_status_api.execution_arn}/*"
+            }
+        ],
+    })
+}
