@@ -55,7 +55,7 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
     "CheckVideoStatus": {
         "Type": "Task",
         "Resource": "${aws_lambda_function.stabilityai3.arn}",
-        "InputPath": "$.generation_id",
+        "InputPath": "$.body.generation_id",
         "ResultPath": "$.videoStatus",
         "Next": "CheckGenerationStatus"
     },
