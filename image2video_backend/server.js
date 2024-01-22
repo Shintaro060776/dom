@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.post('/api/image2video', async (req, res) => {
     try {
         const response = await axios.post(
-            'https://qse55vmn5m.execute-api.ap-northeast-1.amazonaws.com/prod/stabilityai',
+            'https://ixcnxwety3.execute-api.ap-northeast-1.amazonaws.com/prod/stabilityai1',
             req.body
         );
         res.json(response.data);
