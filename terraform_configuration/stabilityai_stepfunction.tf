@@ -43,13 +43,18 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
     role_arn = aws_iam_role.step_function_role.arn
 
     definition = <<EOF
-    {
+{
     "Comment": "Video Generation State machine",
     "StartAt": "StartVideoGeneration",
     "States": {
         "StartVideoGeneration": {
             "Type": "Task",
             "Resource": "${aws_lambda_function.stabilityai2.arn}",
+            "Next": "WaitForCompletion"
+        },
+        "CheckVideoStatus": {
+            "Type": "Task",
+            "Resource": "${aws_lambda_function.stabilityai3.arn}",
             "Next": "CheckGenerationStatus"
         },
         "CheckGenerationStatus": {
@@ -68,15 +73,15 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
             ],
             "Default": "GenerationFailed"
         },
+        "WaitForCompletion": {
+            "Type": "Wait",
+            "Seconds": 10,
+            "Next": "CheckGenerationStatus"
+        },
         "ProcessVideo": {
             "Type": "Task",
             "Resource": "${aws_lambda_function.stabilityai3.arn}",
             "End": true
-        },
-        "WaitForCompletion": {
-            "Type": "Wait",
-            "Seconds": 30,
-            "Next": "StartVideoGeneration"
         },
         "GenerationFailed": {
             "Type": "Fail",
