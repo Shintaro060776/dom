@@ -80,20 +80,20 @@ resource "aws_iam_policy" "lambda_invoke_stepfunction_policy" {
 #   EOF
 # }
 
-resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
-    role = aws_iam_role.step_function_role.name
-    policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
-}
+# resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
+#     role = aws_iam_role.step_function_role.name
+#     policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
+# }
 
 resource "aws_iam_role_policy_attachment" "step_functions_lambda_attachment" {
     role = aws_iam_role.step_function_role.name
     policy_arn = aws_iam_policy.lambda_invoke_stepfunction_policy.arn
 }
 
-resource "aws_cloudwatch_log_group" "step_functions_log_group" {
-    name = "/aws/vendedlogs/states/VideoGenerationStateMachine"
-    retention_in_days = 30
-}
+# resource "aws_cloudwatch_log_group" "step_functions_log_group" {
+#     name = "/aws/vendedlogs/states/VideoGenerationStateMachine"
+#     retention_in_days = 30
+# }
 
 resource "aws_sfn_state_machine" "video_generation_state_machine" {
     name = "VideoGenerationStateMachine"
