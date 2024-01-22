@@ -31,54 +31,54 @@ resource "aws_iam_policy" "lambda_invoke_stepfunction_policy" {
     })
 }
 
-resource "aws_iam_policy" "cloudwatch_logs_policy" {
-    name = "CloudWatchLogsPolicyForStepFunctions"
-    description = "Allow Step Functions to write logs to CloudWatch"
+# resource "aws_iam_policy" "cloudwatch_logs_policy" {
+#     name = "CloudWatchLogsPolicyForStepFunctions"
+#     description = "Allow Step Functions to write logs to CloudWatch"
 
-    policy = jsonencode({
-        Version = "2012-10-17",
-        Statement = [
-            {
-                Effect = "Allow",
-                Action = [
-                    "logs:CreateLogGroup",
-                    "logs:CreateLogStream",
-                    "logs:PutLogEvents",
-                    "logs:PutResourcePolicy",
-                    "logs:CreateLogDelivery",
-                    "logs:GetLogDelivery",
-                    "logs:UpdateLogDelivery",
-                    "logs:DeleteLogDelivery",
-                    "logs:ListLogDeliveries",
-                    "logs:DescribeResourcePolicies",
-                    "logs:DescribeLogGroups"
-                ],
-                Resource = "arn:aws:logs:ap-northeast-1:715573459931:log-group:/aws/vendedlogs/states/*:*"
-            }
-        ]
-    })
-}
+#     policy = jsonencode({
+#         Version = "2012-10-17",
+#         Statement = [
+#             {
+#                 Effect = "Allow",
+#                 Action = [
+#                     "logs:CreateLogGroup",
+#                     "logs:CreateLogStream",
+#                     "logs:PutLogEvents",
+#                     "logs:PutResourcePolicy",
+#                     "logs:CreateLogDelivery",
+#                     "logs:GetLogDelivery",
+#                     "logs:UpdateLogDelivery",
+#                     "logs:DeleteLogDelivery",
+#                     "logs:ListLogDeliveries",
+#                     "logs:DescribeResourcePolicies",
+#                     "logs:DescribeLogGroups"
+#                 ],
+#                 Resource = "arn:aws:logs:ap-northeast-1:715573459931:log-group:/aws/vendedlogs/states/*:*"
+#             }
+#         ]
+#     })
+# }
 
-resource "aws_cloudwatch_log_resource_policy" "allow_step_functions_access" {
-  policy_name     = "StepFunctionsAccess"
-  policy_document = <<EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": {"Service": "states.amazonaws.com"},
-        "Action": [
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents"
-        ],
-        "Resource": "arn:aws:logs:*:*:/aws/vendedlogs/states/*"
-      }
-    ]
-  }
-  EOF
-}
+# resource "aws_cloudwatch_log_resource_policy" "allow_step_functions_access" {
+#   policy_name     = "StepFunctionsAccess"
+#   policy_document = <<EOF
+#   {
+#     "Version": "2012-10-17",
+#     "Statement": [
+#       {
+#         "Effect": "Allow",
+#         "Principal": {"Service": "states.amazonaws.com"},
+#         "Action": [
+#           "logs:CreateLogGroup",
+#           "logs:CreateLogStream",
+#           "logs:PutLogEvents"
+#         ],
+#         "Resource": "arn:aws:logs:*:*:/aws/vendedlogs/states/*"
+#       }
+#     ]
+#   }
+#   EOF
+# }
 
 resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
     role = aws_iam_role.step_function_role.name
@@ -144,9 +144,9 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
     }
     EOF
 
-        logging_configuration {
-        log_destination        = aws_cloudwatch_log_group.step_functions_log_group.arn
-        include_execution_data = true
-        level                  = "ERROR"
-    }
+    #     logging_configuration {
+    #     log_destination        = aws_cloudwatch_log_group.step_functions_log_group.arn
+    #     include_execution_data = true
+    #     level                  = "ERROR"
+    # }
 }
