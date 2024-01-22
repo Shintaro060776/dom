@@ -59,6 +59,27 @@ resource "aws_iam_policy" "cloudwatch_logs_policy" {
     })
 }
 
+resource "aws_cloudwatch_log_resource_policy" "allow_step_functions_access" {
+  policy_name     = "StepFunctionsAccess"
+  policy_document = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {"Service": "states.amazonaws.com"},
+        "Action": [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        "Resource": "arn:aws:logs:*:*:/aws/vendedlogs/states/*"
+      }
+    ]
+  }
+  EOF
+}
+
 resource "aws_iam_role_policy_attachment" "cloudwatch_logs_policy_attachment" {
     role = aws_iam_role.step_function_role.name
     policy_arn = aws_iam_policy.cloudwatch_logs_policy.arn
