@@ -73,7 +73,11 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
     logging_configuration {
         include_execution_data = true
         level = "ALL"
-        destination = aws_cloudwatch_log_group.step_functions_log_group.arn
+        destinations {
+            cloud_watch_logs_log_group {
+                log_group_arn = aws_cloudwatch_log_group.step_functions_log_group.arn
+            }
+        }
     }
 
     definition = <<EOF
