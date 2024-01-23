@@ -49,6 +49,7 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
   "States": {
     "StartVideoGeneration": {
       "Type": "Task",
+      "Resource": "${aws_lambda_function.stabilityai2.arn}",
       "Next": "CheckVideoStatus"
     },
     "CheckVideoStatus": {
