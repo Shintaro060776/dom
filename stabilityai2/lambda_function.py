@@ -63,9 +63,4 @@ def lambda_handler(event, context):
                 'body': json.dumps({'error': str(e)})
             }
     else:
-        error_msg = "Invalid event format, 'Records' key not found"
-        logger.error(error_msg)
-        return {
-            'statusCode': 400,
-            'body': json.dumps({'error': error_msg})
-        }
+        return {'statusCode': 200, 'body': json.dumps({'message': 'Triggered by Step Functions, no action required'})}
