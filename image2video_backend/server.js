@@ -5,9 +5,10 @@ const AWS = require('aws-sdk');
 
 const app = express();
 const port = 10000;
+AWS.config.update({ region: 'ap-northeast-1' });
 const s3 = new AWS.S3()
 const BUCKET_NAME = 'image2video20090317'
-const VIDEO_FOLDER = 'video/';
+const VIDEO_FOLDER = 'videos/';
 
 app.use(bodyParser.json());
 
