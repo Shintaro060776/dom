@@ -26,25 +26,6 @@ function App() {
     }
   };
 
-  const checkVideoStatus = async (generationId) => {
-    try {
-      const statusResponse = await axios.get(`http://3.112.43.184/api/check_video_status/${generationId}`);
-      if (statusResponse.data.statusCode === 200) {
-        setVideoUrl(statusResponse.data.videoUrl);
-        setLoading(false);
-      } else if (statusResponse.data.statusCode === 202) {
-        setTimeout(() => checkVideoStatus(generationId), 5000);
-      } else {
-        alert("Error during video generation process");
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error("Error checking video status:", error);
-      setLoading(false);
-      alert("Error checking video status");
-    }
-  };
-
 
   const handleSubmit = async () => {
     if (!selectedFile) {
@@ -60,13 +41,9 @@ function App() {
 
       const presignedUrl = presignedResponse.data.url;
 
-      const generationId = presignedResponse.data.generationId;
-
       const uploadSuccess = await uploadImageToS3(presignedUrl, selectedFile);
 
-      if (uploadSuccess) {
-        checkVideoStatus(generationId);
-      } else {
+      if (!uploadSuccess) {
         setLoading(false);
         alert("Error uploading image to S3");
       }
@@ -74,6 +51,20 @@ function App() {
       console.error("Error getting presigned URL or uploading image:", error);
       setLoading(false);
       alert("Error during video generation process");
+    }
+  };
+
+  const getLatestVideo = async () => {
+    setLoading(true);
+
+    try {
+      const response = await axios.get('http://3.112.43.184/api/latest_video');
+      setVideoUrl(response.data.videoUrl);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error retrieving latest video:", error);
+      setLoading(false);
+      alert("Error retrieving latest video");
     }
   };
 
@@ -97,6 +88,9 @@ function App() {
         <input type='file' onChange={handleFileSelect} />
         <button onClick={handleSubmit} disabled={loading}>
           {loading ? 'Generating...' : 'Generate Video'}
+        </button>
+        <button onClick={getLatestVideo} disabled={loading}>
+          {loading ? 'Loading...' : 'Get Video'}
         </button>
       </div>
     </div>

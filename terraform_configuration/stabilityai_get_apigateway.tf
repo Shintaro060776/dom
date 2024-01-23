@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "video_status_api" {
 resource "aws_api_gateway_resource" "video_status_resource" {
   rest_api_id = aws_api_gateway_rest_api.video_status_api.id
   parent_id   = aws_api_gateway_rest_api.video_status_api.root_resource_id
-  path_part   = "stabilityai3"
+  path_part   = "{generationId}"
 }
 
 resource "aws_api_gateway_method" "video_status_method" {
