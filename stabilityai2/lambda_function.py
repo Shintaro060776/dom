@@ -62,5 +62,12 @@ def lambda_handler(event, context):
                 'statusCode': 500,
                 'body': json.dumps({'error': str(e)})
             }
+
+    elif 'generation_id' in event:
+        return {
+            'statusCode': 200,
+            'body': json.dumps(event)
+        }
+
     else:
         return {'statusCode': 200, 'body': json.dumps({'message': 'Triggered by Step Functions, no action required'})}

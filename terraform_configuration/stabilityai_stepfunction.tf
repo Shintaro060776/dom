@@ -76,7 +76,7 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
     },
     "WaitForCompletion": {
       "Type": "Wait",
-      "Seconds": 10,
+      "Seconds": 5,
       "Next": "CheckGenerationStatus"
     },
     "ProcessVideo": {
