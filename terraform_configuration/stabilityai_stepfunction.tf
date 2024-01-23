@@ -55,19 +55,16 @@ resource "aws_sfn_state_machine" "video_generation_state_machine" {
     "CheckVideoStatus": {
         "Type": "Task",
         "Resource": "${aws_lambda_function.stabilityai3.arn}",
-        # "InputPath": "$.body",
         "Next": "CheckGenerationStatus"
     },
     "CheckGenerationStatus": {
         "Type": "Choice",
         "Choices": [
             {
-                # "Variable": "$.videoStatus.statusCode",
                 "NumericEquals": 200,
                 "Next": "ProcessVideo"
             },
             {
-                # "Variable": "$.videoStatus.statusCode",
                 "NumericEquals": 202,
                 "Next": "WaitForCompletion"
             }
