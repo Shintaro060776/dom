@@ -1,24 +1,11 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [videoUrl, setVideoUrl] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    let timer;
-    if (loading && progress < 100) {
-      timer = setInterval(() => {
-        setProgress(prev => (prev < 100 ? prev + 1 : 100));
-      }, 1500);
-    } else if (!loading && progress !== 0) {
-      setProgress(0);
-    }
-    return () => clearInterval(timer);
-  }, [loading, progress]);
 
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -57,7 +44,7 @@ function App() {
       const uploadSuccess = await uploadImageToS3(presignedUrl, selectedFile);
 
       if (uploadSuccess) {
-        setTimeout(() => setLoading(false), 150000);
+        setTimeout(() => setLoading(false), 5000);
       } else {
         setLoading(false);
         alert("Error uploading image to S3");
@@ -91,12 +78,6 @@ function App() {
           <a href='http://3.112.43.184/'>Home</a>
         </nav>
       </header>
-      <div className='progress-bar'>
-        <div
-          className='progress'
-          style={{ width: `${progress}%` }}
-        ></div>
-      </div>
       <div className='content'>
         <div className='image-preview'>
           {selectedFile && <img src={URL.createObjectURL(selectedFile)} alt='Selected' />}
