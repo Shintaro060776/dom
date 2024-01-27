@@ -29,7 +29,8 @@ function App() {
     try {
       await axios.put(presignedUrl, file, {
         headers: {
-          'Content-Type': file.type
+          'Content-Type': file.type,
+          'x-amz-acl': 'bucket-owner-full-control'
         }
       });
       setUpLoadedImage(URL.createObjectURL(file));
