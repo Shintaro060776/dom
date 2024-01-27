@@ -49,7 +49,7 @@ const BlogArticle12 = () => {
     new_ips = [ip for ip in ip_list if ip not in existing_ips] # 追加するIPアドレスである、ip_listの要素に対して、ループさせて、既存のIPアドレス(existing_ips)に、含まれていない場合に、new_ipsに、IPアドレスを追加する
     if new_ips:
         updated_ips = existing_ips.union(set(new_ips)) # (set(new_ips))で、セットに変換して、重複している可能性のある、追加するIPアドレスを、チェックする。そして、unionで、既存のIPアドレス(existing_ips)と、追加するIPアドレスの、集合を作成する。
-        new_expression = f"(http.host contains \"XXXXXXXXXXXXX(rulename)\" and ip.src in {{{' '.join(updated_ips)}}})" # 上記の、updated_ipsに格納されている、IPアドレスを、スペースで区切って、Expressionに、記載していく
+        new_expression = f"(http.host contains "XXXXXXXXXXXXX(rulename)" and ip.src in {{{' '.join(updated_ips)}}})" # 上記の、updated_ipsに格納されている、IPアドレスを、スペースで区切って、Expressionに、記載していく
        
         # ルールの中身を更新
         update_data = {
