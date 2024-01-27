@@ -26,7 +26,7 @@ app.get('/api/latest_image', async (req, res) => {
     try {
         const params = {
             Bucket: S3_BUCKET,
-            Key: `${S3_PREFIX}${fileName}`
+            Prefix: S3_PREFIX
         };
 
         const s3Response = await s3.listObjectsV2(params).promise();
@@ -34,8 +34,11 @@ app.get('/api/latest_image', async (req, res) => {
 
         const latestFile = files.sort((a, b) => b.LastModified - a.LastModified)[0];
 
-        const imageUrl = `https://${S3_BUCKET}.s3.amazonaws.com/${latestFile.Key}`;
+        if (!latestFile) {
+            return res.status(404).send('No images found');
+        }
 
+        const imageUrl = `https://${S3_BUCKET}.s3.amazonaws.com/${latestFile.Key}`;
         res.json({ url: imageUrl });
     } catch (error) {
         console.error(error);

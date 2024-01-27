@@ -24,7 +24,7 @@ def lambda_handler(event, context):
 
         generated_image = call_stabilityai_api(translated_prompt)
 
-        output_file_name = f"generated_{file_name}"
+        output_file_name = f"gen/generated_{file_name}"
         s3.put_object(Bucket=bucket_name, Key=output_file_name,
                       Body=generated_image)
 
