@@ -17,7 +17,7 @@ def lambda_handler(event, context):
         body = json.loads(event['body'])
         japanese_prompt = body['prompt']
         additional_japanese_prompt = body.get('additionalPrompt', '')
-        file_name = body['filename']
+        file_name = body['fileName']
 
         response = translate.translate_text(
             Text=japanese_prompt,
