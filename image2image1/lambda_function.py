@@ -2,12 +2,13 @@ import json
 import boto3
 from botocore.exceptions import ClientError
 import datetime
+from botocore.client import Config
 
 
 def lambda_handler(event, context):
     dynamodb = boto3.resource('dynamodb')
     translate = boto3.client('translate')
-    s3 = boto3.client('s3')
+    s3 = boto3.client("s3", config=Config(signature_version="s3v4"))
 
     bucket_name = 'image2image20090317'
     expiration = 300
@@ -56,7 +57,8 @@ def lambda_handler(event, context):
                 'Key': file_name,
                 'ACL': 'bucket-owner-full-control'
             },
-            ExpiresIn=expiration
+            ExpiresIn=expiration,
+            HttpMethod="PUT"
         )
 
         return {

@@ -13,6 +13,7 @@ import BlogArticle9 from './9';
 import BlogArticle10 from './10';
 import BlogArticle11 from './11';
 import BlogArticle12 from './12';
+import BlogArticle13 from './13';
 
 const blogEntries = [
   {
@@ -93,6 +94,13 @@ const blogEntries = [
     path: "/blog12/12"
   },
   {
+    id: 13,
+    title: "Image-to-Image StabilityAI",
+    date: "2023/10/29",
+    thumbnail: "/blog/generated_20240127_06_47_0.png",
+    path: "/blog13/13"
+  },
+  {
     id: 11,
     title: "Image-to-Video By StabilityAi",
     date: "2023/12/30",
@@ -132,6 +140,7 @@ function App() {
           <Route path="/blog9/9" element={<BlogArticle9 />} />
           <Route path="/blog10/10" element={<BlogArticle10 />} />
           <Route path="/blog12/12" element={<BlogArticle12 />} />
+          <Route path="/blog13/13" element={<BlogArticle13 />} />
           <Route path="/blog11/11" element={<BlogArticle11 />} />
           <Route path="/blog" element={
             <main className="blog-container">
