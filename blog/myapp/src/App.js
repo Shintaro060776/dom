@@ -85,6 +85,13 @@ const blogEntries = [
     path: "/blog10/10"
   },
   {
+    id: 12,
+    title: "仕事で実装するコードの一例",
+    date: "2023/09/15",
+    thumbnail: "/blog/20240127_04_50_0.png",
+    path: "/blog12/12"
+  },
+  {
     id: 11,
     title: "Image-to-Video By StabilityAi",
     date: "2023/12/30",
@@ -123,6 +130,7 @@ function App() {
           <Route path="/blog8/8" element={<BlogArticle8 />} />
           <Route path="/blog9/9" element={<BlogArticle9 />} />
           <Route path="/blog10/10" element={<BlogArticle10 />} />
+          <Route path="/blog12/12" element={<BlogArticle12 />} />
           <Route path="/blog11/11" element={<BlogArticle11 />} />
           <Route path="/blog" element={
             <main className="blog-container">
