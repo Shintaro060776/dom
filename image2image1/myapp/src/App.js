@@ -47,7 +47,7 @@ function App() {
 
   const handleGetNewImage = async () => {
     try {
-      const response = await axios.get('http://3.112.43.184/api/latest_video');
+      const response = await axios.get('http://3.112.43.184/api/latest_image');
       setGeneratedImage(response.data.url);
     } catch (error) {
       console.error('Error getting new image', error);

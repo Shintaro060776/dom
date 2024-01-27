@@ -8,7 +8,7 @@ const port = 11000;
 
 app.use(bodyParser.json());
 
-const API_GATEWAY_ENDPOINT = '';
+const API_GATEWAY_ENDPOINT = 'https://p7b37ekuh3.execute-api.ap-northeast-1.amazonaws.com/prod/image2image1';
 const S3_BUCKET = 'image2image20090317';
 const S3_PREFIX = 'gen/';
 
@@ -22,7 +22,7 @@ app.post('/api/image2image', async (req, res) => {
     }
 });
 
-app.get('/api/latest_video', async (req, res) => {
+app.get('/api/latest_image', async (req, res) => {
     try {
         const params = {
             Bucket: S3_BUCKET,
