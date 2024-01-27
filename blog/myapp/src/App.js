@@ -12,6 +12,7 @@ import BlogArticle8 from './8';
 import BlogArticle9 from './9';
 import BlogArticle10 from './10';
 import BlogArticle11 from './11';
+import BlogArticle12 from './12';
 
 const blogEntries = [
   {
