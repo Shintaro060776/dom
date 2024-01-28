@@ -333,9 +333,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 card7Position = card6Position + 130;
                 card8Position = card7Position + 130;
                 card9Position = card8Position + 130;
-                card10Position = card8Position + 130;
-                card11Position = card8Position + 130;
-                card12Position = card8Position + 130;
+                card10Position = card9Position + 130;
+                card11Position = card10Position + 130;
+                card12Position = card11Position + 130;
             } else {
                 cardPosition = Math.min(cardPosition + 7, 4000);
                 card1Position = cardPosition + 130;
@@ -347,9 +347,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 card7Position = card6Position + 130;
                 card8Position = card7Position + 130;
                 card9Position = card8Position + 130;
-                card10Position = card8Position + 130;
-                card11Position = card8Position + 130;
-                card12Position = card8Position + 130;
+                card10Position = card9Position + 130;
+                card11Position = card10Position + 130;
+                card12Position = card11Position + 130;
             }
             updateCardPosition(cardPosition, card1Position, card2Position, card3Position, card4Position, card5Position, card6Position, card7Position, card8Position, card9Position, card10Position, card11Position, card12Position);
         }
