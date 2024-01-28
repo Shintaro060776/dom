@@ -5,18 +5,18 @@ const port = 12000;
 
 app.use(express.json());
 
+const apiGatewayUrl = 'https://n0agp0mzfb.execute-api.ap-northeast-1.amazonaws.com/prod/text2speech';
+
 app.post('/api/text2speech', async (req, res) => {
     try {
-        const APIGATEWAY = 'https://n0agp0mzfb.execute-api.ap-northeast-1.amazonaws.com/prod/text2speech';
-
-        const lambdaResponse = await axios.post(APIGATEWAY, {
-            user_input: req.body.user_input
-        });
-
+        const lambdaResponse = await axios.post(apiGatewayUrl, { user_input: req.body.user_input });
         res.json(lambdaResponse);
     } catch (error) {
+        console.error('Error status:', error.response?.status);
+        console.error('Error headers:', error.response?.headers);
+        console.error('Error data:', error.response?.data);
         console.error('Error calling Lambda:', error);
-        res.status(500).send('Internal Server Error')
+        res.status(error.response?.status || 500).send(error.response?.data || 'Internal Server Error');
     }
 });
 
