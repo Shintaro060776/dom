@@ -12,7 +12,7 @@ resource "aws_api_gateway_resource" "text2speech" {
 resource "aws_api_gateway_method" "text2speech" {
     rest_api_id = aws_api_gateway_rest_api.text2speech.id
     resource_id = aws_api_gateway_resource.text2speech.id
-    http_method = "POST"
+    http_method = "ANY"
     authorization = "NONE"
 }
 
