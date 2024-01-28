@@ -146,7 +146,7 @@ canvas {
 }
 
 .extra-space {
-    height: 55000px;
+    height: 75000px;
 }
 
 #loading {
@@ -367,7 +367,10 @@ canvas {
 #card6,
 #card7,
 #card8,
-#card9 {
+#card9,
+#card10,
+#card11,
+#card12 {
     position: fixed;
     top: 50%;
     right: -100%;
@@ -453,6 +456,42 @@ canvas {
     margin: 0 auto;
 }
 
+.card-image9 {
+    width: 100%;
+    height: 50%;
+    background: url('20240127_06_47_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-image10 {
+    width: 100%;
+    height: 50%;
+    background: url('20240128_10_30_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-image11 {
+    width: 100%;
+    height: 50%;
+    background: url('20240127_06_47_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
+.card-image12 {
+    width: 100%;
+    height: 50%;
+    background: url('20240127_06_47_0.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
 .card-image1 {
     width: 100%;
     height: 50%;
@@ -494,7 +533,10 @@ canvas {
 #card6 a,
 #card7 a,
 #card8 a,
-#card9 a {
+#card9 a,
+#card10 a,
+#card11 a,
+#card12 a {
     color: inherit;
     text-decoration: none;
 }
@@ -523,7 +565,10 @@ canvas {
 #card6.visible,
 #card7.visible,
 #card8.visible,
-#card9.visible {
+#card9.visible,
+#card10.visible,
+#card11.visible,
+#card12.visible {
     right: 10%;
 }
 
@@ -571,7 +616,10 @@ canvas {
     #card6,
     #card7,
     #card8,
-    #card9 {
+    #card9,
+    #card10,
+    #card11,
+    #card12 {
         width: 300px;
         height: 400px;
     }
@@ -595,7 +643,10 @@ canvas {
     #card6,
     #card7,
     #card8,
-    #card9 {
+    #card9,
+    #card10,
+    #card11,
+    #card12 {
         width: 300px;
         height: 400px;
     }
@@ -624,7 +675,10 @@ canvas {
     #card6,
     #card7,
     #card8,
-    #card9 {
+    #card9,
+    #card10,
+    #card11,
+    #card12 {
         width: 700px;
         height: 700px;
     }
@@ -671,7 +725,10 @@ canvas {
     #card6,
     #card7,
     #card8,
-    #card9 {
+    #card9,
+    #card10,
+    #card11,
+    #card12 {
         width: 700px;
         height: 700px;
     }

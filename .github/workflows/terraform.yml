@@ -170,6 +170,17 @@ jobs:
           npm install
           npm run build
 
+      - name: text2speech_backend
+        run: |
+          cd text2speech_backend
+          npm install
+  
+      - name: text2speech
+        run: |
+          cd text2speech/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -231,6 +242,10 @@ jobs:
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/image2image_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/image2image_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/image2image1/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/image2image1/
 
+          # Deploy text2speech app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/text2speech_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/text2speech_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/text2speech/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/text2speech/
+
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
@@ -250,6 +265,8 @@ jobs:
             pm2 restart 7
             /usr/share/nginx/html/image2image_backend
             pm2 restart 9
+            # /usr/share/nginx/html/text2speech_backend
+            # pm2 restart 10
           '
 
           rm -f deploy_key
