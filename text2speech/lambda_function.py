@@ -2,7 +2,11 @@ import json
 from openai import OpenAI
 import os
 import boto3
-from openai.error import OpenAIError
+import logging
+
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 def lambda_handler(event, context):
@@ -18,30 +22,35 @@ def lambda_handler(event, context):
         user_input = event.get("user_input", "")
 
         try:
+            GPT_MODEL = "gpt-4"
+            messages = [
+                {"role": "system", "content": "You are a helpful assistant"},
+                {"role": "user", "content": user_input},
+            ]
             response = client.chat.completions.create(
-                model="gpt-4",
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant"},
-                    {"role": "user", "content": user_input}
-                ]
+                model=GPT_MODEL,
+                messages=messages,
+                temperature=0
             )
-        except OpenAIError as e:
-            print("Error with OpenAI GPT-4 API:", e)
-            return {"statusCode": 500, "body": json.dumps({"error": "OpenAI GPT-4 API error:" + str(e)})}
 
-        generated_text = response['choices'][0]['message']['content']
+            generated_text = response.choices[0].message.content
+            logger.info(f"AI Response: {generated_text}")
+
+        except Exception as e:
+            print(f"エラーが発生しました: {e}")
+            raise e
 
         speech_file_path = "/tmp/speech.mp3"
 
         try:
-            speech_response = client.audio.speech_create(
+            speech_response = client.audio.speech.create(
                 model="tts-1",
                 voice="alloy",
                 input=generated_text
             )
-        except OpenAIError as e:
-            print("Error with OpenAI Text to Speech API:", e)
-            return {"statusCode": 500, "body": json.dumps({"error": "OpenAI Text to Speech API error: " + str(e)})}
+        except Exception as e:
+            print(f"エラーが発生しました: {e}")
+            raise e
 
         speech_response.stream_to_file(speech_file_path)
 

@@ -10,6 +10,7 @@ const apiGatewayUrl = 'https://n0agp0mzfb.execute-api.ap-northeast-1.amazonaws.c
 app.post('/api/text2speech', async (req, res) => {
     try {
         const lambdaResponse = await axios.post(apiGatewayUrl, { user_input: req.body.user_input });
+        console.log("Received response from API Gateway:", lambdaResponse.data);
         res.json(lambdaResponse);
     } catch (error) {
         console.error('Error status:', error.response?.status);

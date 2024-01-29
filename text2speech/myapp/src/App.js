@@ -11,6 +11,8 @@ function App() {
     try {
       const response = await axios.post('http://3.112.43.184/api/text2speech', { user_input: query });
       setAudioUrl(response.data.audio_url);
+      const message = response.data.message;
+      console.log("Received Message:", message);
     } catch (error) {
       console.error('Error', error);
       alert('An error occurred while processing your request');
