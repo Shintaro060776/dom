@@ -11,7 +11,10 @@ app.post('/api/text2speech', async (req, res) => {
     try {
         const lambdaResponse = await axios.post(apiGatewayUrl, { user_input: req.body.user_input });
         console.log("Received response from API Gateway:", lambdaResponse.data);
-        res.json(lambdaResponse);
+        res.json({
+            message: lambdaResponse.data.message,
+            audio_url: lambdaResponse.data.audio_url
+        });
     } catch (error) {
         console.error('Error status:', error.response?.status);
         console.error('Error headers:', error.response?.headers);
