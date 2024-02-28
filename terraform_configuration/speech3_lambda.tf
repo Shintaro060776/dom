@@ -55,12 +55,12 @@ resource "aws_lambda_function" "speech3" {
     role = aws_iam_role.lambda_execution_role_speech3.arn
     runtime = "python3.11"
 
-    layers = [
-        aws_lambda_layer_version.openai_layer.arn,
-        aws_lambda_layer_version.requests_layer.arn,
-        aws_lambda_layer_version.additional_request_layer.arn,
-        aws_lambda_layer_version.openai_latest_layer.arn,
-    ]
+    # layers = [
+    #     aws_lambda_layer_version.openai_layer.arn,
+    #     aws_lambda_layer_version.requests_layer.arn,
+    #     aws_lambda_layer_version.additional_request_layer.arn,
+    #     aws_lambda_layer_version.openai_latest_layer.arn,
+    # ]
 
     timeout = 900
 

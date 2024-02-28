@@ -21,11 +21,11 @@ resource "aws_lambda_function" "openai_image_generator" {
 
     filename = "/home/runner/work/dom/dom/dalle/lambda_function.zip"
 
-    layers = [
-        # aws_lambda_layer_version.openai_layer.arn,
-        aws_lambda_layer_version.requests_layer.arn,
-        aws_lambda_layer_version.additional_request_layer.arn
-    ]
+    # layers = [
+    #     # aws_lambda_layer_version.openai_layer.arn,
+    #     aws_lambda_layer_version.requests_layer.arn,
+    #     aws_lambda_layer_version.additional_request_layer.arn
+    # ]
 
     environment {
         variables = {
