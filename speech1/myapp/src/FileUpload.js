@@ -71,7 +71,7 @@ const FileUpload = () => {
             <header className='app-header'>
                 <h1>Speech-to-Text/GPT4</h1>
                 <nav>
-                    <a href='http://3.112.43.184/'>トップページに戻る</a>
+                    <a href='http://52.68.145.180/'>トップページに戻る</a>
                 </nav>
             </header>
             <div className="file-upload-container">

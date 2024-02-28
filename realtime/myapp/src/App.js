@@ -45,7 +45,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Realtime ChatBot by Emotional Analysis/Open AI</h1>
-        <a href="http://3.112.43.184/">トップページに戻る</a>
+        <a href="http://52.68.145.180/">トップページに戻る</a>
       </header>
       <div className="App-content">
         <textarea

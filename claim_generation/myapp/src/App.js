@@ -44,7 +44,7 @@ function App() {
         <h1>Dealing with Claim</h1>
         <nav>
           <a href='/'>Home</a>
-          <a href='http://3.112.43.184/'>BackToTopPage</a>
+          <a href='http://52.68.145.180/'>BackToTopPage</a>
         </nav>
       </header>
 

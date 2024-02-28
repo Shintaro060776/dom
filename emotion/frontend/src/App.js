@@ -53,7 +53,7 @@ const App = () => {
           />
           <button onClick={handleInquiry}>Inquiry</button>
           <div className="link">
-            <a href="http://3.112.43.184/">トップページに戻る</a>
+            <a href="http://52.68.145.180/">トップページに戻る</a>
           </div>
         </div>
         <ResponseDisplay response={response} />

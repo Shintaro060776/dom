@@ -25,7 +25,7 @@ function MessageInput({ onSendMessage }) {
                 <button type="submit">Send</button>
             </form>
             <div className='link-container'>
-                <a href='http://3.112.43.184/' className='link-to-home'>トップページに戻る</a>
+                <a href='http://52.68.145.180/' className='link-to-home'>トップページに戻る</a>
             </div>
         </div>
     );

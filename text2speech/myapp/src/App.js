@@ -23,7 +23,7 @@ function App() {
     <div className='App'>
       <header className='App-header'>
         <h1>Text2Speech</h1>
-        <a href="http://3.112.43.184/">Home</a>
+        <a href="http://52.68.145.180/">Home</a>
       </header>
       <main>
         <form onSubmit={handleSubmit}>

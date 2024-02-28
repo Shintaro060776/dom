@@ -59,7 +59,7 @@ function App() {
     <div className='App'>
       <header className='App-header'>
         <nav>
-          <a href='http://3.112.43.184/'>Home</a>
+          <a href='http://52.68.145.180/'>Home</a>
         </nav>
       </header>
 
