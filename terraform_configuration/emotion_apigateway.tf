@@ -61,7 +61,7 @@ resource "aws_lambda_permission" "api_gateway_invoke" {
 
 resource "aws_api_gateway_method_settings" "settings" {
   rest_api_id = aws_api_gateway_rest_api.my_api.id
-#   stage_name  = aws_api_gateway_stage.example.stage_name
+  stage_name  = "prod"
   method_path = "*/*"
 
   settings {
