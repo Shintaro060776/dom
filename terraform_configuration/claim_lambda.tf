@@ -4,8 +4,7 @@ resource "aws_lambda_function" "claim_handler_lambda" {
     handler = "lambda_function.lambda_handler"
     timeout = 900
 
-    s3_bucket = "claim20090317"
-    s3_key = "lambda_function.zip"
+    filename      = "/home/runner/work/dom/dom/gpt4/lambda_function.zip"
 
     role = aws_iam_role.lambda_exec_unique.arn
 

@@ -46,8 +46,7 @@ resource "aws_lambda_function" "generate_lambda" {
     handler = "lambda_function.lambda_handler"
     runtime = "python3.8"
 
-    s3_bucket = "well-generate20090317"
-    s3_key = "lambda_function.zip"
+    filename      = "/home/runner/work/dom/dom/gpt4/lambda_function.zip"
 
     environment {
         variables = {

@@ -55,8 +55,7 @@ resource "aws_cloudwatch_log_group" "lambda_log_group1" {
 
 resource "aws_lambda_function" "lambda_function" {
     function_name = "realtime"
-    s3_bucket = "realtime20090317"
-    s3_key = "lambda_function.zip" 
+    filename = "/home/runner/work/dom/dom/dalle/lambda_function.zip"
 
     handler = "lambda_function.lambda_handler"
     runtime = "python3.8"

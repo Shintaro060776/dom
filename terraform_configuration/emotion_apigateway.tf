@@ -72,7 +72,7 @@ resource "aws_api_gateway_method_settings" "settings" {
 }
 
 resource "aws_api_gateway_stage" "example" {
-    stage_name = "prod"
+    # stage_name = "prod"
     rest_api_id = aws_api_gateway_rest_api.my_api.id
     deployment_id = aws_api_gateway_deployment.my_api_deployment.id
 
