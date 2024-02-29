@@ -1,11 +1,9 @@
 resource "aws_lambda_layer_version" "latest_requests_layer" {
     filename = "/home/runner/work/dom/dom/mylambda_layer.zip"
-    layer_name = "requests_layer"
+    layer_name = "latest_requests_layer"
 
     compatible_runtimes = ["python3.11"]
 }
-
-
 
 resource "aws_lambda_function" "text2image_lambda" {
   function_name = "text2image_lambda_lambda_function"
@@ -19,7 +17,7 @@ resource "aws_lambda_function" "text2image_lambda" {
   timeout = 900
 
   layers = [
-    aws_lambda_layer_version.requests_layer.arn,
+    aws_lambda_layer_version.latest_requests_layer.arn,
   ]
 
   environment {
