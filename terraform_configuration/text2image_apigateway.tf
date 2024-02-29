@@ -23,7 +23,7 @@ resource "aws_api_gateway_integration" "text2image" {
 
     integration_http_method = "POST"
     type = "AWS_PROXY"
-    uri = aws_lambda_function.text2image.invoke_arn
+    uri = aws_lambda_function.text2image_lambda.invoke_arn
 }
 
 resource "aws_api_gateway_deployment" "text2image" {
@@ -44,7 +44,7 @@ resource "aws_api_gateway_stage" "text2image" {
 resource "aws_lambda_permission" "text2image" {
     statement_id = "AllowAPIGatewayInvoke"
     action = "lambda:InvokeFunction"
-    function_name = aws_lambda_function.text2image.function_name
+    function_name = aws_lambda_function.text2image_lambda.function_name
     principal = "apigateway.amazonaws.com"
 
     source_arn = "${aws_api_gateway_rest_api.text2image.execution_arn}/prod/*/text2image"
