@@ -56,3 +56,4 @@ resource "aws_iam_role_policy_attachment" "text2image_lambda_s3_access" {
   role       = aws_iam_role.text2image_lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess" 
 }
+
