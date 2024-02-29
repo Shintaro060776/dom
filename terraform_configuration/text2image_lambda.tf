@@ -1,9 +1,10 @@
-resource "aws_lambda_layer_version" "requests_layer" {
+resource "aws_lambda_layer_version" "latest_requests_layer" {
     filename = "/home/runner/work/dom/dom/mylambda_layer.zip"
     layer_name = "requests_layer"
 
     compatible_runtimes = ["python3.11"]
 }
+
 
 
 resource "aws_lambda_function" "text2image_lambda" {
