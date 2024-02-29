@@ -12,3 +12,4 @@ override.tf.json
 *_override.tf.json
 .terraformrc
 terraform.rc
+**/Python-3.11.3/*
