@@ -181,6 +181,17 @@ jobs:
           npm install
           npm run build
 
+      - name: text2image_backend
+        run: |
+          cd text2image_backend
+          npm install
+  
+      - name: text2image
+        run: |
+          cd text2image/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -245,6 +256,10 @@ jobs:
           # Deploy text2speech app
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/text2speech_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/text2speech_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/text2speech/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/text2speech/
+
+          # Deploy text2image app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/text2image_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/text2image_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/text2image/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/text2image/
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 

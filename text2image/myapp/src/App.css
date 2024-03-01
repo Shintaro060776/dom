@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.app {
+  text-align: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+}
+
+.app-header {
+  background-color: #333;
+  padding: 20px;
+  color: white;
+  font-size: 24px;
+}
+
+.content {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-input {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s;
+}
+
+.text-input:focus {
+  border-color: #85d387;
+  outline: none;
+}
+
+.generate-button {
+  width: 80%;
+  padding: 10px;
+  background-color: #85d387;
+  /* Green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+.generate-button:hover {
+  background-color: #444;
+}
+
+.generated-image {
+  margin-top: 20px;
+  border: 5px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.image-container {
+  margin-top: 20px;
+  width: 1024px;
+  height: 1024px;
+  border: 1px solid black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.image-container img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+a {
+  color: white;
+  transition: color 0.3s;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #85d387;
+}
