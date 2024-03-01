@@ -263,11 +263,11 @@ jobs:
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
-          # ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
+          ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
           #   cd /usr/share/nginx/html/realtime_backend
           #   pm2 restart 1
-          #   /usr/share/nginx/html/well_backend
-          #   pm2 restart 2
+              cd /usr/share/nginx/html/text2image_backend
+              pm2 restart 2
           #   /usr/share/nginx/html/claim_backend
           #   pm2 restart 3
           #   /usr/share/nginx/html/dalle_backend
@@ -282,7 +282,7 @@ jobs:
           #   pm2 restart 9
           #   /usr/share/nginx/html/text2speech_backend
           #   pm2 restart 10
-          # '
+          '
 
           rm -f deploy_key
 
