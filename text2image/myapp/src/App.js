@@ -9,7 +9,8 @@ function App() {
   const generateImage = async () => {
     try {
       const response = await axios.post('http://52.68.145.180/api/text2image', { text });
-      setImage(response.data.imageUrl);
+      const imageUrl = response.data.imageUrls[0];
+      setImage(imageUrl);
     } catch (error) {
       console.error('Error generating image:', error);
     }
