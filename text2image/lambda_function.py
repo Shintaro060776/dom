@@ -68,6 +68,7 @@ def lambda_handler(event, context):
         print("Received text_prompt:", text_prompt)
 
         images = generate_image(text_prompt)
+        image_urls = []
 
         for i, image in enumerate(images):
             image_data = base64.b64decode(image["base64"])
