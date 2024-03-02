@@ -17,6 +17,10 @@ app.get('/api/presigned-url', async (req, res) => {
         const response = await axios({
             method: 'get',
             url: 'https://86bcsyqls6.execute-api.ap-northeast-1.amazonaws.com/prod/ailab',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify(req.body)
         });
         res.json(response.data);
     } catch (error) {
