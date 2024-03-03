@@ -153,6 +153,16 @@ const BlogArticle15 = () => {
                     StabilityAIに生成してほしい画像のイメージを、StabilityAIに転送する<br /><br />
                     StabilityAIにて、生成する画像を、S3に保存するのと、Slackに画像を転送する<br /><br />
 
+
+                    <br /><br />★以下は、検証動画です
+
+                    <br /><br />  <video className="system-video" controls>
+                        <source src="/blog/shark.mp4" type="video/mp4" />
+                        ご利用のブラウザはこのビデオをサポートしていません。
+                    </video><br /><br />
+
+
+
                     <br /><br />以下は、忘備録として、Pythonのコードの説明を記載します。<br /><br />
 
                     <div class="code-box">
