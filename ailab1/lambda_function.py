@@ -19,8 +19,8 @@ def lambda_handler(event, context):
         
         body = json.loads(body_str)
 
-        if 'fileName' in body:
-            file_name = body['fileName']
+        if 'data' in body and 'fileName' in body['data']:
+            file_name = body['data']['fileName']
             response = s3.generate_presigned_url('put_object',
                                                 Params={
                                                     'Bucket': bucket_name,

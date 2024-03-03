@@ -26,6 +26,7 @@ resource "aws_iam_policy" "ailab2" {
                 Action = [
                     "s3:PutObject",
                     "s3:GetObject",
+                    "s3:ListBucket",
                     "logs:CreateLogGroup",
                     "logs:CreateLogStream",
                     "logs:PutLogEvents"
