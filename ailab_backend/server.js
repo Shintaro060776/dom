@@ -18,7 +18,7 @@ app.post('/api/presigned-url', async (req, res) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            data: JSON.stringify(req.body) // リクエストボディをそのままLambdaに転送
+            data: { fileName: req.body.fileName }
         });
         res.json(response.data);
     } catch (error) {
