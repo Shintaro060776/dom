@@ -9,7 +9,15 @@ def lambda_handler(event, context):
     expiration = 300
 
     try:
-        body = json.loads(event.get('body', '{}'))
+        # eventのbodyがNoneでないかを確認し、Noneの場合は空のJSONオブジェクトとして扱う
+        body_str = event.get('body', '{}')
+        if body_str is None:
+            body_str = '{}'
+        
+        # bodyの内容をログに出力
+        print("Received body:", body_str)
+        
+        body = json.loads(body_str)
 
         if 'fileName' in body:
             file_name = body['fileName']
@@ -26,10 +34,19 @@ def lambda_handler(event, context):
                 'body': json.dumps({'url': response})
             }
         else:
+            # 'fileName'が見つからない場合のエラーメッセージを改善
+            print("Missing 'fileName' in the request body")
             return {
                 'statusCode': 400,
-                'body': json.dumps('Missing or invalid query parameters')
+                'body': json.dumps('Missing or invalid query parameters: "fileName" is required')
             }
+    except json.JSONDecodeError as e:
+        # JSONのパースに失敗した場合のエラーハンドリング
+        print(f"JSON Decode Error: {str(e)}")
+        return {
+            'statusCode': 400,
+            'body': json.dumps('Invalid JSON format')
+        }
     except Exception as e:
         print(f"Error: {str(e)}")
         print(traceback.format_exc())
@@ -37,4 +54,3 @@ def lambda_handler(event, context):
             'statusCode': 500,
             'body': json.dumps(f'Internal Server Error: {str(e)}')
         }
-        

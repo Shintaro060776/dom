@@ -12,12 +12,13 @@ const IMAGE_FOLDER = 'images/';
 
 app.use(bodyParser.json());
 
-app.get('/api/presigned-url', async (req, res) => {
+app.post('/api/presigned-url', async (req, res) => {
     try {
-        const response = await axios.get('https://86bcsyqls6.execute-api.ap-northeast-1.amazonaws.com/prod/ailab', {
+        const response = await axios.post('https://86bcsyqls6.execute-api.ap-northeast-1.amazonaws.com/prod/ailab', {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            data: JSON.stringify(req.body) // リクエストボディをそのままLambdaに転送
         });
         res.json(response.data);
     } catch (error) {

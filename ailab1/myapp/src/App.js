@@ -17,7 +17,10 @@ function App() {
       return;
     }
 
-    const { data } = await axios.get('http://52.68.145.180/api/presigned-url');
+    const { data } = await axios.post('http://52.68.145.180/api/presigned-url', {
+      fileName: selectedFile.name,
+    });
+
     const { url } = data;
 
     await axios.put(url, selectedFile, {
