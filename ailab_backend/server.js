@@ -5,10 +5,16 @@ const AWS = require('aws-sdk');
 
 const app = express();
 const port = 15000;
-AWS.config.update({ region: 'ap-northeast-1' });
+
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: 'ap-northeast-1'
+});
+
 const s3 = new AWS.S3();
 const BUCKET_NAME = 'ailab20090317';
-const IMAGE_FOLDER = 'images/';
+const IMAGE_FOLDER = 'transformed/';
 
 app.use(bodyParser.json());
 
