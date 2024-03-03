@@ -14,18 +14,15 @@ app.use(bodyParser.json());
 
 app.get('/api/presigned-url', async (req, res) => {
     try {
-        const response = await axios({
-            method: 'get',
-            url: 'https://86bcsyqls6.execute-api.ap-northeast-1.amazonaws.com/prod/ailab',
+        const response = await axios.get('https://86bcsyqls6.execute-api.ap-northeast-1.amazonaws.com/prod/ailab', {
             headers: {
                 'Content-Type': 'application/json'
-            },
-            data: JSON.stringify(req.body)
+            }
         });
         res.json(response.data);
     } catch (error) {
-        console.error('Error on forwarding request to API Gateway:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error on forwarding request to API Gateway:', error.response ? JSON.stringify(error.response.data) : error.message);
+        res.status(500).json({ error: 'Internal Server Error', details: error.response ? error.response.data : null });
     }
 });
 
@@ -47,10 +44,11 @@ app.get('/api/latest-animated-image', async (req, res) => {
             return res.status(404).json({ error: "No animated images found" });
         }
 
-        const imageUrl = 'https://${BUCKET_NAME}.s3.amazonaws.com/${latestFile.Key}';
+        const imageUrl = `https://${BUCKET_NAME}.s3.amazonaws.com/${latestFile.Key}`;
         res.json({ imageUrl });
     } catch (error) {
         console.error("Error retrieving latest animated image:", error);
+        res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 });
 
