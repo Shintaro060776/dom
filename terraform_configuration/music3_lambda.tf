@@ -39,7 +39,8 @@ resource "aws_iam_policy" "music3" {
 }
 
 resource "aws_iam_policy_attachment" "music3" {
-    role = aws_iam_role.music3.name
+    name = "music3-attachment"
+    roles = [aws_iam_role.music3.name]
     policy_arn = aws_iam_policy.music3.arn
 }
 
