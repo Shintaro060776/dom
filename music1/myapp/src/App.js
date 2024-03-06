@@ -67,13 +67,6 @@ function App() {
             type='text'
             value={musicInfo.rating}
             onChange={(e) => setMusicInfo({ ...musicInfo, rating: e.target.value })}
-            placeholder='タイトル'
-            required
-          />
-          <input
-            type='text'
-            value={musicInfo.rating}
-            onChange={(e) => setMusicInfo({ ...musicInfo, rating: e.target.value })}
             placeholder='評価'
             required
           />
