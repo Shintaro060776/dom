@@ -7,8 +7,8 @@ const port = 16000;
 
 app.use(bodyParser.json());
 
-const apiEndpoint1 = '';
-const apiEndpoint2 = '';
+const apiEndpoint1 = 'https://12zk6rip6j.execute-api.ap-northeast-1.amazonaws.com/prod/music1';
+const apiEndpoint2 = 'https://poa6thi2jh.execute-api.ap-northeast-1.amazonaws.com/prod/music3';
 
 app.post('/api/music-presigned', async (req, res) => {
     try {
