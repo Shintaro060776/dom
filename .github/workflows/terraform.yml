@@ -300,8 +300,8 @@ jobs:
               pm2 restart 2
               cd /usr/share/nginx/html/ailab_backend
               pm2 restart 3
-          #   /usr/share/nginx/html/dalle_backend
-          #   pm2 restart 4
+              cd /usr/share/nginx/html/music_backend
+              pm2 restart 4
           #   /usr/share/nginx/html/gpt4_backend
           #   pm2 restart 5
           #   /usr/share/nginx/html/speech_backend
