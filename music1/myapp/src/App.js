@@ -16,10 +16,6 @@ function App() {
     setMusicList(response.data);
   };
 
-  const handleFileChnage = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -28,11 +24,9 @@ function App() {
       const presignedUrlResponse = await axios.post('http://52.68.145.180/api/music-presigned', musicData);
       const { presignedUrl } = presignedUrlResponse.data;
 
-      const formData = new FormData();
-      formData.append('file', selectedFile);
       await axios.put(presignedUrl, selectedFile, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': selectedFile.type,
           'x-amz-acl': 'bucket-owner-full-control',
         },
       });
