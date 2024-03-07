@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastScrollTop = 0;
     let isCardMovingRight = false;
 
-    let cardPosition = 90;
+    let card13Position = 90;
     let card1Position = 130;
     let card2Position = 170;
     let card3Position = 210;
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let card10Position = 490;
     let card11Position = 530;
     let card12Position = 570;
-    let card13Position = 610;
+    let cardPosition = 610;
 
     window.addEventListener('scroll', () => {
 
