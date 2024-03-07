@@ -33,7 +33,7 @@ function App() {
       await axios.put(url, selectedFile, {
         headers: {
           'Content-Type': selectedFile.type,
-          'x-amz-acl': 'bucket-owner-full-control',
+          'x-amz-acl': 'bucket-owner-full-control', // このヘッダーは通常必要ありません
         },
       });
 
@@ -43,8 +43,15 @@ function App() {
       setSelectedFile(null);
       alert('音楽情報がアップロードされました');
     } catch (error) {
-      console.error('アップロード中にエラーが発生しました:', error);
-      alert('音楽情報のアップロードに失敗しました');
+      if (error.response) {
+        // サーバーからの応答がある場合は、その情報をログに出力
+        console.error('Error:', error.response.status, error.response.data);
+        alert(`Error: ${error.response.status} - ${error.response.data}`);
+      } else {
+        // サーバーからの応答がない場合は、error.messageをログに出力
+        console.error('Error:', error.message);
+        alert(`Error: ${error.message}`);
+      }
     }
   };
 
