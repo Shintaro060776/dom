@@ -16,6 +16,10 @@ function App() {
     setMusicList(response.data);
   };
 
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -66,7 +70,7 @@ function App() {
           />
           <input
             type='file'
-            onChange={handleFileChnage}
+            onChange={handleFileChange}
             required
           />
           <button type='submit'>Upload</button>
