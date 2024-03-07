@@ -26,11 +26,13 @@ function App() {
     try {
       const musicData = { title: musicInfo.title, rating: musicInfo.rating, fileName: selectedFile.name };
       const presignedUrlResponse = await axios.post('http://52.68.145.180/api/music-presigned', musicData);
-      const { presignedUrl } = presignedUrlResponse.data;
+      const { url } = presignedUrlResponse.data;
 
-      await axios.put(presignedUrl, selectedFile, {
+      console.log('Presigned URL:', url);
+
+      await axios.put(url, selectedFile, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': selectedFile.type,
           'x-amz-acl': 'bucket-owner-full-control',
         },
       });
