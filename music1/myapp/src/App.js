@@ -30,7 +30,7 @@ function App() {
 
       await axios.put(presignedUrl, selectedFile, {
         headers: {
-          'Content-Type': selectedFile.type,
+          'Content-Type': 'multipart/form-data',
           'x-amz-acl': 'bucket-owner-full-control',
         },
       });
