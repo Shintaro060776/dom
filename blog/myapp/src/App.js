@@ -17,6 +17,7 @@ import BlogArticle13 from './13';
 import BlogArticle14 from './14';
 import BlogArticle15 from './15';
 import BlogArticle16 from './16';
+import BlogArticle17 from './17';
 
 const blogEntries = [
   {
