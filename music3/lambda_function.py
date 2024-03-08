@@ -9,7 +9,7 @@ def lambda_handler(event, context):
     try:
         response = table.scan()
 
-        items = response['Item']
+        items = response['Items']
 
         return {
             'statusCode': 200,
