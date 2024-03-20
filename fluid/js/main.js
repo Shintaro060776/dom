@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card11Position = card10Position + 130;
                 card12Position = card11Position + 130;
                 card13Position = card12Position + 130;
-                card14Position = card14Position + 130;
+                card14Position = card13Position + 130;
             } else {
                 cardPosition = Math.min(cardPosition + 7, 4000);
                 card1Position = cardPosition + 130;
