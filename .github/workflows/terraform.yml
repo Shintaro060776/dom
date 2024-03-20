@@ -214,6 +214,17 @@ jobs:
           npm install
           npm run build
 
+      - name: events_backend
+        run: |
+          cd events_backend
+          npm install
+  
+      - name: events
+        run: |
+          cd events/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -290,6 +301,10 @@ jobs:
           # Deploy music app
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/music_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/music_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/music1/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/music1/
+
+          # Deploy events app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/events_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/events_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/events/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/events/
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
