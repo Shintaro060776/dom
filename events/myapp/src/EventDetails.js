@@ -9,7 +9,7 @@ const EventDetails = () => {
     useEffect(() => {
         const fetchEventDetails = async () => {
             try {
-                const response = await axios.get(`http://3.112.43.184/api/events/${id}`);
+                const response = await axios.get(`http://52.68.145.180/api/events/${id}`);
                 setEvent(response.data);
             } catch (error) {
                 console.error("Error fetching event details:", error);

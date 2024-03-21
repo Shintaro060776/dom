@@ -11,7 +11,7 @@ const CreateEvent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://3.112.43.184/api/events', { title, date, body });
+            const response = await axios.post('http://52.68.145.180/api/events', { title, date, body });
             console.log(response.data);
             navigate('/events');
         } catch (error) {

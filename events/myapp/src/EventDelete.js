@@ -9,7 +9,7 @@ const EventDelete = () => {
     const handleDelete = async () => {
         if (window.confirm("Are you sure you wanna delete this event??")) {
             try {
-                await axios.delete(`http://3.112.43.184/api/events/${id}`);
+                await axios.delete(`http://52.68.145.180/api/events/${id}`);
                 navigate('/events');
             } catch (error) {
                 console.error("Error deleting event:", error);

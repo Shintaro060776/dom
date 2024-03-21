@@ -14,7 +14,7 @@ const EventEdit = () => {
     useEffect(() => {
         const fetchEventDetails = async () => {
             try {
-                const response = await axios.get(`http://3.112.43.184/api/events/${id}`);
+                const response = await axios.get(`http://52.68.145.180/api/events/${id}`);
                 setEvent(response.data);
             } catch (error) {
                 console.error("Error fetching event details:", error);
@@ -35,7 +35,7 @@ const EventEdit = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://3.112.43.184/api/events/${id}`, event);
+            await axios.put(`http://52.68.145.180/api/events/${id}`, event);
             navigate('/events');
         } catch (error) {
             console.error("Error updating event:", error);
