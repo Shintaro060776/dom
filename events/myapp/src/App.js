@@ -15,7 +15,7 @@ function App() {
         <header className='header'>
           <h2>Event Management</h2>
           <nav>
-            <Link to="/">Back to Home</Link>
+            <Link to="http://3.112.43.184/">Back to Home</Link>
           </nav>
         </header>
         <main className='main-content'>
