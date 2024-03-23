@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuid4 } from 'uuid';
 
 const CreateEvent = () => {
     const [title, setTitle] = useState('');
@@ -9,9 +10,10 @@ const CreateEvent = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
+        const id = uuid4();
         e.preventDefault();
         try {
-            const response = await axios.post('http://52.68.145.180/api/events', { title, date, body });
+            const response = await axios.post('http://52.68.145.180/api/events', { id, title, date, body });
             console.log(response.data);
             navigate('/events');
         } catch (error) {
