@@ -18,7 +18,8 @@ app.post('/api/events', async (req, res) => {
 
 app.get('/api/events/:id', async (req, res) => {
     try {
-        const response = await axios.get(`${ApigatewayEndpoint}?id=${req.params.id}`);
+        const eventUrl = `${ApigatewayEndpoint}/${req.params.id}`;
+        const response = await axios.get(eventUrl);
         res.json(response.data);
     } catch (error) {
         handleError(error, res);

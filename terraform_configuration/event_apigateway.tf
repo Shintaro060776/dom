@@ -47,7 +47,7 @@ resource "aws_lambda_permission" "event" {
     function_name = aws_lambda_function.event.function_name
     principal = "apigateway.amazonaws.com"
 
-    source_arn = "${aws_api_gateway_rest_api.event.execution_arn}/prod/*/event"
+    source_arn = "${aws_api_gateway_rest_api.event.execution_arn}/prod/*/events"
 }
 
 resource "aws_api_gateway_rest_api_policy" "event" {
