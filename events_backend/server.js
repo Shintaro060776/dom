@@ -5,7 +5,7 @@ const port = 18000;
 
 app.use(express.json());
 
-const ApigatewayEndpoint = 'https://0n7fdzi1b4.execute-api.ap-northeast-1.amazonaws.com/prod/events';
+const ApigatewayEndpoint = 'https://0n7fdzi1b4.execute-api.ap-northeast-1.amazonaws.com/prod/event';
 
 app.post('/api/events', async (req, res) => {
     try {

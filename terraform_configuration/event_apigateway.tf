@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "event" {
 resource "aws_api_gateway_resource" "event" {
     rest_api_id = aws_api_gateway_rest_api.event.id
     parent_id = aws_api_gateway_rest_api.event.root_resource_id
-    path_part = "events"
+    path_part = "event"
 }
 
 resource "aws_api_gateway_method" "event" {
@@ -47,7 +47,7 @@ resource "aws_lambda_permission" "event" {
     function_name = aws_lambda_function.event.function_name
     principal = "apigateway.amazonaws.com"
 
-    source_arn = "${aws_api_gateway_rest_api.event.execution_arn}/prod/*/events"
+    source_arn = "${aws_api_gateway_rest_api.event.execution_arn}/prod/*/event"
 }
 
 resource "aws_api_gateway_rest_api_policy" "event" {
