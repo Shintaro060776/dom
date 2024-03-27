@@ -6,7 +6,7 @@ resource "aws_api_gateway_rest_api" "event" {
 resource "aws_api_gateway_resource" "event" {
     rest_api_id = aws_api_gateway_rest_api.event.id
     parent_id = aws_api_gateway_rest_api.event.root_resource_id
-    path_part = "event"
+    path_part = "events"
 }
 
 resource "aws_api_gateway_method" "event" {
