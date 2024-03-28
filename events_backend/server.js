@@ -26,6 +26,15 @@ app.get('/api/events/:id', async (req, res) => {
     }
 });
 
+app.get('/api/events', async (req, res) => {
+    try {
+        const response = await axios.get(`${ApigatewayEndpoint}/events`);
+        res.json(response.data);
+    } catch (error) {
+        handleError(error, res);
+    }
+});
+
 app.put('/api/events/:id', async (req, res) => {
     try {
         const response = await axios.put(ApigatewayEndpoint, { ...req.body, id: req.params.id });
