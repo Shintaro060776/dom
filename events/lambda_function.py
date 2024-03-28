@@ -105,17 +105,17 @@ def update_event(event):
     try:
         response = table.update_item(
             Key={'id': event_id},
-            UpdateExpression='SET title = :title, #event_body = :event_body',
+            UpdateExpression='SET #title = :title, #event_body = :event_body',
             ExpressionAttributeNames={
+                '#title': 'title',
                 '#event_body': 'body',
             },
             ExpressionAttributeValues={
-                'title': title,
+                ':title': title,
                 ':event_body': event_body,
             },
             ReturnValues='UPDATED_NEW'
         )
-
         return {'statusCode': 200, 'body': json.dumps('Event updated successfully')}
     except Exception as e:
         return {'statusCode': 500, 'body': json.dumps(str(e))}

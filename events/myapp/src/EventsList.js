@@ -9,7 +9,11 @@ const EventsList = () => {
         const fetchEvents = async () => {
             try {
                 const response = await axios.get('http://52.68.145.180/api/events');
-                setEvents(response.data);
+                const formattedEvents = response.data.map(event => ({
+                    ...event,
+                    date: new Date(event.date.S),
+                }));
+                setEvents(formattedEvents);
             } catch (error) {
                 console.error("Error fetching events:", error);
             }
@@ -26,15 +30,15 @@ const EventsList = () => {
             </Link>
             <ul>
                 {events.map(event => (
-                    <li key={event.id}>
-                        {event.title} - {new Date(event.date).toLocaleDateString()}
-                        <Link to={`/events/${event.id}`}>
+                    <li key={event.id.S}>
+                        {event.title.S} - {event.date.toLocaleDateString()}
+                        <Link to={`/events/${event.id.S}`}>
                             <button>Details</button>
                         </Link>
-                        <Link to={`/events/edit/${event.id}`}>
+                        <Link to={`/events/edit/${event.id.S}`}>
                             <button>Edit</button>
                         </Link>
-                        <Link to={`/events/delete/${event.id}`}>
+                        <Link to={`/events/delete/${event.id.S}`}>
                             <button>Delete</button>
                         </Link>
                     </li>
