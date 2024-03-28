@@ -28,7 +28,7 @@ app.get('/api/events/:id', async (req, res) => {
 
 app.get('/api/events', async (req, res) => {
     try {
-        const response = await axios.get(`${ApigatewayEndpoint}/events`);
+        const response = await axios.get(`${ApigatewayEndpoint}`);
         res.json(response.data);
     } catch (error) {
         handleError(error, res);
