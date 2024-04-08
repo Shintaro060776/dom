@@ -9,10 +9,16 @@ const EventsList = () => {
         const fetchEvents = async () => {
             try {
                 const response = await axios.get('http://52.68.145.180/api/events');
-                const formattedEvents = response.data.map(event => ({
-                    ...event,
-                    date: new Date(event.date.S),
-                }));
+                // response.dataは既に期待される形式のオブジェクトの配列であるため、直接利用する
+                const formattedEvents = response.data.map(event => {
+                    // dateプロパティをDateオブジェクトに変換
+                    // eventオブジェクトの構造に合わせて適切にアクセスしてください
+                    const eventDate = new Date(event.date); // event.date.Sから変更
+                    return {
+                        ...event,
+                        date: eventDate,
+                    };
+                });
                 setEvents(formattedEvents);
             } catch (error) {
                 console.error("Error fetching events:", error);
@@ -30,15 +36,15 @@ const EventsList = () => {
             </Link>
             <ul>
                 {events.map(event => (
-                    <li key={event.id.S}>
-                        {event.title.S} - {event.date.toLocaleDateString()}
-                        <Link to={`/events/${event.id.S}`}>
+                    <li key={event.id}> {/* event.id.Sから変更 */}
+                        {event.title} - {event.date.toLocaleDateString()} {/* event.title.Sから変更 */}
+                        <Link to={`/events/${event.id}`}> {/* event.id.Sから変更 */}
                             <button>Details</button>
                         </Link>
-                        <Link to={`/events/edit/${event.id.S}`}>
+                        <Link to={`/events/edit/${event.id}`}> {/* event.id.Sから変更 */}
                             <button>Edit</button>
                         </Link>
-                        <Link to={`/events/delete/${event.id.S}`}>
+                        <Link to={`/events/delete/${event.id}`}> {/* event.id.Sから変更 */}
                             <button>Delete</button>
                         </Link>
                     </li>
