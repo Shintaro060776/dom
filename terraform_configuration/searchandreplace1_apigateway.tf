@@ -4,7 +4,7 @@ resource "aws_api_gateway_rest_api" "searchandreplace1" {
 }
 
 resource "aws_api_gateway_resource" "searchandreplace1" {
-    rest_api_id = aws_api_gateway_rest_api.searchandreplace1,id
+    rest_api_id = aws_api_gateway_rest_api.searchandreplace1.id
     parent_id = aws_api_gateway_rest_api.searchandreplace1.root_resource_id
     path_part = "searchandreplace1"
 }
