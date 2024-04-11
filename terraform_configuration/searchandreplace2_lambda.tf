@@ -1,4 +1,4 @@
-resource "aws_ima_role" "lambda_execution_role_searchandreplace2" {
+resource "aws_iam_role" "lambda_execution_role_searchandreplace2" {
     name = "searchandreplace2-lambda-execution-role"
 
     assume_role_policy = jsonencode({
@@ -43,7 +43,7 @@ resource "aws_iam_policy" "lambda_policy_searchandreplace2" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambda_policy_attachment_searchandreplace2" {
-    role = aws_ima_role.lambda_execution_role_searchandreplace2.name
+    role = aws_iam_role.lambda_execution_role_searchandreplace2.name
     policy_arn = aws_iam_policy.lambda_policy_searchandreplace2.arn
 }
 
