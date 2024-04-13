@@ -334,8 +334,8 @@ jobs:
               pm2 restart 4
               cd /usr/share/nginx/html/events_backend
               pm2 restart 5
-          #   /usr/share/nginx/html/speech_backend
-          #   pm2 restart 6
+              cd /usr/share/nginx/html/searchandreplace1_backend
+              pm2 restart 6
           #   /usr/share/nginx/html/image2video_backend
           #   pm2 restart 7
           #   /usr/share/nginx/html/image2image_backend
