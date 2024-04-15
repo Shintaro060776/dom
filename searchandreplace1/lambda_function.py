@@ -15,7 +15,7 @@ def lambda_handler(event, context):
     try:
         body = json.loads(event['body'])
         prompt = body['prompt']
-        search_prompt = body['search_prompt']
+        search_prompt = body['searchPrompt']
         file_name = body['fileName']
 
         table = dynamodb.Table(table_name)
