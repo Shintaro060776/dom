@@ -31,13 +31,13 @@ app.get('/api/latestsearchandreplace', async (req, res) => {
         const s3Response = await s3.listObjectsV2(params).promise();
         const files = s3Response.Contents;
 
-        const latestFile = files.sort((a, b) => new Date(b.LatModified) - new Date(a.LastModified))[0];
+        const latestFile = files.sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified))[0];
 
         if (!latestFile) {
             return res.status(404).send('No images found');
         }
 
-        const imageUrl = `https://${S3_BUCKET}.s3.amazonaws.com/${latestFile.Key}`;
+        const imageUrl = `https://${S3_BUCKET}.s3.amazonaws.com/${latestFile.Key}?t=${Date.now()}`;
         res.json({ url: imageUrl });
     } catch (error) {
         console.error(error);
