@@ -57,6 +57,10 @@ resource "aws_lambda_function" "searchandreplace2" {
 
     timeout = 900
 
+    layers = [
+        aws_lambda_layer_version.latest_requests_layer.arn,
+    ]
+
     environment {
         variables = {
             STABILITY_API_KEY = "test"
