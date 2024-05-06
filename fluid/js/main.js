@@ -175,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let card13Position = 610;
     let card14Position = 650;
     let card15Position = 690;
+    let card16Position = 730;
 
     window.addEventListener('scroll', () => {
 
@@ -226,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const card13 = document.getElementById('card13');
             const card14 = document.getElementById('card14');
             const card15 = document.getElementById('card15');
+            const card16 = document.getElementById('card16');
 
             if (!cardVisible && scrollDirection === 'down') {
                 card.classList.add('visible');
@@ -276,6 +278,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 card15.classList.add('visible');
                 card.style.right = '10%';
                 cardVisible = true;
+                card16.classList.add('visible');
+                card.style.right = '10%';
+                cardVisible = true;
             } else if (cardVisible && scrollDirection === 'up') {
                 card.style.right = '-100%'
                 cardVisible = false
@@ -308,6 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 card14.style.right = '-100%'
                 cardVisible = false
                 card15.style.right = '-100%'
+                cardVisible = false
+                card16.style.right = '-100%'
                 cardVisible = false
             }
         } else {
@@ -343,6 +350,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isCardMovingRight = false;
             document.getElementById('card15').classList.remove('visible');
             isCardMovingRight = false;
+            document.getElementById('card16').classList.remove('visible');
+            isCardMovingRight = false;
         }
 
         let scrollDirection = scrolled > lastScrollTop ? 'down' : 'up';
@@ -366,6 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 card13Position = card12Position + 130;
                 card14Position = card13Position + 130;
                 card15Position = card14Position + 130;
+                card16Position = card15Position + 130;
             } else {
                 cardPosition = Math.min(cardPosition + 7, 4000);
                 card1Position = cardPosition + 130;
@@ -383,8 +393,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 card13Position = card12Position + 130;
                 card14Position = card13Position + 130;
                 card15Position = card14Position + 130;
+                card16Position = card15Position + 130;
             }
-            updateCardPosition(cardPosition, card1Position, card2Position, card3Position, card4Position, card5Position, card6Position, card7Position, card8Position, card9Position, card10Position, card11Position, card12Position, card13Position, card14Position, card15Position);
+            updateCardPosition(cardPosition, card1Position, card2Position, card3Position, card4Position, card5Position, card6Position, card7Position, card8Position, card9Position, card10Position, card11Position, card12Position, card13Position, card14Position, card15Position, card16Position);
         }
 
         let opacity = 1 - (scrolled - startThreshold) / (endThreshold - startThreshold);
@@ -392,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('portfolio').style.opacity = opacity;
     });
 
-    function updateCardPosition(pos, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12, pos13, pos14, pos15) {
+    function updateCardPosition(pos, pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9, pos10, pos11, pos12, pos13, pos14, pos15, pos16) {
         const card = document.getElementById('card');
         const card1 = document.getElementById('card1');
         const card2 = document.getElementById('card2');
@@ -409,6 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const card13 = document.getElementById('card13');
         const card14 = document.getElementById('card14');
         const card15 = document.getElementById('card15');
+        const card16 = document.getElementById('card16');
 
         if (!card) return;
         card.style.right = `${pos}%`;
@@ -473,5 +485,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!card15) return;
         card15.style.right = `${pos15}%`;
         card15.classList.add('visible');
+
+        if (!card16) return;
+        card16.style.right = `${pos16}%`;
+        card16.classList.add('visible');
     }
 });

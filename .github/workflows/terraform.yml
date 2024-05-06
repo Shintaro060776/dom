@@ -236,6 +236,17 @@ jobs:
           npm install
           npm run build
 
+      - name: smokefree_backend
+        run: |
+          cd smokefree_backend
+          npm install
+  
+      - name: smokefree
+        run: |
+          cd smokefree/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -320,6 +331,10 @@ jobs:
           # Deploy searchandreplace1 app
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/searchandreplace1_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/searchandreplace1_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/searchandreplace1/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/searchandreplace1/
+
+          # Deploy smokefree app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/smokefree_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/smokefree_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/smokefree/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/smokefree/
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 

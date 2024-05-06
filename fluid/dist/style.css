@@ -373,7 +373,8 @@ canvas {
 #card12,
 #card13,
 #card14,
-#card15 {
+#card15,
+#card16 {
     position: fixed;
     top: 50%;
     right: -100%;
@@ -514,6 +515,15 @@ canvas {
     margin: 0 auto;
 }
 
+.card-image16 {
+    width: 100%;
+    height: 50%;
+    background: url('smokefree.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
 .card-image1 {
     width: 100%;
     height: 50%;
@@ -561,7 +571,8 @@ canvas {
 #card12 a,
 #card13 a,
 #card14 a,
-#card15 a {
+#card15 a,
+#card16 a {
     color: inherit;
     text-decoration: none;
 }
@@ -596,7 +607,8 @@ canvas {
 #card12.visible,
 #card13.visible,
 #card14.visible,
-#card15.visible {
+#card15.visible,
+#card16.visible {
     right: 10%;
 }
 
@@ -650,7 +662,8 @@ canvas {
     #card12,
     #card13,
     #card14,
-    #card15 {
+    #card15,
+    #card16 {
         width: 300px;
         height: 400px;
     }
@@ -680,7 +693,8 @@ canvas {
     #card12,
     #card13,
     #card14,
-    #card15 {
+    #card15,
+    #card16 {
         width: 300px;
         height: 400px;
     }
@@ -715,7 +729,8 @@ canvas {
     #card12,
     #card13,
     #card14,
-    #card15 {
+    #card15,
+    #card16 {
         width: 700px;
         height: 700px;
     }
@@ -768,7 +783,8 @@ canvas {
     #card12,
     #card13,
     #card14,
-    #card15 {
+    #card15,
+    #card16 {
         width: 700px;
         height: 700px;
     }
