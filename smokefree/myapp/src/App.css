@@ -49,3 +49,13 @@ button:hover {
 a:hover {
   color: #c50620;
 }
+
+.aiResponse {
+  margin-top: 20px;
+  color: #adf802;
+  font-size: 16px;
+}
+
+.aiResponse h2 {
+  color: #ccffcc;
+}

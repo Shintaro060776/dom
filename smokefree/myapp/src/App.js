@@ -6,6 +6,7 @@ function App() {
   const [smokeFreeDays, setSmokeFreeDays] = useState(0);
   const [cigarettesNotSmoked, setCigarettesNotSmoked] = useState(0);
   const [moneySaved, setMoneySaved] = useState(0);
+  const [aiResponse, setAiResponse] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,6 +19,7 @@ function App() {
     try {
       const response = await axios.post('/api/smokefree', userData);
       console.log('Response:', response.data);
+      setAiResponse(response.data.ai_response);
       alert('データが正常に送信されました');
     } catch (error) {
       alert('データの送信に失敗しました');
@@ -54,6 +56,10 @@ function App() {
           />
           <button type='submit'>データ送信</button>
         </form>
+        <div className='aiResponse'>
+          <h2>AIの応答:</h2>
+          <p>{aiResponse}</p>
+        </div>
       </header>
     </div>
   );

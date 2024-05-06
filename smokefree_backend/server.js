@@ -4,7 +4,7 @@ const axios = require('axios');
 const app = express();
 const port = 23000;
 
-const apiGatewayUrl = '';
+const apiGatewayUrl = 'https://rh1stx25n5.execute-api.ap-northeast-1.amazonaws.com/prod/smokefree1';
 
 app.use(express.json());
 
