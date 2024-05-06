@@ -40,7 +40,8 @@ resource "aws_iam_policy" "lambda_policy_smokefree1" {
                     "dynamodb:GetItem",
                     "dynamodb:UpdateItem",
                     "dynamodb:Query",
-                    "dynamodb:Scan"
+                    "dynamodb:Scan",
+                    "translate:TranslateText"
                 ],
                 Effect = "Allow",
                 Resource = "*"

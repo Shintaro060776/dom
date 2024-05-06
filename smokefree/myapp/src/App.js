@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 function App() {
@@ -7,6 +7,28 @@ function App() {
   const [cigarettesNotSmoked, setCigarettesNotSmoked] = useState(0);
   const [moneySaved, setMoneySaved] = useState(0);
   const [aiResponse, setAiResponse] = useState('');
+  const [displayedText, setDisplayedText] = useState('');
+  const [cursor, setCursor] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCursor(prev => !prev);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      if (index < aiResponse.length) {
+        setDisplayedText(prev => prev + aiResponse[index]);
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
+    return () => clearInterval(interval);
+  }, [aiResponse]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,6 +42,7 @@ function App() {
       const response = await axios.post('/api/smokefree', userData);
       console.log('Response:', response.data);
       setAiResponse(response.data.data.ai_response);
+      setDisplayedText('');
       alert('データが正常に送信されました');
     } catch (error) {
       alert('データの送信に失敗しました');
@@ -58,7 +81,7 @@ function App() {
         </form>
         <div className='aiResponse'>
           <h2>AIの応答:</h2>
-          <p>{aiResponse}</p>
+          <p>{displayedText}<span className={cursor ? 'cursor' : ''}>|</span></p>
         </div>
       </header>
     </div>

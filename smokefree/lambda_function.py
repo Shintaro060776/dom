@@ -5,6 +5,7 @@ import openai
 import os
 
 dynamodb = boto3.resource('dynamodb')
+translate = boto3.client('translate')
 table = dynamodb.Table('SmokeFreeUserData')
 
 def lambda_handler(event, context):
@@ -41,11 +42,17 @@ def lambda_handler(event, context):
 
         ai_response = response.choices[0].message.content
 
+        translated_response = translate.translate_text(
+            Text=ai_response,
+            SourceLanguageCode='en',
+            TargetLanguageCode='ja'
+        )['TranslatedText']
+
         return {
             'statusCode': 200,
             'body': json.dumps({
                 'message': 'Data updated successfully',
-                'ai_response': ai_response
+                'ai_response': translated_response
             })
         }
 

@@ -59,3 +59,14 @@ a:hover {
 .aiResponse h2 {
   color: #ccffcc;
 }
+
+.cursor {
+  opacity: 1;
+  animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
