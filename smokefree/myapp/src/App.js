@@ -19,7 +19,7 @@ function App() {
     try {
       const response = await axios.post('/api/smokefree', userData);
       console.log('Response:', response.data);
-      setAiResponse(response.data.ai_response);
+      setAiResponse(response.data.data.ai_response);
       alert('データが正常に送信されました');
     } catch (error) {
       alert('データの送信に失敗しました');

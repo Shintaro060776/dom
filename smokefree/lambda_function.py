@@ -8,9 +8,11 @@ dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table('SmokeFreeUserData')
 
 def lambda_handler(event, context):
+    print("Received event:", event)
     try:
         data = json.loads(event['body'])
-        user_id = data['user_id']
+        print("Parsed data:", data)
+        user_id = data.get('user_id', 'default_user_id')
         smoke_free_days = data['smoke_free_days']
         cigarettes_not_smoked = data['cigarettes_not_smoked']
         money_saved = data['money_saved']
@@ -29,7 +31,7 @@ def lambda_handler(event, context):
         openai.api_key = os.environ.get("OPENAI_API_KEY")
         user_prompt = f"How can I stay motivated after being smoke-free for {smoke_free_days} days, not smoking {cigarettes_not_smoked} cigarettes, and saving {money_saved} dollars?"
 
-        response = openai.ChatCompletion.create(
+        response = openai.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
@@ -37,7 +39,7 @@ def lambda_handler(event, context):
             ]
         )
 
-        ai_response = response.choices[0].message['content']
+        ai_response = response.choices[0].message.content
 
         return {
             'statusCode': 200,
