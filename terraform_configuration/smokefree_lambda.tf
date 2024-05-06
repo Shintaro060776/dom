@@ -1,3 +1,10 @@
+resource "aws_lambda_layer_version" "openai_layer" {
+    filename = "/home/runner/work/dom/dom/python/mylayer.zip"
+    layer_name = "openai_layer"
+
+    compatible_runtimes = ["python3.11"]
+}
+
 resource "aws_iam_role" "lambda_execution_role_smokefree1" {
     name = "smokefree1-lambda-execution-role"
 
@@ -50,6 +57,11 @@ resource "aws_iam_role_policy_attachment" "lambda_policy_attachment_smokefree1" 
 resource "aws_lambda_function" "smokefree1" {
     function_name = "smokefree1"
     filename = "/home/runner/work/dom/dom/dalle/lambda_function.zip"
+
+    layers = [
+        aws_lambda_layer_version.openai_layer.arn
+    ]
+
     handler = "lambda_function.lambda_handler"
     role = aws_iam_role.lambda_execution_role_smokefree1.arn
 
@@ -60,6 +72,7 @@ resource "aws_lambda_function" "smokefree1" {
     environment {
         variables = {
             STABILITY_API_KEY = "test"
+            OPENAI_API_KEY = data.aws_ssm_parameter.openai_api_key.value
         }
     }
 }
