@@ -20,6 +20,7 @@ import BlogArticle16 from './16';
 import BlogArticle17 from './17';
 import BlogArticle18 from './18';
 import BlogArticle19 from './19';
+import BlogArticle20 from './20';
 
 const blogEntries = [
   {
@@ -155,6 +156,13 @@ const blogEntries = [
     thumbnail: "/blog/searchandreplace.png",
     path: "/blog19/19"
   },
+  {
+    id: 20,
+    title: "SmokeFree",
+    date: "2024/5/7",
+    thumbnail: "/blog/smokefree.png",
+    path: "/blog20/20"
+  },
 ];
 
 function handleTopLinkClick(event) {
@@ -196,6 +204,7 @@ function App() {
           <Route path="/blog17/17" element={<BlogArticle17 />} />
           <Route path="/blog18/18" element={<BlogArticle18 />} />
           <Route path="/blog19/19" element={<BlogArticle19 />} />
+          <Route path="/blog20/20" element={<BlogArticle20 />} />
           <Route path="/blog" element={
             <main className="blog-container">
               <h2 className="blog-title">Blog</h2>
