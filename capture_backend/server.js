@@ -12,8 +12,8 @@ app.post('/api/capture1-presigned-url', async (req, res) => {
         const response = await axios.post(API_GATEWAY_URL_GET_PRESIGNED_URL, req.body);
         res.status(200).send(response.data);
     } catch (error) {
-        console.error('Error fetching presigned URL:', error);
-        res.status(500).send({ error: 'Error fetching presigned URL' });
+        console.error('Error fetching presigned URL:', error.response ? error.response.data : error.message);
+        res.status(500).send({ error: 'Error fetching presigned URL', details: error.response ? error.response.data : error.message });
     }
 });
 
@@ -22,8 +22,8 @@ app.get('/api/capture2-get-images', async (req, res) => {
         const response = await axios.get(API_GATEWAY_URL_GET_IMAGES);
         res.status(200).send(response.data);
     } catch (error) {
-        console.error('Error fetching images:', error);
-        res.status(500).send({ error: 'Error fetching images' });
+        console.error('Error fetching images:', error.response ? error.response.data : error.message);
+        res.status(500).send({ error: 'Error fetching images', details: error.response ? error.response.data : error.message });
     }
 });
 
@@ -31,4 +31,3 @@ const PORT = 22000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-

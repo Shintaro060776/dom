@@ -62,7 +62,7 @@ function App() {
       };
       fetchImages();
     } catch (error) {
-      console.error('Error saving image:', error);
+      console.error('Error saving image:', error.response ? error.response.data : error.message);
     }
   };
 
