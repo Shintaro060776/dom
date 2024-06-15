@@ -368,8 +368,8 @@ jobs:
               pm2 restart 6
               cd /usr/share/nginx/html/smokefree_backend
               pm2 restart 7
-          #   /usr/share/nginx/html/image2image_backend
-          #   pm2 restart 9
+              cd /usr/share/nginx/html/capture_backend
+              pm2 restart 8
           #   /usr/share/nginx/html/text2speech_backend
           #   pm2 restart 10
           '
