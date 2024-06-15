@@ -39,12 +39,19 @@ function App() {
   const saveImage = async () => {
     const canvas = canvasRef.current;
     const dataURL = canvas.toDataURL('image/png');
+    const binary = atob(dataURL.split(',')[1]);
+    const array = [];
+
+    for (let i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    const blobData = new Blob([new Uint8Array(array)], { type: 'image/png' });
 
     try {
       const response = await axios.post('/api/capture1-presigned-url', { fileType: 'image/png' });
       const { presignedUrl, fileName } = response.data;
 
-      await axios.put(presignedUrl, dataURL, {
+      await axios.put(presignedUrl, blobData, {
         headers: {
           'Content-Type': 'image/png',
           'x-amz-acl': 'bucket-owner-full-control',
@@ -62,7 +69,13 @@ function App() {
       };
       fetchImages();
     } catch (error) {
-      console.error('Error saving image:', error.response ? error.response.data : error.message);
+      if (error.response) {
+        console.error('Error saving image:', error.response.data);
+      } else if (error.request) {
+        console.error('Error saving image: No response received', error.request);
+      } else {
+        console.error('Error saving image:', error.message);
+      }
     }
   };
 

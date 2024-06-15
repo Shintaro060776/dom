@@ -5,12 +5,12 @@ import uuid
 from botocore.client import Config
 
 def lambda_handler(event, context):
-    dynamodb = boto3.resource('dynamodb')
+    dynamodb = boto3.resource('dynamodb', region_name='ap-northeast-1')  # リージョンを指定
     table_name = 'ImageMetadata'
     table = dynamodb.Table(table_name)
 
-    s3 = boto3.client("s3", config=Config(signature_version='s3v4'))
-    bucket_name = 'capture20090317'
+    s3 = boto3.client("s3", region_name='ap-northeast-1', config=Config(signature_version='s3v4'))  # リージョンを指定
+    bucket_name = 'capture120090317'
     expiration = 300
 
     try:
