@@ -33,7 +33,7 @@ function App() {
       await axios.put(url, selectedFile, {
         headers: {
           'Content-Type': selectedFile.type,
-          'x-amz-acl': 'bucket-owner-full-control', // このヘッダーは通常必要ありません
+          'x-amz-acl': 'bucket-owner-full-control',
         },
       });
 

@@ -1,0 +1,76 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.App-header h1 {
+  margin: 0;
+}
+
+.App-header a {
+  color: #61dafb;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.canvas {
+  border: 1px solid #000;
+  margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 5px;
+  color: white;
+}
+
+button:hover {
+  background-color: #21a1f1;
+}
+
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.image-wrapper {
+  margin: 10px;
+}
+
+.image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+a:hover {
+  color: #dd0962;
+}
