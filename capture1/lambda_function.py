@@ -5,20 +5,16 @@ import uuid
 from botocore.client import Config
 
 def lambda_handler(event, context):
-    dynamodb = boto3.resource('dynamodb', region_name='ap-northeast-1')
+    dynamodb = boto3.resource('dynamodb')
     table_name = 'ImageMetadata'
     table = dynamodb.Table(table_name)
 
-    s3 = boto3.client("s3", region_name='ap-northeast-1', config=Config(signature_version='s3v4'))
+    s3 = boto3.client("s3", config=Config(signature_version='s3v4'))
     bucket_name = 'capture120090317'
     expiration = 300
 
     try:
         body_str = event.get('body', '{}')
-        if body_str is None:
-            body_str = '{}'
-        print("Received body:", body_str)
-
         body = json.loads(body_str)
 
         if 'fileType' in body:
@@ -46,44 +42,21 @@ def lambda_handler(event, context):
 
             return {
                 'statusCode': 200,
-                'headers': {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Content-Type',
-                    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-                },
                 'body': json.dumps({'presignedUrl': response, 'fileName': file_name})
             }
         else:
-            print("Missing required parameters in the request body")
             return {
                 'statusCode': 400,
-                'headers': {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': 'Content-Type',
-                    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-                },
                 'body': json.dumps('Missing or invalid parameters: "fileType" is required')
             }
     except json.JSONDecodeError as e:
-        print(f"JSON Decode Error: {str(e)}")
         return {
             'statusCode': 400,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-            },
             'body': json.dumps('Invalid JSON format')
         }
     except Exception as e:
-        print(f"Error: {str(e)}")
         traceback.print_exc()
         return {
             'statusCode': 500,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-            },
             'body': json.dumps(f'Internal Server Error: {str(e)}')
         }

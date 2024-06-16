@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await axios.get('/api/capture2-get-images');
+        const response = await axios.get('http://52.68.145.180/api/capture2-get-images');
         setImages(response.data);
       } catch (error) {
         console.error('Error fetching images:', error);
@@ -48,7 +48,7 @@ function App() {
     const blobData = new Blob([new Uint8Array(array)], { type: 'image/png' });
 
     try {
-      const response = await axios.post('/api/capture1-presigned-url', { fileType: 'image/png' });
+      const response = await axios.post('http://52.68.145.180/api/capture1-presigned-url', { fileType: 'image/png' });
       const { presignedUrl, fileName } = response.data;
 
       await axios.put(presignedUrl, blobData, {
@@ -61,7 +61,7 @@ function App() {
       console.log('Image uploaded:', fileName);
       const fetchImages = async () => {
         try {
-          const response = await axios.get('/api/capture2-get-images');
+          const response = await axios.get('http://52.68.145.180/api/capture2-get-images');
           setImages(response.data);
         } catch (error) {
           console.error('Error fetching images:', error);
