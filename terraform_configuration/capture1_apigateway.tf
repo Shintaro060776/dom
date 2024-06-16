@@ -38,17 +38,19 @@ resource "aws_api_gateway_method_response" "capture1_200" {
     }
 }
 
-resource "aws_api_gateway_integration_response" "capture1_200" {
-    rest_api_id = aws_api_gateway_rest_api.capture1.id
-    resource_id = aws_api_gateway_resource.capture1.id
-    http_method = aws_api_gateway_method.capture1.http_method
-    status_code = aws_api_gateway_method_response.capture1_200.status_code
+resource "aws_api_gateway_integration_response" "capture1_options_integration_200" {
+  depends_on = [aws_api_gateway_deployment.capture1]  # Ensure deployment is refreshed when changes are made
 
-    response_parameters = {
-        "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
-        "method.response.header.Access-Control-Allow-Methods" = "'GET,POST,PUT,DELETE,HEAD,OPTIONS'",
-        "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-    }
+  rest_api_id  = aws_api_gateway_rest_api.capture1.id
+  resource_id  = aws_api_gateway_resource.capture1.id
+  http_method  = aws_api_gateway_method.capture1_options.http_method
+  status_code  = aws_api_gateway_method_response.capture1_options_200.status_code
+
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,POST,PUT,DELETE,HEAD,OPTIONS'",
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
 }
 
 resource "aws_api_gateway_method" "capture1_options" {
