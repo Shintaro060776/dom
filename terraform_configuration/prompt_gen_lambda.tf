@@ -6,6 +6,10 @@ resource "aws_lambda_function" "prompt_gen" {
   role          = aws_iam_role.prompt_gen_lambda_role.arn
   timeout       = 900
 
+  layers = [
+    aws_lambda_layer_version.latest_requests_layer.arn,
+    ]
+
   environment {
     variables = {
       STABILITY_API_KEY = "/myapp/image2video/stability_api_key"

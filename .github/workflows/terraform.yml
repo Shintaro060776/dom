@@ -258,6 +258,17 @@ jobs:
           npm install
           npm run build
 
+      - name: prompt_gen_backend
+        run: |
+          cd prompt_gen_backend
+          npm install
+  
+      - name: prompt_gen
+        run: |
+          cd prompt_gen/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -350,6 +361,10 @@ jobs:
           # Deploy capture app
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/capture_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/capture_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/capture1/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/capture1/
+
+          # Deploy prompt gen app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/prompt_gen_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/prompt_gen_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/prompt_gen/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/prompt_gen/
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 

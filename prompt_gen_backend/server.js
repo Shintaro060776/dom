@@ -8,7 +8,7 @@ const port = 25000;
 const bucketName = 'prompt-gen-20090317';
 const prefix = 'generated_images/';
 
-const API_GATEWAY_URL = 'https://XXXXXXXXXXXXXXXXXXXXXXXXX';
+const API_GATEWAY_URL = 'https://2dhiihlkm3.execute-api.ap-northeast-1.amazonaws.com/prod/generate';
 
 app.use(express.json());
 
