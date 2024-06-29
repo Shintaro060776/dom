@@ -2,7 +2,7 @@ resource "aws_lambda_function" "prompt_gen" {
     function_name = "prompt_gen_lambda_function"
     runtime = "python3.11"
     handler = "lambda_function.lambda_handler"
-    filename = "/path/to/your/lambda_function.zip"
+    filename = "/home/runner/work/dom/dom/dalle/lambda_function.zip"
     role = aws_iam_role.prompt_gen_lambda_role.arn
     timeout = 900
 
@@ -48,16 +48,19 @@ resource "aws_iam_policy" "prompt_gen_lambda_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "prompt_gen_lambda_basic_execution" {
-    role = aws_iam_role.prompt_gen_lambda_role.name
+    role       = aws_iam_role.prompt_gen_lambda_role.name
     policy_arn = "arn:aws:iam::aws:policy/service-role/AWSlambdaBasicExecutionRole"
+    depends_on = [aws_iam_role.prompt_gen_lambda_role]
 }
 
 resource "aws_iam_role_policy_attachment" "prompt_gen_lambda_s3_access" {
-    role = aws_iam_role.prompt_gen_lambda_role.name
+    role       = aws_iam_role.prompt_gen_lambda_role.name
     policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+    depends_on = [aws_iam_role.prompt_gen_lambda_role]
 }
 
 resource "aws_iam_role_policy_attachment" "prompt_gen_lambda_policy_attachment" {
-    role = aws_iam_role.prompt_gen_lambda_role.name
+    role       = aws_iam_role.prompt_gen_lambda_role.name
     policy_arn = aws_iam_policy.prompt_gen_lambda_policy.arn
+    depends_on = [aws_iam_role.prompt_gen_lambda_role, aws_iam_policy.prompt_gen_lambda_policy]
 }
