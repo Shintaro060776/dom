@@ -385,8 +385,8 @@ jobs:
               pm2 restart 7
               cd /usr/share/nginx/html/capture_backend
               pm2 restart 8
-          #   /usr/share/nginx/html/text2speech_backend
-          #   pm2 restart 10
+              /usr/share/nginx/html/prompt_gen_backend
+              pm2 restart 9
           '
 
           rm -f deploy_key
