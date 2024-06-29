@@ -146,7 +146,7 @@ canvas {
 }
 
 .extra-space {
-    height: 90000px;
+    height: 100000px;
 }
 
 #loading {
@@ -375,7 +375,8 @@ canvas {
 #card14,
 #card15,
 #card16,
-#card17 {
+#card17,
+#card18 {
     position: fixed;
     top: 50%;
     right: -100%;
@@ -534,6 +535,15 @@ canvas {
     margin: 0 auto;
 }
 
+.card-image18 {
+    width: 100%;
+    height: 50%;
+    background: url('StabilityAILatest.png') no-repeat center center;
+    background-size: cover;
+    /* border: 0.3px solid #7a6868; */
+    margin: 0 auto;
+}
+
 .card-image1 {
     width: 100%;
     height: 50%;
@@ -583,7 +593,8 @@ canvas {
 #card14 a,
 #card15 a,
 #card16 a,
-#card17 a {
+#card17 a,
+#card18 a {
     color: inherit;
     text-decoration: none;
 }
@@ -620,7 +631,8 @@ canvas {
 #card14.visible,
 #card15.visible,
 #card16.visible,
-#card17.visible {
+#card17.visible,
+#card18.visible {
     right: 10%;
 }
 
@@ -676,7 +688,8 @@ canvas {
     #card14,
     #card15,
     #card16,
-    #card17 {
+    #card17,
+    #card18 {
         width: 300px;
         height: 400px;
     }
@@ -708,7 +721,8 @@ canvas {
     #card14,
     #card15,
     #card16,
-    #card17 {
+    #card17,
+    #card18 {
         width: 300px;
         height: 400px;
     }
@@ -745,7 +759,8 @@ canvas {
     #card14,
     #card15,
     #card16,
-    #card17 {
+    #card17,
+    #card18 {
         width: 700px;
         height: 700px;
     }
@@ -800,7 +815,8 @@ canvas {
     #card14,
     #card15,
     #card16,
-    #card17 {
+    #card17,
+    #card18 {
         width: 700px;
         height: 700px;
     }
