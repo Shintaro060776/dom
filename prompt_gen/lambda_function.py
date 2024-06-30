@@ -2,10 +2,12 @@ import json
 import os
 import requests
 import boto3
+import time
 
 STABILITY_API_KEY = os.environ['STABILITY_API_KEY']
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 SLACK_WEBHOOK_URL = os.environ['SLACK_WEBHOOK_URL']
+S3_FOLDER_PREFIX = "generated_images/"  # プレフィックスの設定
 
 s3 = boto3.client('s3')
 
@@ -37,12 +39,12 @@ def generate_image(prompt):
         "Accept": "image/*"
     }
 
-    data = {
-        "prompt": prompt,
-        "output_format": "webp"
+    files = {
+        'prompt': (None, prompt),
+        'output_format': (None, 'webp')
     }
 
-    response = requests.post(url, headers=headers, data=data)
+    response = requests.post(url, headers=headers, files=files)
 
     if response.status_code == 200:
         return response.content
@@ -51,7 +53,7 @@ def generate_image(prompt):
         return None
 
 def save_image_to_s3(image_data):
-    image_name = f"generated_{int(time.time())}.webp"
+    image_name = f"{S3_FOLDER_PREFIX}generated_{int(time.time())}.webp"  # プレフィックスを追加
     try:
         s3.put_object(
             Bucket=S3_BUCKET_NAME,
@@ -60,7 +62,7 @@ def save_image_to_s3(image_data):
             ContentType='image/webp'
         )
 
-        image_url = f"https://{S3_BUCKET_NAME}.s3.amazonaws.com/{image_data}"
+        image_url = f"https://{S3_BUCKET_NAME}.s3.amazonaws.com/{image_name}"
         return image_url
     except Exception as e:
         print(f"Error saving image to S3: {e}")
@@ -80,4 +82,4 @@ def send_image_to_slack(image_url):
     response = requests.post(SLACK_WEBHOOK_URL, data=json.dumps(message), headers={'Content-Type': 'application/json'})
 
     if response.status_code != 200:
-        print(f"Error sending image to slack: {response.text}")
+        print(f"Error sending image to Slack: {response.text}")
