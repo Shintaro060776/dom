@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const AWS = require('aws-sdk');
+const cors = require('cors');
 
 const app = express();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -8,6 +9,7 @@ const port = 27000;
 
 const API_GATEWAY_URL = 'https://c9ojd7eo7a.execute-api.ap-northeast-1.amazonaws.com/prod/map';
 
+app.use(cors());
 app.use(express.json());
 
 app.post('/api/save-route', async (req, res) => {
