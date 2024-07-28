@@ -6,10 +6,12 @@ resource "aws_lambda_function" "map" {
     role = aws_iam_role.map_lambda_role.arn
     timeout = 900
 
-    layers = {
+    layers = []
+
+    environment {
         variables = {
             STABILITY_API_KEY = "/myapp/image2video/stability_api_key"
-            S3_BUCKET_NAME = "prompt-gen-20090317"
+            S3_BUCKET_NAME    = "prompt-gen-20090317"
             SLACK_WEBHOOK_URL = data.aws_ssm_parameter.slack_webhook.value
         }
     }
