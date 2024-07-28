@@ -6,16 +6,18 @@ const app = express();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const port = 27000;
 
-const API_GATEWAY_URL = 'xxxxxxxxxxxxxxxxx';
+const API_GATEWAY_URL = 'https://c9ojd7eo7a.execute-api.ap-northeast-1.amazonaws.com/prod/map';
 
 app.use(express.json());
 
 app.post('/api/save-route', async (req, res) => {
     try {
+        console.log('Request Body:', req.body);
         const response = await axios.post(API_GATEWAY_URL, req.body);
+        console.log('API Gateway Response:', response.data);
         res.send(response.data);
     } catch (error) {
-        console.error(error);
+        console.error('Error saving route:', error);
         res.status(500).send('Failed to save route');
     }
 });
@@ -39,7 +41,7 @@ app.get('/api/get-routes', async (req, res) => {
         const data = await dynamodb.query(params).promise();
         res.send(data.Items);
     } catch (error) {
-        console.error(error);
+        console.error('Error getting routes:', error);
         res.status(500).send('Failed to get routes');
     }
 });

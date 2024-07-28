@@ -405,6 +405,8 @@ jobs:
               pm2 restart 8
               /usr/share/nginx/html/prompt_gen_backend
               pm2 restart 9
+              /usr/share/nginx/html/map_backend
+              pm2 restart 10
           '
 
           rm -f deploy_key
