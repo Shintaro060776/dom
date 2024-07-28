@@ -32,7 +32,7 @@ const App = () => {
         routeData: route,
       };
       console.log('Sending Request:', requestData);
-      const response = await axios.post('http://localhost:27000/api/save-route', requestData);
+      const response = await axios.post('http://52.68.145.180/api/save-route', requestData);
       console.log('Response:', response.data);
       alert('Route saved successfully');
     } catch (error) {
@@ -43,7 +43,7 @@ const App = () => {
 
   const fetchRoutes = async () => {
     try {
-      const response = await axios.get('http://localhost:27000/api/get-routes', {
+      const response = await axios.get('http://52.68.145.180/api/get-routes', {
         params: { userId: 'user123' },
       });
       setRoutes(response.data);
