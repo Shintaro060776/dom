@@ -68,3 +68,31 @@ resource "aws_iam_role_policy_attachment" "map_lambda_policy_attachment" {
     policy_arn = aws_iam_policy.map_lambda_policy.arn
     depends_on = [aws_iam_role.map_lambda_role, aws_iam_policy.map_lambda_policy]
 }
+
+resource "aws_iam_policy" "map_lambda_dynamodb_policy" {
+    name = "map_lambda_dynamodb_policy"
+
+    policy = jsonencode({
+        Version = "2012-10-17",
+        Statement = [
+            {
+                Action = [
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:GetItem",
+                    "dynamodb:Query"
+                ],
+                Effect = "Allow",
+                Resource = "arn:aws:dynamodb:ap-northeast-1:${data.aws_caller_identity.current.account_id}:table/Routes"
+            }
+        ]
+    })
+}
+
+resource "aws_iam_policy_attachment" "map_lambda_dynamodb_policy_attachment" {
+    role = aws_iam_role.map_lambda_role.name
+    policy_arn = aws_iam_policy.map_lambda_dynamodb_policy.arn
+    depends_on = [aws_iam_role.map_lambda_role, aws_iam_policy.map_lambda_dynamodb_policy]
+}
+
+data "aws_caller_identity" "current" {}
