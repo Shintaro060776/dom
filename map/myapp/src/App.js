@@ -27,14 +27,16 @@ const App = () => {
 
   const saveRoute = async () => {
     try {
-      const response = await axios.post('http://localhost:27000/api/save-route', {
+      const requestData = {
         userId: 'user123',
         routeData: route,
-      });
-      console.log(response.data);
+      };
+      console.log('Sending Request:', requestData);
+      const response = await axios.post('http://localhost:27000/api/save-route', requestData);
+      console.log('Response:', response.data);
       alert('Route saved successfully');
     } catch (error) {
-      console.error(error);
+      console.error('Error saving route:', error);
       alert('Failed to save route');
     }
   };

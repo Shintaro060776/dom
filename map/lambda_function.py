@@ -8,6 +8,7 @@ table = dynamodb.Table('Routes')
 
 def lambda_handler(event, context):
     try:
+        print('Event:', event)
         body = json.loads(event.get('body', '{}'))
         user_id = body.get('userId')
         route_data = body.get('routeData')
@@ -40,7 +41,7 @@ def lambda_handler(event, context):
         }
 
     except Exception as e:
-        print(e)
+        print('Error:', e)
         return {
             'statusCode': 500,
             'body': json.dumps({'message': 'Error saving route'})
