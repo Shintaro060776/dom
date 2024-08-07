@@ -3,6 +3,10 @@ const axios = require('axios');
 const AWS = require('aws-sdk');
 const cors = require('cors');
 
+AWS.config.update({
+    region: 'ap-northeast-1'
+});
+
 const app = express();
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const port = 27000;
