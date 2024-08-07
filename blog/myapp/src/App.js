@@ -23,6 +23,7 @@ import BlogArticle19 from './19';
 import BlogArticle20 from './20';
 import BlogArticle21 from './21';
 import BlogArticle22 from './22';
+import BlogArticle23 from './23';
 
 const blogEntries = [
   {
