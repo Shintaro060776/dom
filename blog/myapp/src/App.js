@@ -179,6 +179,13 @@ const blogEntries = [
     thumbnail: "/blog/StabilityAILatest.png",
     path: "/blog22/22"
   },
+  {
+    id: 23,
+    title: "Marathon Tracker",
+    date: "2024/8/7",
+    thumbnail: "/blog/marathon.png",
+    path: "/blog23/23"
+  },
 ];
 
 function handleTopLinkClick(event) {
@@ -223,6 +230,7 @@ function App() {
           <Route path="/blog20/20" element={<BlogArticle20 />} />
           <Route path="/blog21/21" element={<BlogArticle21 />} />
           <Route path="/blog22/22" element={<BlogArticle22 />} />
+          <Route path="/blog23/23" element={<BlogArticle23 />} />
           <Route path="/blog" element={
             <main className="blog-container">
               <h2 className="blog-title">Blog</h2>
