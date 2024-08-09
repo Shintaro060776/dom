@@ -24,6 +24,7 @@ import BlogArticle20 from './20';
 import BlogArticle21 from './21';
 import BlogArticle22 from './22';
 import BlogArticle23 from './23';
+import BlogArticle24 from './24';
 
 const blogEntries = [
   {
@@ -187,6 +188,13 @@ const blogEntries = [
     thumbnail: "/blog/marathon.png",
     path: "/blog23/23"
   },
+  {
+    id: 24,
+    title: "Explanation of CICD",
+    date: "2024/8/9",
+    thumbnail: "/blog/CICD.png",
+    path: "/blog24/24"
+  },
 ];
 
 function handleTopLinkClick(event) {
@@ -232,6 +240,7 @@ function App() {
           <Route path="/blog21/21" element={<BlogArticle21 />} />
           <Route path="/blog22/22" element={<BlogArticle22 />} />
           <Route path="/blog23/23" element={<BlogArticle23 />} />
+          <Route path="/blog24/24" element={<BlogArticle24 />} />
           <Route path="/blog" element={
             <main className="blog-container">
               <h2 className="blog-title">Blog</h2>

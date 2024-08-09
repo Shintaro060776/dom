@@ -27,7 +27,7 @@ const BlogArticle9 = () => {
                     <br /><br />★以下は、検証動画です
 
                     <br /><br />  <video className="system-video" controls>
-                        <source src="/blog/gpt4p.mp4" type="video/mp4" />
+                        <source src="/blog/gptp4.mp4" type="video/mp4" />
                         ご利用のブラウザはこのビデオをサポートしていません。
                     </video><br /><br />
 
