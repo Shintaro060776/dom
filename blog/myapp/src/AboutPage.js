@@ -11,7 +11,7 @@ const AboutPage = () => {
             <div className="paragraph">
                 <p>
                     Shintaro Hashimoto(橋本慎太郎)<br /><br />
-                    現在は、SRE/Devopsエンジニアとして、働いています。<br /><br />
+                    現在は、インフラエンジニアとして、働いています。<br /><br />
                     お仕事の依頼は、こちらから、宜しくお願い致します。<br /><br />
                     shintaro060776@gmail.com<br /><br />
                     <a href="https://twitter.com/area51439213784" target="_blank" rel="noopener noreferrer">
