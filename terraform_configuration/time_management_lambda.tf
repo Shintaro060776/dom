@@ -31,6 +31,13 @@ resource "aws_lambda_layer_version" "time_management" {
     description = "Layer with OpenAI"
 }
 
+resource "aws_lambda_layer_version" "time_management2" {
+    filename = "/home/runner/work/dom/dom/new_layer_dir/new_lambda_layer.zip"  # 新しく作成したLayerのZIPファイルのパス
+    layer_name = "new_time_management_layer"
+    compatible_runtimes = ["python3.11"]
+    description = "Layer with OpenAI and AWS Lambda Powertools"
+}
+
 # Lambda関数の定義
 resource "aws_lambda_function" "time_management_lambda_function" {
     function_name = "time_management"
@@ -45,6 +52,7 @@ resource "aws_lambda_function" "time_management_lambda_function" {
     # Layerの指定（layer_nameではなくlayersを使います）
     layers = [
         aws_lambda_layer_version.time_management.arn,
+        aws_lambda_layer_version.new_time_management_layer.arn,
     ]
 
     environment {
