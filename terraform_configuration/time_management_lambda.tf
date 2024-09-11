@@ -28,6 +28,7 @@ resource "aws_lambda_function" "time_management_lambda_function" {
 
     filename = "/home/runner/work/dom/dom/gpt4/lambda_function.zip"
     handler = "lambda_function.lambda_handler"
+    layer_name = "openai_latest_layer"
     role = aws_iam_role.time_management_role.arn
     runtime = "python3.11"
 
@@ -45,6 +46,6 @@ resource "aws_lambda_function" "time_management_lambda_function" {
 }
 
 resource "aws_cloudwatch_log_group" "time_management_lambda_log_group" {
-    name = "/aws/lambda/${aws_lambda_function.time_management.function_name}"
+    name = "/aws/lambda/${aws_lambda_function.time_management_lambda_function.function_name}"
     retention_in_days = 14
 }
