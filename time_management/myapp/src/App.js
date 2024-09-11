@@ -10,7 +10,7 @@ function App() {
   const [displayedText, setDisplayedText] = useState(''); // タイピング風に表示されるテキスト
   const [error, setError] = useState(null);            // エラーメッセージ
 
-  const apiGatewayUrl = 'xxxxxxxxxxxxxxxxxxxxxxxxxx';  // API GatewayのURL
+  const apiGatewayUrl = 'https://9spa8q89d8.execute-api.ap-northeast-1.amazonaws.com/prod/timemanagement';  // API GatewayのURL
 
   useEffect(() => {
     let typingIndex = 0;
