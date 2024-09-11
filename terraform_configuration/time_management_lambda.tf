@@ -52,7 +52,7 @@ resource "aws_lambda_function" "time_management_lambda_function" {
     # Layerの指定（layer_nameではなくlayersを使います）
     layers = [
         aws_lambda_layer_version.time_management.arn,
-        aws_lambda_layer_version.new_time_management_layer.arn,
+        aws_lambda_layer_version.time_management2.arn,
     ]
 
     environment {
