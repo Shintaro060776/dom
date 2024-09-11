@@ -25,7 +25,7 @@ resource "aws_iam_role_policy_attachment" "lambda_dynamodb_access" {
 
 # Lambda Layerの定義
 resource "aws_lambda_layer_version" "time_management" {
-    filename = "/home/runner/work/dom/dom/lambda_layer/python/lambda_layer.zip"
+    filename = "/home/runner/work/dom/dom/lambda_layer/lambda_layer.zip"
     layer_name = "time_management"
     compatible_runtimes = ["python3.11"]
     description = "Layer with OpenAI"
