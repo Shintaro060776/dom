@@ -282,6 +282,17 @@ jobs:
           npm install
           npm run build
 
+      - name: time_management_backend
+        run: |
+          cd time_management_backend
+          npm install
+  
+      - name: time_management
+        run: |
+          cd time_management/myapp
+          npm install
+          npm run build
+
       - name: deploy to ec2
         env:
           PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
@@ -383,6 +394,10 @@ jobs:
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/map_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/map_backend/
           rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/map/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/map/
 
+          # Deploy time_management app
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/time_management_backend/ ec2-user@$SERVER_IP:/usr/share/nginx/html/time_management_backend/
+          rsync -avz -e "ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no" /home/runner/work/dom/dom/time_management/myapp/build/ ec2-user@$SERVER_IP:/usr/share/nginx/html/time_management/
+
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP 'sudo systemctl restart nginx'
 
           ssh -i deploy_key -o ServerAliveInterval=60 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o GSSAPIAuthentication=no ec2-user@$SERVER_IP '
@@ -407,6 +422,8 @@ jobs:
               pm2 restart 9
               /usr/share/nginx/html/map_backend
               pm2 restart 10
+              # /usr/share/nginx/html/time_management_backend
+              # pm2 restart 11
           '
 
           rm -f deploy_key

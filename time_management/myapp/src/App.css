@@ -1,0 +1,122 @@
+/* グローバルリセット */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ボディ全体のスタイル */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0 20px;
+  /* 小さな画面向けのパディング */
+}
+
+/* メインコンテナのスタイル */
+.App {
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  padding: 50px;
+  width: 100%;
+  max-width: 600px;
+  /* コンテナ幅を広げて視認性向上 */
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* タイトルのスタイル */
+h1 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin-bottom: 30px;
+}
+
+/* テキスト入力のスタイル */
+input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+
+/* セレクトボックスのスタイル */
+select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  font-size: 14px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+select:focus {
+  border-color: #3498db;
+  outline: none;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+
+/* ファイル選択ボタンのスタイル */
+input[type="file"] {
+  display: block;
+  margin: 20px auto;
+  font-size: 14px;
+}
+
+/* ボタンのスタイル */
+button {
+  background-color: #3498db;
+  color: white;
+  padding: 15px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  /* ボタンをフル幅にして統一感 */
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* エラーメッセージのスタイル */
+p {
+  color: #e74c3c;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* サーバーからのレスポンス表示エリア */
+pre {
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 14px;
+  color: #2c3e50;
+  max-height: 300px;
+  /* 最大高さを指定 */
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  margin-top: 20px;
+}
