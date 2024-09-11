@@ -23,24 +23,26 @@ resource "aws_iam_role_policy_attachment" "lambda_dynamodb_access" {
     policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 }
 
+# Lambda Layerの定義
 resource "aws_lambda_layer_version" "time_management" {
     filename = "/home/runner/work/dom/dom/lambda_layer/python/lambda_layer.zip"
-    layer_name = "openai_latest_layer"
+    layer_name = "time_management"
     compatible_runtimes = ["python3.11"]
     description = "Layer with OpenAI"
 }
 
+# Lambda関数の定義
 resource "aws_lambda_function" "time_management_lambda_function" {
     function_name = "time_management"
 
     filename = "/home/runner/work/dom/dom/gpt4/lambda_function.zip"
     handler = "lambda_function.lambda_handler"
-    layer_name = "openai_latest_layer"
     role = aws_iam_role.time_management_role.arn
     runtime = "python3.11"
 
     timeout = 900
 
+    # Layerの指定（layer_nameではなくlayersを使います）
     layers = [
         aws_lambda_layer_version.time_management.arn,
     ]
