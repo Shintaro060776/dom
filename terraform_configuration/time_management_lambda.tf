@@ -23,6 +23,13 @@ resource "aws_iam_role_policy_attachment" "lambda_dynamodb_access" {
     policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
 }
 
+resource "aws_lambda_layer_version" "time_management" {
+    filename = "/home/runner/work/dom/dom/lambda_layer/python/lambda_layer.zip"
+    layer_name = "openai_latest_layer"
+    compatible_runtimes = ["python3.11"]
+    description = "Layer with OpenAI"
+}
+
 resource "aws_lambda_function" "time_management_lambda_function" {
     function_name = "time_management"
 
@@ -35,7 +42,7 @@ resource "aws_lambda_function" "time_management_lambda_function" {
     timeout = 900
 
     layers = [
-        aws_lambda_layer_version.openai_latest_layer.arn,
+        aws_lambda_layer_version.time_management.arn,
     ]
 
     environment {
