@@ -5,7 +5,6 @@ import './App.css';
 function App() {
   const [taskName, setTaskName] = useState('');        // タスク名
   const [status, setStatus] = useState('');            // タスクの進捗状況
-  const [file, setFile] = useState(null);              // アップロードするファイル
   const [responseData, setResponseData] = useState(''); // サーバーからのレスポンス
   const [displayedText, setDisplayedText] = useState(''); // タイピング風に表示されるテキスト
   const [error, setError] = useState(null);            // エラーメッセージ
@@ -38,16 +37,14 @@ function App() {
   // タスクの進行状況をサーバーに送信する
   const submitTask = async () => {
     try {
-      const formData = new FormData();
-      formData.append('task_name', taskName);
-      formData.append('status', status);
-      if (file) {
-        formData.append('file', file);
-      }
+      const jsonData = {
+        task_name: taskName,
+        status: status
+      };
 
-      const response = await axios.post(apiGatewayUrl, formData, {
+      const response = await axios.post(apiGatewayUrl, jsonData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'application/json'
         }
       });
 
@@ -80,9 +77,6 @@ function App() {
         <option value="in_progress">進行中</option>
         <option value="complete">完了</option>
       </select>
-
-      {/* ファイルアップロード */}
-      <input type="file" onChange={(e) => setFile(e.target.files[0])} />
 
       {/* サーバーに送信 */}
       <button onClick={submitTask}>タスクを送信</button>

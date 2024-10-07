@@ -152,7 +152,13 @@ def generate_feedback(task_name, time_spent):
             model="gpt-3.5-turbo",
             messages=messages
         )
-        feedback = completion.choices[0].message['content']
+        
+        # OpenAI APIのレスポンスをチェック
+        if 'choices' in completion and len(completion['choices']) > 0:
+            feedback = completion['choices'][0]['message']['content']
+        else:
+            feedback = "OpenAI APIから適切なフィードバックを取得できませんでした。"
+
     except Exception as e:
         feedback = f"フィードバックの生成に失敗しました: {str(e)}"
     
