@@ -31,6 +31,13 @@ resource "aws_lambda_layer_version" "time_management" {
     description = "Layer with OpenAI"
 }
 
+resource "aws_lambda_layer_version" "xray_layer" {
+    filename = "/home/runner/work/dom/dom//dom/xray_lambda_layer/xray_lambda_layer.zip"
+    layer_name = "xray_management_layer"
+    compatible_runtimes = ["python3.11"]
+    description = "Layer with AWS X-ray SDK"
+}
+
 resource "aws_lambda_layer_version" "time_management2" {
     filename = "/home/runner/work/dom/dom/new_layer_dir/new_lambda_layer.zip"  # 新しく作成したLayerのZIPファイルのパス
     layer_name = "new_time_management_layer"
@@ -53,6 +60,7 @@ resource "aws_lambda_function" "time_management_lambda_function" {
     layers = [
         aws_lambda_layer_version.time_management.arn,
         aws_lambda_layer_version.time_management2.arn,
+        aws_lambda_layer_version.xray_layer.arn,
     ]
 
     environment {
