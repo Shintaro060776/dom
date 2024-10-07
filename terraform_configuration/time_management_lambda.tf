@@ -32,7 +32,7 @@ resource "aws_lambda_layer_version" "time_management" {
 }
 
 resource "aws_lambda_layer_version" "xray_layer" {
-    filename = "/home/runner/work/dom/dom//dom/xray_lambda_layer/xray_lambda_layer.zip"
+    filename = "/home/runner/work/dom/dom/xray_lambda_layer/xray_lambda_layer.zip"
     layer_name = "xray_management_layer"
     compatible_runtimes = ["python3.11"]
     description = "Layer with AWS X-ray SDK"
