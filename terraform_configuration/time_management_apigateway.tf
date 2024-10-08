@@ -130,14 +130,17 @@ resource "aws_api_gateway_rest_api_policy" "time_management_policy" {
     rest_api_id = aws_api_gateway_rest_api.time_management_api_gateway.id
 
     policy = jsonencode({
-        Version = "2012-10-17",
-        Statement = [
-            {
-                Effect = "Allow",
-                Principal = "*",
-                Action = "execute-api:Invoke",
-                Resource = "${aws_api_gateway_rest_api.time_management_api_gateway.execution_arn}/*"
-            }
-        ],
+    Version = "2012-10-17",
+    Statement = [
+        {
+        Effect = "Allow",
+        Principal = "*",
+        Action = "execute-api:Invoke",
+        Resource = [
+            "${aws_api_gateway_rest_api.time_management_api_gateway.execution_arn}/*/POST/timemanagement",
+            "${aws_api_gateway_rest_api.time_management_api_gateway.execution_arn}/*/OPTIONS/timemanagement"
+        ]
+        }
+    ],
     })
 }
