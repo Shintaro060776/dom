@@ -1,7 +1,7 @@
 import json
 import boto3
 from datetime import datetime
-from openai import OpenAI
+import openai
 import os
 
 # DynamoDBに接続
@@ -14,26 +14,23 @@ openai_api_key = os.getenv('OPENAI_API_KEY')
 if not openai_api_key:
     raise ValueError("OpenAI APIキーが設定されていません。Lambdaの環境変数を確認してください。")
 
-# OpenAI クライアントを作成
-client = OpenAI(api_key=openai_api_key)
+# OpenAI APIキーを設定
+openai.api_key = openai_api_key
 
 def lambda_handler(event, context):
     try:
         # イベントデータから操作タイプ（開始または完了）を取得
-        action_type = event.get('action_type', 'start')  # デフォルトは'task_start'
+        action_type = event.get('action_type', 'start')  # デフォルトは'start'
         
-        # タスク開始の場合
         if action_type == 'start':
             return start_task(event)
-        
-        # タスク完了の場合
         elif action_type == 'complete':
             return complete_task(event)
-        
-        return {
-            'statusCode': 400,
-            'body': json.dumps('無効な action_type が指定されています')
-        }
+        else:
+            return {
+                'statusCode': 400,
+                'body': json.dumps('無効な action_type が指定されています')
+            }
     except Exception as e:
         return {
             'statusCode': 500,
@@ -45,12 +42,12 @@ def start_task(event):
     try:
         user_id = event.get('user_id')
         task_name = event.get('task_name')
-        start_time = event.get('start_time', str(datetime.now()))
+        start_time = event.get('start_time', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
 
         if not user_id or not task_name:
             return {
                 'statusCode': 400,
-                'body': json.dumps('user_id または task_name がありません')
+                'body': 'user_id または task_name がありません'
             }
 
         # DynamoDBにタスクを記録
@@ -65,13 +62,13 @@ def start_task(event):
 
         return {
             'statusCode': 200,
-            'body': json.dumps(f'Task {task_name} を開始しました')
+            'body': f'Task "{task_name}" を開始しました'
         }
 
     except Exception as e:
         return {
             'statusCode': 500,
-            'body': json.dumps(f'タスク開始時にエラーが発生しました: {str(e)}')
+            'body': f'タスク開始時にエラーが発生しました: {str(e)}'
         }
 
 # タスク完了処理
@@ -79,12 +76,12 @@ def complete_task(event):
     try:
         user_id = event.get('user_id')
         task_name = event.get('task_name')
-        end_time = str(datetime.now())
+        end_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         if not user_id or not task_name:
             return {
                 'statusCode': 400,
-                'body': json.dumps('user_id または task_name がありません')
+                'body': 'user_id または task_name がありません'
             }
 
         # DynamoDBから該当のタスクを取得
@@ -98,12 +95,13 @@ def complete_task(event):
         if 'Item' not in response:
             return {
                 'statusCode': 404,
-                'body': json.dumps('タスクが見つかりません')
+                'body': 'タスクが見つかりません'
             }
 
         task = response['Item']
-        start_time = datetime.strptime(task['start_time'], '%Y-%m-%d %H:%M:%S.%f')
-        end_time_obj = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S.%f')
+        start_time_str = task['start_time']
+        start_time = datetime.strptime(start_time_str, '%Y-%m-%d %H:%M:%S')
+        end_time_obj = datetime.strptime(end_time, '%Y-%m-%d %H:%M:%S')
 
         # 所要時間を計算
         time_spent = (end_time_obj - start_time).total_seconds() / 60  # 分単位で計算
@@ -114,7 +112,10 @@ def complete_task(event):
                 'user_id': user_id,
                 'task_name': task_name
             },
-            UpdateExpression='SET end_time = :end_time, status = :status, time_spent = :time_spent',
+            UpdateExpression='SET end_time = :end_time, #status = :status, time_spent = :time_spent',
+            ExpressionAttributeNames={
+                '#status': 'status'  # 'status'は予約語なのでExpressionAttributeNamesを使用
+            },
             ExpressionAttributeValues={
                 ':end_time': end_time,
                 ':status': 'completed',
@@ -128,7 +129,7 @@ def complete_task(event):
         return {
             'statusCode': 200,
             'body': json.dumps({
-                'message': f'Task {task_name} を完了しました',
+                'message': f'Task "{task_name}" を完了しました',
                 'time_spent': time_spent,
                 'feedback': feedback
             })
@@ -137,7 +138,7 @@ def complete_task(event):
     except Exception as e:
         return {
             'statusCode': 500,
-            'body': json.dumps(f'タスク完了時にエラーが発生しました: {str(e)}')
+            'body': f'タスク完了時にエラーが発生しました: {str(e)}'
         }
 
 # OpenAI APIでフィードバックを生成（`gpt-3.5-turbo` モデルを使用）
@@ -148,7 +149,7 @@ def generate_feedback(task_name, time_spent):
             {"role": "user", "content": f"ユーザーがタスク '{task_name}' を {time_spent:.2f} 分で完了しました。次のタスクを効率的に完了するためのアドバイスをください。"}
         ]
         
-        completion = client.chat.completions.create(
+        completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages
         )

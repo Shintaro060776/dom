@@ -3,8 +3,9 @@ import axios from 'axios';
 import './App.css';
 
 function App() {
+  const [userId, setUserId] = useState('');            // ユーザーID
   const [taskName, setTaskName] = useState('');        // タスク名
-  const [status, setStatus] = useState('');            // タスクの進捗状況
+  const [actionType, setActionType] = useState('');    // タスクの進捗状況（action_type）
   const [responseData, setResponseData] = useState(''); // サーバーからのレスポンス
   const [displayedText, setDisplayedText] = useState(''); // タイピング風に表示されるテキスト
   const [error, setError] = useState(null);            // エラーメッセージ
@@ -38,8 +39,9 @@ function App() {
   const submitTask = async () => {
     try {
       const jsonData = {
+        user_id: userId,
         task_name: taskName,
-        status: status
+        action_type: actionType
       };
 
       const response = await axios.post(apiGatewayUrl, jsonData, {
@@ -52,6 +54,7 @@ function App() {
       setDisplayedText(''); // タイピング表示用のテキストをリセット
       setError(null);
     } catch (err) {
+      console.error(err);
       setError('エラーが発生しました: ' + err.message);
       setResponseData('');
       setDisplayedText(''); // エラーメッセージ時もテキストをクリア
@@ -62,6 +65,14 @@ function App() {
     <div className='App'>
       <h1>時間管理とパフォーマンス分析アプリ</h1>
 
+      {/* ユーザーID入力フォーム */}
+      <input
+        type="text"
+        value={userId}
+        onChange={(e) => setUserId(e.target.value)}
+        placeholder="ユーザーIDを入力してください"
+      />
+
       {/* タスク入力フォーム */}
       <input
         type="text"
@@ -71,10 +82,9 @@ function App() {
       />
 
       {/* タスク進捗状況の選択 */}
-      <select value={status} onChange={(e) => setStatus(e.target.value)}>
+      <select value={actionType} onChange={(e) => setActionType(e.target.value)}>
         <option value="">進捗状況を選択</option>
         <option value="start">開始</option>
-        <option value="in_progress">進行中</option>
         <option value="complete">完了</option>
       </select>
 
