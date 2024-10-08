@@ -11,9 +11,9 @@ resource "aws_api_gateway_resource" "time_management_api_resource" {
 
 # POSTメソッドの設定
 resource "aws_api_gateway_method" "time_management_api_method" {
-    rest_api_id = aws_api_gateway_rest_api.time_management_api_gateway.id
-    resource_id = aws_api_gateway_resource.time_management_api_resource.id
-    http_method = "POST"
+    rest_api_id   = aws_api_gateway_rest_api.time_management_api_gateway.id
+    resource_id   = aws_api_gateway_resource.time_management_api_resource.id
+    http_method   = "POST"
     authorization = "NONE"
 }
 
@@ -28,9 +28,9 @@ resource "aws_api_gateway_integration" "time_management_lambda_integration" {
 
 # CORS用のOPTIONSメソッドを追加
 resource "aws_api_gateway_method" "time_management_options_method" {
-    rest_api_id = aws_api_gateway_rest_api.time_management_api_gateway.id
-    resource_id = aws_api_gateway_resource.time_management_api_resource.id
-    http_method = "OPTIONS"
+    rest_api_id   = aws_api_gateway_rest_api.time_management_api_gateway.id
+    resource_id   = aws_api_gateway_resource.time_management_api_resource.id
+    http_method   = "OPTIONS"
     authorization = "NONE"
 }
 
@@ -48,10 +48,10 @@ resource "aws_api_gateway_integration" "time_management_options_integration" {
 
 # OPTIONSメソッドのレスポンス設定
 resource "aws_api_gateway_method_response" "time_management_options_method_response" {
-    rest_api_id = aws_api_gateway_rest_api.time_management_api_gateway.id
-    resource_id = aws_api_gateway_resource.time_management_api_resource.id
-    http_method = aws_api_gateway_method.time_management_options_method.http_method
-    status_code = "200"
+    rest_api_id   = aws_api_gateway_rest_api.time_management_api_gateway.id
+    resource_id   = aws_api_gateway_resource.time_management_api_resource.id
+    http_method   = aws_api_gateway_method.time_management_options_method.http_method
+    status_code   = "200"
 
     response_parameters = {
         "method.response.header.Access-Control-Allow-Headers" = true
@@ -60,11 +60,12 @@ resource "aws_api_gateway_method_response" "time_management_options_method_respo
     }
 }
 
+# OPTIONSメソッドのインテグレーションレスポンス設定
 resource "aws_api_gateway_integration_response" "time_management_options_integration_response" {
-    rest_api_id = aws_api_gateway_rest_api.time_management_api_gateway.id
-    resource_id = aws_api_gateway_resource.time_management_api_resource.id
-    http_method = aws_api_gateway_method.time_management_options_method.http_method
-    status_code = "200"
+    rest_api_id   = aws_api_gateway_rest_api.time_management_api_gateway.id
+    resource_id   = aws_api_gateway_resource.time_management_api_resource.id
+    http_method   = aws_api_gateway_method.time_management_options_method.http_method
+    status_code   = "200"
 
     response_parameters = {
         "method.response.header.Access-Control-Allow-Headers" = "'Content-Type'"
@@ -75,10 +76,10 @@ resource "aws_api_gateway_integration_response" "time_management_options_integra
 
 # POSTメソッドのレスポンスにCORSヘッダーを追加
 resource "aws_api_gateway_method_response" "time_management_post_method_response" {
-    rest_api_id = aws_api_gateway_rest_api.time_management_api_gateway.id
-    resource_id = aws_api_gateway_resource.time_management_api_resource.id
-    http_method = "POST"
-    status_code = "200"
+    rest_api_id   = aws_api_gateway_rest_api.time_management_api_gateway.id
+    resource_id   = aws_api_gateway_resource.time_management_api_resource.id
+    http_method   = "POST"
+    status_code   = "200"
 
     response_parameters = {
         "method.response.header.Access-Control-Allow-Headers" = true
@@ -87,11 +88,12 @@ resource "aws_api_gateway_method_response" "time_management_post_method_response
     }
 }
 
+# POSTメソッドのインテグレーションレスポンス設定
 resource "aws_api_gateway_integration_response" "time_management_post_integration_response" {
-    rest_api_id = aws_api_gateway_rest_api.time_management_api_gateway.id
-    resource_id = aws_api_gateway_resource.time_management_api_resource.id
-    http_method = aws_api_gateway_method.time_management_api_method.http_method
-    status_code = "200"
+    rest_api_id   = aws_api_gateway_rest_api.time_management_api_gateway.id
+    resource_id   = aws_api_gateway_resource.time_management_api_resource.id
+    http_method   = aws_api_gateway_method.time_management_api_method.http_method
+    status_code   = "200"
 
     response_parameters = {
         "method.response.header.Access-Control-Allow-Headers" = "'Content-Type'"
